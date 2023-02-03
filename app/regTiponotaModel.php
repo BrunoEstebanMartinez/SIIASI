@@ -17,9 +17,10 @@ class regTiponotaModel extends Model
         'TIPON_FECREG'
     ];
 
-    public static function ObtSeccion($id){
-        return (regPerModel::select('SECCION_DESC')
-                            ->where('SECCION_ID','=',$id)
-                            ->get());
+    public static function ObtTipon($id){
+        return (regTiponotaModel::select('TIPON_DESC')
+                                  ->where('TIPON_ID','=',$id)
+                                  ->get());
     }
+
 }

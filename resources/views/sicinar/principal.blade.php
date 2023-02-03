@@ -134,30 +134,17 @@
                   </ul>
                   @endif
               </li> 
-
+ 
               <li  class="treeview">              
                   @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')
                   <a href="#"><i class="fa fa-book"></i> <span>Catálogos</span>
                       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                   </a>
                   <ul class="treeview-menu">
-                    <li><a href="{{route('verseccion')}}" ><i class="fa fa-wrench"    ></i><span>Secciones         </span></a></li>                    
-                    <li><a href="{{route('vertema')}}"    ><i class="fa fa-clone"     ></i><span>Series o temáticas</span></a></li>  
-                    <li><a href="{{route('veruadmon')}}"  ><i class="fa fa-university"></i><span>Unidades admon.   </span></a></li>
-                    <li><a href="{{route('verpersonal')}}"><i class="fa fa-blind"     ></i><span>Personal          </span></a></li>  
+                    <li><a href="{{route('vermedio')}}" ><i class="fa fa-camera"   ></i><span>Medios informativos </span></a></li>                    
+                    <li><a href="{{route('verredes')}}" ><i class="fa fa-bomb"     ></i><span>Redes sociales      </span></a></li>  
                   </ul>
                   @endif
-              </li>
-
-              <li  class="treeview">
-                @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')              
-                <a href="#"><i class="fa fa-cubes"></i> <span>Oficialia de partes </span>
-                  <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                </a>              
-                <ul class="treeview-menu">
-                    <li><a href="{{route('verrecepcion')}}"><i class="fa fa-file-o"></i>Recepción de documentos  </a></li>
-                </ul>
-                @endif
               </li>
 
               <li  class="treeview">
@@ -166,14 +153,13 @@
                   </a>              
                   @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')              
                       <ul class="treeview-menu">              
-                          <li><a href="{{route('verturnar')}}"   ><i class="fa fa-file-o"></i>Turnar a </a></li>                      
-                          <li><a href="{{route('veratenrecep')}}"><i class="fa fa-file-o"></i>Seguimiento </a></li>
-                          <li><a href="{{route('periodos')}}"    ><i class="fa fa-file-o"></i>Documentos de salida</a></li>
+                          <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Notas periodísticas </a></li>                      
+                          <li><a href="{{route('veratenrecep')}}"><i class="fa fa-file-o"></i>Redes sociales      </a></li>
                       </ul>
                   @else
                       <ul class="treeview-menu">                                
-                          <li><a href="{{route('veratenrecep')}}"><i class="fa fa-file-o"></i>Seguimiento  </a></li>
-                          <li><a href="{{route('periodos')}}"    ><i class="fa fa-file-o"></i>Documentos de salida</a></li>                          
+                          <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Notas periodisticas </a></li>         
+                          <li><a href="{{route('periodos')}}"    ><i class="fa fa-file-o"></i>Redes sociales      </a></li>                          
                       </ul>
                   @endif
               </li>

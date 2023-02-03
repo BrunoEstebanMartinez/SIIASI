@@ -25,6 +25,7 @@ class regNotamediosModel extends Model
     'TIPON_DESC',
     'NM_AUTOR',
     'NM_CALIF',
+    'NM_CALIF_IA',
     'NM_FEC_NOTA',
     'NM_FEC_NOTA2',
     'NM_FEC_NOTA3',
@@ -66,10 +67,10 @@ class regNotamediosModel extends Model
     public function scopeIdTodo($query, $todo){
         $todo = strtoupper(Trim($todo));          
         if($todo)
-            return $query->where('ENT_NOFICIO', '=', "$todo")
-                        ->orwhere('ENT_DESTIN', 'LIKE', "%$todo%")
-                        ->orwhere('ENT_REMITEN','LIKE', "%$todo%")
-                        ->orwhere('ENT_ASUNTO', 'LIKE', "%$todo%");   
+            return $query->where( 'NM_FOLIO' ,'='   ,"$todo")
+                        ->orwhere('NM_TITULO','LIKE',"%$todo%")
+                        ->orwhere('NM_NOTA'  ,'LIKE',"%$todo%")
+                        ->orwhere('NM_AUTOR' ,'LIKE',"%$todo%");   
     }
 
     public function scopefPer($query, $fper)

@@ -4,14 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class atenrecepRequest extends FormRequest
+class medio1Request extends FormRequest
 {
-    public function messages() 
+    public function messages()
     {
         return [
-            'periodo_id.required'  => 'Periodo fiscal es obligatorio.',
-            'folio.required'       => 'Folio de sistema es obligatorio.', 
-            'ent_arc2.required'    => 'El archivo digital PDF es obligatorio.'
+            'medio_id.required'    => 'Medio informativo Id. es obligatorio.',
+            'medio_foto1.required' => 'Logo es obligatorio.'
         ];
     }
     /**
@@ -32,9 +31,9 @@ class atenrecepRequest extends FormRequest
     public function rules()
     {
         return [
-            'periodo_id'  => 'required',
-            'folio'       => 'required',
-            'ent_arc2'    => 'sometimes|mimetypes:application/pdf|max:1500'            
+            'medio_id'     => 'required',
+            'medio_foto1'  => 'mimes:jpg,jpeg,png|max:2048'
+            //'tema_desc'  => 'min:1|max:80|required|regex:/(^([a-zA-zñÑ%()=.\s\d]+)?$)/iñÑ'
         ];
     }
 }

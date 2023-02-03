@@ -46,8 +46,7 @@ class notaperiodisticaController extends Controller
         $arbol_id     = session()->get('arbol_id');
         $depen_id     = session()->get('depen_id');
 
-        $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
-                        ->orderBy('TEMA_ID','asc')
+        $regtemas     = regTemaModel::select('TEMA_ID','TEMA_DESC')
                         ->get(); 
         $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
                         ->get();  
@@ -56,7 +55,9 @@ class notaperiodisticaController extends Controller
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
                         ->get();                  
         $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
-                        ->get();                                                                
+                        ->get();    
+        $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                        ->get();  
         //**************************************************************//
         // ***** busqueda https://github.com/rimorsoft/Search-simple ***//
         // ***** video https://www.youtube.com/watch?v=bmtD9GUaszw   ***//                            
@@ -66,32 +67,34 @@ class notaperiodisticaController extends Controller
         $arbol      =$request->get('arbol'); 
 
         if(session()->get('rango') !== '0'){    
-            $regnotamedio = regNotamediosModel::join('OFIPA_PERSONAL','OFIPA_PERSONAL.FOLIO','=',
-                                                                     'OFIPA_ENTRADAS.CVE_SP')
-                            ->select( 'OFIPA_PERSONAL.NOMBRE_COMPLETO','OFIPA_ENTRADAS.*')
-                            ->orderBy('OFIPA_ENTRADAS.PERIODO_ID','DESC')
-                            ->orderBy('OFIPA_ENTRADAS.FOLIO'     ,'DESC')
+            $regnotamedio = regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                            ->orderBy('PERIODO_ID','DESC')
+                            ->orderBy('NM_FOLIO'  ,'DESC')
                             ->iddSal($periodo)
                             ->idTodo($todo)  
                             ->paginate(40); 
         }else{
-            $regnotamedio = regNotamediosModel::join('OFIPA_PERSONAL','OFIPA_PERSONAL.FOLIO','=',
-                                                                     'OFIPA_ENTRADAS.CVE_SP')
-                            ->select( 'OFIPA_PERSONAL.NOMBRE_COMPLETO','OFIPA_ENTRADAS.*')
-                            ->where(  'OFIPA_ENTRADAS.UADMON_ID' ,$depen_id)
-                            ->orderBy('OFIPA_ENTRADAS.PERIODO_ID','DESC')   
-                            ->orderBy('OFIPA_ENTRADAS.FOLIO'     ,'DESC')                          
+            $regnotamedio = regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                            //->where(  'UADMON_ID' ,$depen_id)
+                            ->orderBy('PERIODO_ID','DESC')   
+                            ->orderBy('NM_FOLIO'  ,'DESC')                          
                             ->iddSal($periodo)
                             ->idTodo($todo) 
                             ->paginate(40);   
         }                                                                          
-        if($regnnotamedio->count() <= 0){
-            toastr()->error('No existen documentos.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        if($regnotamedio->count() <= 0){
+            toastr()->error('No existen nota periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }            
-        return view('sicinar.recepcion_documentos.verRecepcion', compact('nombre','usuario','regperiodos','regmeses','regdias','regnotamedio','regtiponota','regtema'));
+        return view('sicinar.notas_periodisticas.verNotasper', compact('nombre','usuario','regperiodos','regmeses','regdias','regnotamedio','regtiponota','regtemas','regmedios'));
     }
 
-    public function actionVerNotaper(){
+    public function actionVerNotasper(){
         $nombre       = session()->get('userlog');
         $pass         = session()->get('passlog');
         if($nombre == NULL AND $pass == NULL){
@@ -103,7 +106,7 @@ class notaperiodisticaController extends Controller
         $arbol_id     = session()->get('arbol_id');   
         $depen_id     = session()->get('depen_id');     
 
-        $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
+        $regtemas     = regTemaModel::select('TEMA_ID','TEMA_DESC')
                         ->orderBy('TEMA_ID','asc')
                         ->get(); 
         $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
@@ -112,41 +115,41 @@ class notaperiodisticaController extends Controller
                         ->get();      
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
                         ->get();  
+        $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                        ->get();    
+        $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                        ->get();                          
         $histPeriodos = regNotamediosModel::select('PERIODO_ID')
                         ->DISTINCT()
                         ->GET();                   
         //********* Validar rol de usuario **********************/
         if(session()->get('rango') !== '0'){  
-            $regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                          ->get(); 
-            $regnnotamedio= regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
-                           'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
-                           'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
-                           'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
-                           'PERIODO_ID2','MES_ID2','DIA_ID2','TEMA_ID','ENT_ARC1',
-                           'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2')
+            //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+            //              ->get(); 
+            $regnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                            ->orderBy('PERIODO_ID','DESC')
-                           ->orderBy('FOLIO'     ,'DESC')
+                           ->orderBy('NM_FOLIO'     ,'DESC')
                            ->paginate(40);
         }else{                  
-            $regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                           ->where('UADMON_ID',$depen_id)
-                           ->get();                            
-            $regnnotamedio= regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
-                           'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
-                           'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
-                           'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
-                           'PERIODO_ID2','MES_ID2','DIA_ID2','TEMA_ID','ENT_ARC1',
-                           'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2')
-                           ->where(  'UADMON_ID' ,$depen_id)            
+            //$regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+            //               ->where('UADMON_ID',$depen_id)
+            //               ->get();                            
+            $regnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                           //->where(  'UADMON_ID' ,$depen_id)            
                            ->orderBy('PERIODO_ID','DESC')
-                           ->orderBy('FOLIO'     ,'DESC')  
+                           ->orderBy('NM_FOLIO'  ,'DESC')  
                            ->paginate(40);          
         }                        
-        if($regnnotamedio->count() <= 0){
-            toastr()->error('No existe documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        if($regnotamedio->count() <= 0){
+            toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.recepcion_documentos.verRecepcion',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema', 'histPeriodos')); 
+        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regtiponota','regtemas','histPeriodos','regmedios','regnotamedio')); 
     }
 
     public function isWithYearAction($ANIO){
@@ -170,45 +173,40 @@ class notaperiodisticaController extends Controller
                         ->get();      
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
                         ->get();           
-         $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+        $histPeriodos = regNotamediosModel::select('PERIODO_ID')
                         ->DISTINCT()
                         ->GET();              
         //********* Validar rol de usuario **********************/
         if(session()->get('rango') !== '0'){  
-
-            $regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                          ->get(); 
-            $regnnotamedio= regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
-                           'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
-                           'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
-                           'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
-                           'PERIODO_ID2','MES_ID2','DIA_ID2','TEMA_ID','ENT_ARC1',
-                           'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2')
-                           ->where('PERIODO_ID'  ,$ANIO) 
-                           ->orderBy('PERIODO_ID','ASC')
-                           ->orderBy('FOLIO'     ,'DESC')
+            //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+            //              ->get(); 
+            $regnnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                           ->where(  'PERIODO_ID'  ,$ANIO) 
+                           ->orderBy('PERIODO_ID','DESC')
+                           ->orderBy('NM_FOLIO'  ,'DESC')
                            ->paginate(40);
            
         }else{                  
-            $regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                           ->where('UADMON_ID',$depen_id)
-                           ->get();  
-            $regnnotamedio= regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
-                           'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
-                           'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
-                           'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
-                           'PERIODO_ID2','MES_ID2','DIA_ID2','TEMA_ID','ENT_ARC1',
-                           'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2')
-                           ->where('PERIODO_ID'  ,$ANIO) 
-                           ->where(  'UADMON_ID' ,$depen_id)            
-                           ->orderBy('PERIODO_ID','ASC')
-                           ->orderBy('FOLIO'     ,'DESC')  
+            //$regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+            //               ->where('UADMON_ID',$depen_id)
+            //               ->get();  
+            $regnnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                           ->where(  'PERIODO_ID'  ,$ANIO) 
+                           //->where('UADMON_ID' ,$depen_id)            
+                           ->orderBy('PERIODO_ID','DESC')
+                           ->orderBy('NM_FOLIO'  ,'DESC')  
                            ->paginate(40);          
         }                        
         if($regnnotamedio->count() <= 0){
-            toastr()->error('No existe documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.recepcion_documentos.verRecepcion',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema','histPeriodos','ANIO')); 
+        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema','histPeriodos','ANIO')); 
     }
 
     public function actionNuevaNotaper(){
@@ -232,42 +230,34 @@ class notaperiodisticaController extends Controller
                         ->get();      
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
                         ->get();    
-
-         $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+        $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                        ->where('TIPON_ID','<>',0)        
+                        ->get();    
+        $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                        ->where('MEDIO_ID','<>',0)        
+                        ->get();                          
+        $histPeriodos = regNotamediosModel::select('PERIODO_ID')
                         ->DISTINCT()
                         ->GET(); 
-
-
-        if(session()->get('rango') !== '0'){         
-            $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                           ->orderBy('NOMBRE_COMPLETO','ASC')
-                           ->get();                                                        
-        }else{
-            $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                           ->orderBy('NOMBRE_COMPLETO','ASC')
-                           ->where('UADMON_ID',$depen_id)
-                           ->get();                                  
-        }     
-        $regrespuesta = regAtenderrecepModel::select('PERIODO_ID','FOLIO','ENT_FOLIO','ENT_NOFICIO',
-                        'ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A','CVE_SP','UADMON_ID',
-                        'CVE_SP2','UADMON_ID2','ENT_RESP',
-                        'ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3','PERIODO_ID1','MES_ID1','DIA_ID1',
-                        'ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3','PERIODO_ID2','MES_ID2','DIA_ID2',
-                        'ENT_FEC_RESP','ENT_FEC_RESP2','ENT_FEC_RESP3',
-                        'PERIODO_ID3','MES_ID3','DIA_ID3','TEMA_ID','ENT_ARC1','ENT_ARC2','ENT_ARC3',
-                        'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN')
-                        ->get();        
-        $regnnotamedio = regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
-                        'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
-                        'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
-                        'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
-                        'PERIODO_ID2','MES_ID2','DIA_ID2','TEMA_ID','ENT_ARC1','ENT_ARC2','ENT_ARC3',
-                        'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN')
-                        ->get();
-        return view('sicinar.recepcion_documentos.nuevaRecepcion',compact('nombre','usuario','regperiodos','regmeses','regdias','regnnotamedio','regtema','regpersonal','regrespuesta', 'histPeriodos'));
+        //if(session()->get('rango') !== '0'){         
+        //    $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+        //                   ->orderBy('NOMBRE_COMPLETO','ASC')
+        //                   ->get();                                                        
+        //}else{
+        //    $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+        //                   ->orderBy('NOMBRE_COMPLETO','ASC')
+        //                   ->where('UADMON_ID',$depen_id)
+        //                   ->get();                                  
+        //}     
+        $regnotamedio = regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                         ->get();
+        return view('sicinar.notas_periodisticas.nuevaNotaper',compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regmedios','histPeriodos','regnotamedio'));
     }
 
-    public function actionAltaNuevaNotaper(Request $request){
+    public function actionAltanuevaNotaper(Request $request){
         $nombre       = session()->get('userlog');
         $pass         = session()->get('passlog');
         if($nombre == NULL AND $pass == NULL){
@@ -295,11 +285,11 @@ class notaperiodisticaController extends Controller
         }        
 
         // *************** Validar duplicidad ***********************************/
-        ////$duplicado = regProgeAnualModel::where(['PERIODO_ID' => $request->periodo_id,'DEPEN_ID1' => $request->depen_id1])
-        ////             ->get();
-        ////if($duplicado->count() >= 1)
-        ////    return back()->withInput()->withErrors(['DEPEN_ID1' => 'UNIDAD_RESPONSABLE '.$request->DEPEN_ID1.' Ya existe documento para la unidad responsable en el mismo periodo. Por favor verificar.']);
-        ////else{  
+        $duplicado = regNotamediosModel::where(['NM_TITULO' => TRIM($request->nm_titulo),'NM_NOTA' => TRIM($request->nm_nota)])
+                     ->get();
+        if($duplicado->count() >= 1)
+            return back()->withInput()->withErrors(['NM_NOTA' => 'NOTA '.$request->NM_NOTA.' Ya existe la nota periodísticas. Por favor verificar.']);
+        else{  
             /************ ALTA  *****************************/ 
             //if(!empty($request->mes_d1) and !empty($request->dia_d1) ){
                 ////toastr()->error('muy bien 1.....','¡ok!',['positionClass' => 'toast-bottom-right']);
@@ -307,100 +297,55 @@ class notaperiodisticaController extends Controller
                 //$dia1 = regDiasModel::ObtDia($request->dia_id1);                
             //}   //endif
 
-            $mes1 = regMesesModel::ObtMes($request->mes_id1);
-            $dia1 = regDiasModel::ObtDia($request->dia_id1);                
-            $mes2 = regMesesModel::ObtMes($request->mes_id2);
-            $dia2 = regDiasModel::ObtDia($request->dia_id2);             
-            $sp   = regPersonalModel::Obtsp($request->cve_sp);             
+            $mes1  = regMesesModel::ObtMes($request->mes_id1);
+            $dia1  = regDiasModel::ObtDia($request->dia_id1);                
+            $medio = regmediosModel::ObtMedio($request->medio_id);             
+            $tipon = regTiponotaModel::ObtTipon($request->tipon_id);             
 
-            $folio = regNotamediosModel::max('FOLIO');
+            $folio = regNotamediosModel::max('NM_FOLIO');
             $folio = $folio + 1;
  
             $file1 =null;
-            if(isset($request->ent_arc1)){
-                if(!empty($request->ent_arc1)){
-                    //Comprobar  si el campo act_const tiene un archivo asignado:
-                    if($request->hasFile('ent_arc1')){
-                        $file1=$request->periodo_id.'_'.$folio.'_'.$request->file('ent_arc1')->getClientOriginalName();
-                        //sube el archivo a la carpeta del servidor public/images/
-                        $request->file('ent_arc1')->move(public_path().'/storage/', $file1);
-                    }
-                }
-            }     
+            //if(isset($request->ent_arc1)){
+            //    if(!empty($request->ent_arc1)){
+            //        //Comprobar  si el campo act_const tiene un archivo asignado:
+            //        if($request->hasFile('ent_arc1')){
+            //            $file1=$request->periodo_id.'_'.$folio.'_'.$request->file('ent_arc1')->getClientOriginalName();
+            //            //sube el archivo a la carpeta del servidor public/images/
+            //            $request->file('ent_arc1')->move(public_path().'/storage/', $file1);
+            //        }
+            //    }
+            //}     
             $nuevorecepcion = new regNotamediosModel();
             $nuevorecepcion->PERIODO_ID    = $request->periodo_id;             
-            $nuevorecepcion->FOLIO         = $folio;
-            $nuevorecepcion->ENT_FOLIO     = $folio;            
-            $nuevorecepcion->ENT_NOFICIO   = substr(trim(strtoupper($request->ent_noficio)),0,49);
-            $nuevorecepcion->CVE_SP        = $request->cve_sp;            
-            $nuevorecepcion->ENT_TURNADO_A = substr(trim($sp[0]->nombre_completo),0,100);            
-            $nuevorecepcion->UADMON_ID     = $sp[0]->uadmon_id;            
+            $nuevorecepcion->NM_FOLIO      = $folio;
+            $nuevorecepcion->NM_TITULO     = substr(trim($request->nm_titulo)  ,0,3499);
+            $nuevorecepcion->NM_NOTA       = substr(trim($request->nm_nota)    ,0,3999);
+            $nuevorecepcion->NM_NOTA2      = substr(trim($request->nm_nota2)   ,0,3999);
+            $nuevorecepcion->NM_IA         = substr(trim($request->nm_nota_ia) ,0,3999);            
+            $nuevorecepcion->NM_LINK       = substr(trim($request->nm_link)    ,0,1999);
+            $nuevorecepcion->NM_AUTOR      = substr(trim($request->nm_autor)   ,0,  79);
+            $nuevorecepcion->MEDIO_ID      = $request->medio_id;            
+            $nuevorecepcion->MEDIO_DESC    = substr(trim($medio[0]->medio_desc),0,  79); 
+            $nuevorecepcion->TIPON_ID      = $request->tipon_id;            
+            $nuevorecepcion->TIPON_DESC    = substr(trim($tipon[0]->tipon_desc),0,  79);             
 
-            $nuevorecepcion->ENT_FEC_OFIC  = date('Y/m/d', strtotime(trim($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.$dia1[0]->dia_desc) ));
-            $nuevorecepcion->ENT_FEC_OFIC2 = trim($dia1[0]->dia_desc.'/'.$mes1[0]->mes_mes.'/'.$request->periodo_id1);
-            $nuevorecepcion->ENT_FEC_OFIC3 = date('Y/m/d', strtotime(trim($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.$dia1[0]->dia_desc) ));            
+            $nuevorecepcion->NM_FEC_NOTA   = date('Y/m/d', strtotime(trim($request->datepickerOf)));
+            $nuevorecepcion->NM_FEC_NOTA2  = date('d/m/Y', strtotime(trim($request->datepickerOf)));
+            $nuevorecepcion->NM_FEC_NOTA3  = date('Y/m/d H:i:s', strtotime(trim($request->datepickerOf) ));
+
             $nuevorecepcion->PERIODO_ID1   = $request->periodo_id1;                
             $nuevorecepcion->MES_ID1       = $request->mes_id1;                
             $nuevorecepcion->DIA_ID1       = $request->dia_id1;      
+            $nuevorecepcion->NM_CALIF      = $request->nm_calif;                  
 
-            $nuevorecepcion->ENT_FEC_RECIB = date('Y/m/d', strtotime(trim($request->periodo_id2.'/'.$mes1[0]->mes_mes.'/'.$dia2[0]->dia_desc) ));
-            $nuevorecepcion->ENT_FEC_RECIB2= trim($dia2[0]->dia_desc.'/'.$mes2[0]->mes_mes.'/'.$request->periodo_id2);
-            $nuevorecepcion->ENT_FEC_RECIB3= date('Y/m/d', strtotime(trim($request->periodo_id2.'/'.$mes2[0]->mes_mes.'/'.$dia2[0]->dia_desc) ));            
-            $nuevorecepcion->PERIODO_ID2   = $request->periodo_id2;                
-            $nuevorecepcion->MES_ID2       = $request->mes_id2;                   
-            $nuevorecepcion->DIA_ID2       = $request->dia_id2;
-
-            $nuevorecepcion->TEMA_ID       = $request->tema_id;
-
-            $nuevorecepcion->ENT_DESTIN    = substr(trim(strtoupper($request->ent_destin)) ,0, 149);
-            $nuevorecepcion->ENT_REMITEN   = substr(trim(strtoupper($request->ent_remiten)),0, 149);
-            $nuevorecepcion->ENT_ASUNTO    = substr(trim(strtoupper($request->ent_asunto)) ,0,3999);
-            $nuevorecepcion->ENT_UADMON    = substr(trim(strtoupper($request->ent_uadmon)) ,0,  99);            
-            $nuevorecepcion->ENT_ARC1      = $file1;
+            //$nuevorecepcion->ENT_ARC1    = $file1;
         
             $nuevorecepcion->IP            = $ip;
             $nuevorecepcion->LOGIN         = $nombre;         // Usuario ;
             $nuevorecepcion->save();
             if($nuevorecepcion->save() == true){
-                toastr()->success('documento dado de alta.','ok!',['positionClass' => 'toast-bottom-right']);
-
-            
-                $nuevorecepresp = new regAtenderrecepModel();
-                $nuevorecepresp->PERIODO_ID    = $request->periodo_id;             
-                $nuevorecepresp->FOLIO         = $folio;
-                $nuevorecepresp->ENT_FOLIO     = $folio;            
-                $nuevorecepresp->ENT_NOFICIO   = substr(trim(strtoupper($request->ent_noficio)),0,49);
-                $nuevorecepresp->CVE_SP        = $request->cve_sp;  
-                $nuevorecepresp->ENT_TURNADO_A = substr(trim($sp[0]->nombre_completo),0,100);                          
-                $nuevorecepresp->UADMON_ID     = $sp[0]->uadmon_id;            
-
-                $nuevorecepresp->ENT_FEC_OFIC  = date('Y/m/d', strtotime(trim($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.$dia1[0]->dia_desc) ));
-                $nuevorecepresp->ENT_FEC_OFIC2 = trim($dia1[0]->dia_desc.'/'.$mes1[0]->mes_mes.'/'.$request->periodo_id1);
-                $nuevorecepresp->ENT_FEC_OFIC3 = date('Y/m/d', strtotime(trim($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.$dia1[0]->dia_desc) ));            
-                $nuevorecepresp->PERIODO_ID1   = $request->periodo_id1;                
-                $nuevorecepresp->MES_ID1       = $request->mes_id1;                
-                $nuevorecepresp->DIA_ID1       = $request->dia_id1;      
-
-                $nuevorecepresp->ENT_FEC_RECIB = date('Y/m/d', strtotime(trim($request->periodo_id2.'/'.$mes1[0]->mes_mes.'/'.$dia2[0]->dia_desc) ));
-                $nuevorecepresp->ENT_FEC_RECIB2= trim($dia2[0]->dia_desc.'/'.$mes2[0]->mes_mes.'/'.$request->periodo_id2);
-                $nuevorecepresp->ENT_FEC_RECIB3= date('Y/m/d', strtotime(trim($request->periodo_id2.'/'.$mes2[0]->mes_mes.'/'.$dia2[0]->dia_desc) ));            
-                $nuevorecepresp->PERIODO_ID2   = $request->periodo_id2;                
-                $nuevorecepresp->MES_ID2       = $request->mes_id2;                   
-                $nuevorecepresp->DIA_ID2       = $request->dia_id2;      
-
-                $nuevorecepresp->TEMA_ID       = $request->tema_id;
-
-                $nuevorecepresp->ENT_DESTIN    = substr(trim(strtoupper($request->ent_destin)) ,0, 149);
-                $nuevorecepresp->ENT_REMITEN   = substr(trim(strtoupper($request->ent_remiten)),0, 149);
-                $nuevorecepresp->ENT_ASUNTO    = substr(trim(strtoupper($request->ent_asunto)) ,0,3999);
-                $nuevorecepresp->ENT_UADMON    = substr(trim(strtoupper($request->ent_uadmon)) ,0,  99); 
-                $nuevorecepresp->ENT_ARC1      = $file1;
-        
-                $nuevorecepresp->IP            = $ip;
-                $nuevorecepresp->LOGIN         = $nombre;         // Usuario ;
-                $nuevorecepresp->save();
-                if($nuevorecepresp->save() == true)
-                    toastr()->success('documento dado de alta.','ok!',['positionClass' => 'toast-bottom-right']);    
+                toastr()->success('nota periodistica dada de alta.','ok!',['positionClass' => 'toast-bottom-right']);
 
                 /************ Bitacora inicia *************************************/ 
                 setlocale(LC_TIME, "spanish");        
@@ -430,9 +375,9 @@ class notaperiodisticaController extends Controller
                     $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
                     $nuevoregBitacora->save();
                     if($nuevoregBitacora->save() == true)
-                        toastr()->success('Trx de documento dada de alta en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                        toastr()->success('Trx de nota periodistica dada de alta en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                     else
-                        toastr()->error('Error trx. de documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                        toastr()->error('Error trx. de nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
                 }else{                   
                     //*********** Obtine el no. de veces *****************************
                     $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID'     => $xmes_id, 
@@ -451,13 +396,13 @@ class notaperiodisticaController extends Controller
                                              'LOGIN_M' => $regbitacora->LOGIN_M  = $nombre,
                                              'FECHA_M' => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                             ]);
-                    toastr()->success('Trx de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->success('Trx de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 }   /************ Bitacora termina *************************************/ 
             }else{
-                toastr()->error('Error en Trx documento Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
-            }   //**************** Termina la alta *******************/
-        ////}       // ******************* Termina el duplicado **********/
-        return redirect()->route('verrecepcion');
+                toastr()->error('Error en Trx nota periodistica Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+            }       //**************** Termina la alta       *****************/
+        }           //**************** Termina de validar duplicado **********/
+        return redirect()->route('vernotasper');
     } 
 
     public function actionEditarNotaper($id){
@@ -479,41 +424,36 @@ class notaperiodisticaController extends Controller
         $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
                         ->get();      
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
-                        ->get();                                     
+                        ->get();    
+        $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                        ->where('TIPON_ID','<>',0)
+                        ->get();    
+        $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                        ->where('MEDIO_ID','<>',0)
+                        ->get();                          
+        $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+                        ->DISTINCT()
+                        ->GET(); 
         //********* Validar rol de usuario **********************/
-        if(session()->get('rango') !== '0'){                          
-            $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                           ->orderBy('NOMBRE_COMPLETO','ASC')
-                           ->get();                                                        
-        }else{
-            $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                           ->where('UADMON_ID',$depen_id)
-                           ->get();                                  
-        }     
-        $regrespuesta = regAtenderrecepModel::select('PERIODO_ID','FOLIO','ENT_FOLIO','ENT_NOFICIO',
-                        'ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A','CVE_SP','UADMON_ID',
-                        'CVE_SP2','UADMON_ID2','ENT_RESP',
-                        'ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3','PERIODO_ID1','MES_ID1','DIA_ID1',
-                        'ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3','PERIODO_ID2','MES_ID2','DIA_ID2',
-                        'ENT_FEC_RESP','ENT_FEC_RESP2','ENT_FEC_RESP3',
-                        'PERIODO_ID3','MES_ID3','DIA_ID3','TEMA_ID','ENT_ARC1',
-                        'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN',
-                        'FECHA_M','FECHA_M2','IP_M','LOGIN_M')
-                        ->where('FOLIO',$id)        
-                        ->get();                
-        $regnnotamedio = regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
-                        'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
-                        'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
-                        'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
-                        'PERIODO_ID2','MES_ID2','DIA_ID2','TEMA_ID','ENT_ARC1',
-                        'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN',
-                        'FECHA_M','FECHA_M2','IP_M','LOGIN_M')
-                        ->where('FOLIO',$id)
+        //if(session()->get('rango') !== '0'){                          
+        //    $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+        //                   ->orderBy('NOMBRE_COMPLETO','ASC')
+        //                   ->get();                                                        
+        //}else{
+        //    $regpersonal  =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+        //                   ->where('UADMON_ID',$depen_id)
+        //                   ->get();                                  
+        //}     
+        $regnotamedio = regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+                            'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
+                            'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
+                            'NM_STATUS1','NM_STATUS2','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                        ->where('NM_FOLIO',$id)
                         ->first();
-        if($regnnotamedio->count() <= 0){
-            toastr()->error('No existen registros de documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        if($regnotamedio->count() <= 0){
+            toastr()->error('No existe nota periodistica.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.recepcion_documentos.editarRecepcion',compact('nombre','usuario','regperiodos','regmeses','regdias','regnnotamedio','regpersonal','regtema','regrespuesta'));
+        return view('sicinar.notas_periodisticas.editarNotaper',compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regmedios','histPeriodos','regnotamedio'));
     }
 
     public function actionActualizarNotaper(notaperRequest $request, $id){
@@ -529,88 +469,45 @@ class notaperiodisticaController extends Controller
         $depen_id     = session()->get('depen_id');     
 
         // **************** actualizar ******************************
-        $regnnotamedio = regNotamediosModel::where('FOLIO',$id);
-        if($regnnotamedio->count() <= 0)
-            toastr()->error('No existe documento.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
+        $regnotamedio = regNotamediosModel::where('NM_FOLIO',$id);
+        if($regnotamedio->count() <= 0)
+            toastr()->error('No existe nota periodistica.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
             //********************** Actualizar ********************************/
-            $mes1 = regMesesModel::ObtMes($request->mes_id1);
-            $dia1 = regDiasModel::ObtDia($request->dia_id1);                
-            $mes2 = regMesesModel::ObtMes($request->mes_id2);
-            $dia2 = regDiasModel::ObtDia($request->dia_id2);             
-            $sp   = regPersonalModel::Obtsp($request->cve_sp);    
+            $mes1  = regMesesModel::ObtMes($request->mes_id1);
+            $dia1  = regDiasModel::ObtDia($request->dia_id1); 
+            $medio = regmediosModel::ObtMedio($request->medio_id);             
+            $tipon = regTiponotaModel::ObtTipon($request->tipon_id);             
 
-            $regnnotamedio = regNotamediosModel::where('FOLIO',$id)        
+            $regnotamedio = regNotamediosModel::where('NM_FOLIO',$id)        
                             ->update([      
-                'ENT_NOFICIO'   => substr(trim(strtoupper($request->ent_noficio)),0,49),
-                'CVE_SP'        => $request->cve_sp,
-                'ENT_TURNADO_A' => substr(trim($sp[0]->nombre_completo),0,100),
-                'UADMON_ID'     => $sp[0]->uadmon_id,
+                                      'NM_TITULO'    => substr(trim($request->nm_titulo)  ,0,3499),
+                                      'NM_NOTA'      => substr(trim($request->nm_nota)    ,0,3999),
+                                      'NM_NOTA2'     => substr(trim($request->nm_nota2)   ,0,3999),
+                                      'NM_IA'        => substr(trim($request->nm_nota_ia) ,0,3999),            
+                                      'NM_LINK'      => substr(trim($request->nm_link)    ,0,1999),
+                                      'NM_AUTOR'     => substr(trim($request->nm_autor)   ,0,  79),
+                                      'MEDIO_ID'     => $request->medio_id,
+                                      'MEDIO_DESC'   => substr(trim($medio[0]->medio_desc),0,  79),
+                                      'TIPON_ID'     => $request->tipon_id,
+                                      'TIPON_DESC'   => substr(trim($tipon[0]->tipon_desc),0,  79),
 
-                'ENT_FEC_OFIC'  => date('Y/m/d', strtotime($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.trim($dia1[0]->dia_desc) )),
-                'ENT_FEC_OFIC2' => trim($dia1[0]->dia_desc.'/'.$mes1[0]->mes_mes.'/'.$request->periodo_id1), 
-                'ENT_FEC_OFIC3' => date('Y/m/d', strtotime($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.trim($dia1[0]->dia_desc) )),
-                'PERIODO_ID1'   => $request->periodo_id1,
-                'MES_ID1'       => $request->mes_id1,
-                'DIA_ID1'       => $request->dia_id1,
-                'ENT_FEC_RECIB' => date('Y/m/d', strtotime($request->periodo_id2.'/'.$mes2[0]->mes_mes.'/'.trim($dia2[0]->dia_desc) )),
-                'ENT_FEC_RECIB2'=> trim($dia2[0]->dia_desc.'/'.$mes2[0]->mes_mes.'/'.$request->periodo_id2), 
-                'ENT_FEC_RECIB3'=> date('Y/m/d', strtotime($request->periodo_id2.'/'.$mes2[0]->mes_mes.'/'.trim($dia2[0]->dia_desc) )),                
-                'PERIODO_ID2'   => $request->periodo_id2,                
-                'MES_ID2'       => $request->mes_id2,
-                'DIA_ID2'       => $request->dia_id2,
+                                      'NM_FEC_NOTA'  => date('Y/m/d', strtotime(trim($request->datepickerOf))),
+                                      'NM_FEC_NOTA2' => trim($request->dia_id1.'/'.$request->mes_id1.'/'.$request->periodo_id1), 
+                                      'NM_FEC_NOTA3' => date('Y/m/d', strtotime(trim($request->datepickerOf))),
 
-                'TEMA_ID'       => $request->tema_id,                                
+                                      'PERIODO_ID1'  => $request->periodo_id1,
+                                      'MES_ID1'      => $request->mes_id1,            
+                                      'DIA_ID1'      => $request->dia_id1,      
+                                      'NM_CALIF'     => $request->nm_calif,                                  
 
-                'ENT_DESTIN'    => substr(trim(strtoupper($request->ent_destin)) ,0, 149),
-                'ENT_REMITEN'   => substr(trim(strtoupper($request->ent_remiten)),0, 149),
-                'ENT_ASUNTO'    => substr(trim(strtoupper($request->ent_asunto)) ,0,3999),
-                'ENT_UADMON'    => substr(trim(strtoupper($request->ent_uadmon)) ,0,  99),
-                'ENT_OBS1'      => substr(trim(strtoupper($request->ent_obs1))   ,0,3999),        
-                //'STATUS_1'    => $request->status_1,
+                                      'IP_M'         => $ip,
+                                      'LOGIN_M'      => $nombre,
+                                      'FECHA_M2'     => date('Y/m/d'),    //date('d/m/Y')                                
+                                      'FECHA_M'      => date('Y/m/d')    //date('d/m/Y')                                
+                                      ]);
+            toastr()->success('nota periodística actualizada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
 
-                'IP_M'          => $ip,
-                'LOGIN_M'       => $nombre,
-                'FECHA_M2'      => date('Y/m/d'),    //date('d/m/Y')                                
-                'FECHA_M'       => date('Y/m/d')    //date('d/m/Y')                                
-                                   ]);
-            toastr()->success('documento actualizado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
-            //*********************** Respuestas ***************************************//
-            $regrespuesta = regAtenderrecepModel::where('FOLIO',$id)        
-                            ->update([      
-                'ENT_NOFICIO'   => substr(trim(strtoupper($request->ent_noficio)),0,49),
-                'CVE_SP'        => $request->cve_sp,
-                'ENT_TURNADO_A' => substr(trim($sp[0]->nombre_completo),0,100),
-                'UADMON_ID'     => $sp[0]->uadmon_id,
-
-                'ENT_FEC_OFIC'  => date('Y/m/d', strtotime($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.trim($dia1[0]->dia_desc) )),
-                'ENT_FEC_OFIC2' => trim($dia1[0]->dia_desc.'/'.$mes1[0]->mes_mes.'/'.$request->periodo_id1), 
-                'ENT_FEC_OFIC3' => date('Y/m/d', strtotime($request->periodo_id1.'/'.$mes1[0]->mes_mes.'/'.trim($dia1[0]->dia_desc) )),
-                'PERIODO_ID1'   => $request->periodo_id1,
-                'MES_ID1'       => $request->mes_id1,
-                'DIA_ID1'       => $request->dia_id1,
-                'ENT_FEC_RECIB' => date('Y/m/d', strtotime($request->periodo_id2.'/'.$mes2[0]->mes_mes.'/'.trim($dia2[0]->dia_desc) )),
-                'ENT_FEC_RECIB2'=> trim($dia2[0]->dia_desc.'/'.$mes2[0]->mes_mes.'/'.$request->periodo_id2), 
-                'ENT_FEC_RECIB3'=> date('Y/m/d', strtotime($request->periodo_id2.'/'.$mes2[0]->mes_mes.'/'.trim($dia2[0]->dia_desc) )),                
-                'PERIODO_ID2'   => $request->periodo_id2,                
-                'MES_ID2'       => $request->mes_id2,
-                'DIA_ID2'       => $request->dia_id2,
-
-                'TEMA_ID'       => $request->tema_id,                                
-
-                'ENT_DESTIN'    => substr(trim(strtoupper($request->ent_destin)) ,0, 149),
-                'ENT_REMITEN'   => substr(trim(strtoupper($request->ent_remiten)),0, 149),
-                'ENT_ASUNTO'    => substr(trim(strtoupper($request->ent_asunto)) ,0,3999),
-                'ENT_UADMON'    => substr(trim(strtoupper($request->ent_uadmon)) ,0,  99),        
-                'ENT_OBS1'      => substr(trim(strtoupper($request->ent_obs1))   ,0,3999),                        
-                //'STATUS_1'     => $request->status_1,
-
-                'IP_M'         => $ip,
-                'LOGIN_M'      => $nombre,
-                'FECHA_M2'     => date('Y/m/d'),    //date('d/m/Y')                                
-                'FECHA_M'      => date('Y/m/d')    //date('d/m/Y')                                
-                                   ]);
-            toastr()->success('documento de respuesta actualizado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             /************ Bitacora inicia *************************************/ 
             setlocale(LC_TIME, "spanish");        
             $xip          = session()->get('ip');
@@ -638,9 +535,9 @@ class notaperiodisticaController extends Controller
                 $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
                 $nuevoregBitacora->save();
                 if($nuevoregBitacora->save() == true)
-                    toastr()->success('Trx actualización de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->success('Trx actualización de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 else
-                    toastr()->error('Error Trx de actualización de documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->error('Error Trx de actualización de nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
             }else{                   
                 //*********** Obtine el no. de veces *****************************
                 $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID'     => $xmes_id, 
@@ -658,10 +555,10 @@ class notaperiodisticaController extends Controller
                                          'LOGIN_M' => $regbitacora->LOGIN_M  = $nombre,
                                          'FECHA_M' => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                          ]);
-                toastr()->success('Trx de actualización de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('Trx de actualización de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             }   /************ Bitacora termina *************************************/                     
         }       /************ Actualizar *******************************************/
-        return redirect()->route('verrecepcion');
+        return redirect()->route('vernotasper');
     }
 
     public function actionEditarRecepcion1($id){
@@ -711,10 +608,10 @@ class notaperiodisticaController extends Controller
                         'FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                         ->where('FOLIO',$id)
                         ->first();
-        if($regnnotamedio->count() <= 0){
-            toastr()->error('No existen registros de documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        if($regnotamedio->count() <= 0){
+            toastr()->error('No existen registros de nota periodistica.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.recepcion_documentos.editarRecepcion1',compact('nombre','usuario','regperiodos','regmeses','regdias','regnnotamedio','regpersonal','regtema','regrespuesta'));
+        return view('sicinar.notas_periodisticas.editarRecepcion1',compact('nombre','usuario','regperiodos','regmeses','regdias','regnotamedio','regpersonal','regtema','regrespuesta'));
     }
 
     public function actionActualizarRecepcion1(notaper1Request $request, $id){
@@ -732,10 +629,10 @@ class notaperiodisticaController extends Controller
         // **************** actualizar ******************************
         $regnnotamedio = regNotamediosModel::where('FOLIO',$id);
         if($regnnotamedio->count() <= 0)
-            toastr()->error('No existe documento.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existe nota periodistica.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
 
-            //********************** Actualizar documento ***************************/
+            //********************** Actualizar nota periodistica ***************************/
             $name01 =null;
             if($request->hasFile('ent_arc1')){
                 $name01 = $request->periodo_id.'_'.$id.'_'.$request->file('ent_arc1')->getClientOriginalName(); 
@@ -762,7 +659,7 @@ class notaperiodisticaController extends Controller
                                         'FECHA_M2'  => date('Y/m/d'),    //date('d/m/Y')                                
                                         'FECHA_M'   => date('Y/m/d')    //date('d/m/Y')                                
                                        ]);
-                toastr()->success('documento de respuesta actualizado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('nota periodistica de respuesta actualizado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             }   //*** Termina actualización ************************//
 
             /************ Bitacora inicia *************************************/ 
@@ -792,9 +689,9 @@ class notaperiodisticaController extends Controller
                 $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
                 $nuevoregBitacora->save();
                 if($nuevoregBitacora->save() == true)
-                    toastr()->success('Trx actualización de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->success('Trx actualización de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 else
-                    toastr()->error('Error Trx de actualización de documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->error('Error Trx de actualización de nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
             }else{                   
                 //*********** Obtine el no. de veces *****************************
                 $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID'     => $xmes_id, 
@@ -812,7 +709,7 @@ class notaperiodisticaController extends Controller
                                          'LOGIN_M' => $regbitacora->LOGIN_M  = $nombre,
                                          'FECHA_M' => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                          ]);
-                toastr()->success('Trx de actualización de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('Trx de actualización de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             }   /************ Bitacora termina *************************************/                     
         }       /************ Actualizar *******************************************/
         return redirect()->route('verrecepcion');
@@ -832,22 +729,13 @@ class notaperiodisticaController extends Controller
         $arbol_id     = session()->get('arbol_id');  
         $depen_id     = session()->get('depen_id');              
 
-        //************ Eliminar documento de entrada ********************************//
-        $regnnotamedio = regNotamediosModel::where('FOLIO',$id);
-        if($regnnotamedio->count() <= 0)
-            toastr()->error('No existe documento.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
+        //************ Eliminar nota periodistica ********************************//
+        $regnotamedio = regNotamediosModel::where('NM_FOLIO',$id);
+        if($regnotamedio->count() <= 0)
+            toastr()->error('No existe nota periodistica.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
-            $regnnotamedio->delete();
-            toastr()->success('documento eliminado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
-
-            //************ Eliminar documento de respuesta ********************************//
-            $regrespuesta = regAtenderrecepModel::where('FOLIO',$id);
-            if($regrespuesta->count() <= 0)
-                 toastr()->error('No existe documento de respuesta.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
-            else{        
-               $regrespuesta->delete();
-               toastr()->success('documento de respuesta eliminado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
-            }
+            $regnotamedio->delete();
+            toastr()->success('nota periodistica eliminado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
 
             /************ Bitacora inicia *************************************/ 
             setlocale(LC_TIME, "spanish");        
@@ -878,9 +766,9 @@ class notaperiodisticaController extends Controller
 
                 $nuevoregBitacora->save();
                 if($nuevoregBitacora->save() == true)
-                    toastr()->success('Trx de elimiar de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->success('Trx de elimiar de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 else
-                    toastr()->error('Error de Trx de elimiar de documento al dar de alta en bitacora. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->error('Error de Trx de elimiar de nota periodistica al dar de alta en bitacora. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
             }else{                   
                 //*********** Obtine el no. de veces *****************************
                 $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID' => $xmes_id,'PROCESO_ID' => $xproceso_id, 
@@ -897,14 +785,14 @@ class notaperiodisticaController extends Controller
                                          'LOGIN_M'  => $regbitacora->LOGIN_M  = $nombre,
                                          'FECHA_M'  => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                         ]);
-                toastr()->success('Trx de elimiar de documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('Trx de elimiar de nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             }   //************ Bitacora termina *************************************//                
-        }       //************* Termina de eliminar documento ***********************//
-        return redirect()->route('verrecepcion');
+        }       //************* Termina de eliminar nota periodistica ***********************//
+        return redirect()->route('vernotasper');
     }    
 
     // exportar a formato excel
-    public function actionExportRecepcionExcel($id){
+    public function actionExportNotasperExcel($id){
         $nombre       = session()->get('userlog');
         $pass         = session()->get('passlog');
         if($nombre == NULL AND $pass == NULL){
@@ -945,9 +833,9 @@ class notaperiodisticaController extends Controller
             $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
             $nuevoregBitacora->save();
             if($nuevoregBitacora->save() == true)
-               toastr()->success('Trx de exportar a excel documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+               toastr()->success('Trx de exportar a excel nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             else
-               toastr()->error('Error Trx de exportar a excel documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+               toastr()->error('Error Trx de exportar a excel nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
         }else{                   
             //*********** Obtine el no. de veces *****************************
             $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID'     => $xmes_id,
@@ -965,13 +853,13 @@ class notaperiodisticaController extends Controller
                                      'LOGIN_M'  => $regbitacora->LOGIN_M  = $nombre,
                                      'FECHA_M'  => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                     ]);
-            toastr()->success('Trx de exportar a excel documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+            toastr()->success('Trx de exportar a excel nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
         }   /********************** Bitacora termina *************************************/  
-        return Excel::download(new ExportRecepcionExcel, 'recepcion_documentos_'.date('d-m-Y').'.xlsx');
+        return Excel::download(new ExportNotasperExcel, 'recepcion_nota periodisticas_'.date('d-m-Y').'.xlsx');
     }
 
     // exportar a formato PDF
-    public function actionExportRecepcionPDF($id,$id2){
+    public function actionExportNotasperPDF($id,$id2){
         set_time_limit(0);
         ini_set("memory_limit",-1);
         ini_set('max_execution_time', 0);
@@ -1017,9 +905,9 @@ class notaperiodisticaController extends Controller
 
             $nuevoregBitacora->save();
             if($nuevoregBitacora->save() == true)
-               toastr()->success('Trx de exportar a PDF documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+               toastr()->success('Trx de exportar a PDF nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             else
-               toastr()->error('Error de Trx de exportar a excel documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+               toastr()->error('Error de Trx de exportar a excel nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
         }else{                   
             //*********** Obtine el no. de veces *****************************
             $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID' => $xmes_id,'PROCESO_ID' => $xproceso_id, 
@@ -1036,32 +924,19 @@ class notaperiodisticaController extends Controller
                                      'LOGIN_M' => $regbitacora->LOGIN_M  = $nombre,
                                      'FECHA_M' => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                     ]);
-            toastr()->success('Trx de exportar a excel documento actualizada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+            toastr()->success('Trx de exportar a excel nota periodistica actualizada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
         }   /************ Bitacora termina *************************************/ 
 
         $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
                         ->orderBy('TEMA_ID','asc')
                         ->get(); 
-        //$regpersonal    = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-        //                ->orderBy('FOLIO','asc')
-        //                ->get();                         
         $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
                         ->get();  
         $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
                         ->get();      
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
                         ->get();                                     
-        $regpersonal  = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
-                        ->orderBy('NOMBRE_COMPLETO','ASC')
-                        ->get();                                                        
-        $regrespuesta = regAtenderrecepModel::select('PERIODO_ID','FOLIO','ENT_FOLIO','ENT_NOFICIO',
-                        'ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A','CVE_SP','UADMON_ID',
-                        'CVE_SP2','UADMON_ID2','ENT_RESP','ENT_FEC_RESP','ENT_FEC_RESP2','ENT_FEC_RESP3',
-                        'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','ENT_ARC1','ENT_ARC2','ENT_ARC3',
-                        'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN',
-                        'FECHA_M','FECHA_M2','IP_M','LOGIN_M')
-                        ->get();                
-        $regnnotamedio = regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
+        $regnotamedio = regNotamediosModel::select('PERIODO_ID','FOLIO','ENT_FOLIO',
                         'ENT_NOFICIO','ENT_DESTIN','ENT_REMITEN','ENT_ASUNTO','ENT_UADMON','ENT_TURNADO_A',
                         'CVE_SP','UADMON_ID','ENT_RESP','ENT_FEC_OFIC','ENT_FEC_OFIC2','ENT_FEC_OFIC3',
                         'PERIODO_ID1','MES_ID1','DIA_ID1','ENT_FEC_RECIB','ENT_FEC_RECIB2','ENT_FEC_RECIB3',
@@ -1069,7 +944,7 @@ class notaperiodisticaController extends Controller
                         'ENT_OBS1','ENT_OBS2','ENT_STATUS1','ENT_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN',
                         'FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                         ->get();                                                                          
-        $regnnotamedio = regNotamediosModel::join('OFIPA_CAT_UADMON' ,'OFIPA_CAT_UADMON.UADMON_ID','=',
+        $regnotamedio = regNotamediosModel::join('OFIPA_CAT_UADMON' ,'OFIPA_CAT_UADMON.UADMON_ID','=',
                                                                     'OFIPA_PERSONAL.UADMON_ID')
                                          ->join('OFIPA_PERSONAL'   ,'OFIPA_PERSONAL.FOLIO','=',
                                                                     'OFIPA_ENTRADAS.CVE_SP')
@@ -1107,9 +982,9 @@ class notaperiodisticaController extends Controller
                 ->get();    
         //dd('Llave:',$id,' llave2:',$id2);       
         if($regnnotamedio->count() <= 0){ 
-            toastr()->error('No existe documento.','Uppss!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existe nota periodistica.','Uppss!',['positionClass' => 'toast-bottom-right']);
         }else{
-            $pdf = PDF::loadView('sicinar.pdf.RecepcionPdf',compact('nombre','usuario','regtema','regnnotamedio','regpersonal','regmeses','regttema'));
+            $pdf = PDF::loadView('sicinar.pdf.NotasperPdf',compact('nombre','usuario','regtema','regnnotamedio','regpersonal','regmeses','regttema'));
             //$options = new Options();
             //$options->set('defaultFont', 'Courier');
             //$pdf->set_option('defaultFont', 'Courier');
@@ -1118,7 +993,7 @@ class notaperiodisticaController extends Controller
             //$pdf->setPaper('A4','portrait');
 
             // Output the generated PDF to Browser
-            return $pdf->stream('recepcion_documentos-'.$id2);
+            return $pdf->stream('recepcion_nota periodisticas-'.$id2);
         }
     }
 
@@ -1480,9 +1355,9 @@ class notaperiodisticaController extends Controller
                         ->orderBy('PARTIDA','asc')
                         ->paginate(30);           
         if($regprogdanual->count() <= 0){
-            toastr()->error('No existen acciones o metas del documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existen acciones o metas del nota periodistica.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }                        
-        return view('sicinar.recepcion_documentos.verdProganual',compact('nombre','usuario','regdepen','regtipometa','regtema','reganios','regperiodos','regmeses','regdias','regprogeanual','regprogdanual','regpersonal','regepproy'));
+        return view('sicinar.notas_periodisticas.verdProganual',compact('nombre','usuario','regdepen','regtipometa','regtema','reganios','regperiodos','regmeses','regdias','regprogeanual','regprogdanual','regpersonal','regepproy'));
     }
 
     public function actionNuevodNotaper($id){
@@ -1559,7 +1434,7 @@ class notaperiodisticaController extends Controller
                          ->orderBy('PARTIDA'   ,'asc')
                          ->get();                                
         //dd($unidades);
-        return view('sicinar.recepcion_documentos.nuevodProganual',compact('nombre','usuario','regdepen','regtipometa','regtema','regprogeanual','regprogdanual','regepproy','regpersonal','regmeses'));
+        return view('sicinar.notas_periodisticas.nuevodProganual',compact('nombre','usuario','regdepen','regtipometa','regtema','regprogeanual','regprogdanual','regepproy','regpersonal','regmeses'));
     }
 
     public function actionAltaNuevodNotaper(Request $request){
@@ -1596,7 +1471,7 @@ class notaperiodisticaController extends Controller
         //                                       'FOLIO'      => $request->folio])
         //             ->get();
         //if($duplicado->count() <= 0 )
-        //    return back()->withInput()->withErrors(['DEPEN_ID' => 'IAP '.$request->DEPEN_ID.' Ya existe documento en el mismo periodo y con la IAP referida. Por favor verificar.']);
+        //    return back()->withInput()->withErrors(['DEPEN_ID' => 'IAP '.$request->DEPEN_ID.' Ya existe nota periodistica en el mismo periodo y con la IAP referida. Por favor verificar.']);
         //else{  
 
             /******************* Alta **********************/ 
@@ -1749,7 +1624,7 @@ class notaperiodisticaController extends Controller
             $nuevoprogdtrab->LOGIN          = $nombre;         // Usuario ;
             $nuevoprogdtrab->save();
             if($nuevoprogdtrab->save() == true){
-                toastr()->success('Acción o meta del documento dado de alta.','ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('Acción o meta del nota periodistica dado de alta.','ok!',['positionClass' => 'toast-bottom-right']);
                 /************ Bitacora inicia *************************************/ 
                 setlocale(LC_TIME, "spanish");        
                 $xip          = session()->get('ip');
@@ -1780,9 +1655,9 @@ class notaperiodisticaController extends Controller
                     $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
                     $nuevoregBitacora->save();
                     if($nuevoregBitacora->save() == true)
-                        toastr()->success('Trx de act. documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                        toastr()->success('Trx de act. nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                     else
-                        toastr()->error('Error de Trx de act. documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                        toastr()->error('Error de Trx de act. nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
                 }else{                   
                     //*********** Obtine el no. de veces *****************************
                     $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID'     => $xmes_id, 
@@ -1803,7 +1678,7 @@ class notaperiodisticaController extends Controller
                     toastr()->success('Bitacora actualizada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 }   /************ Bitacora termina *************************************/ 
             }else{
-                toastr()->error('Error en Trx de act. documento, Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                toastr()->error('Error en Trx de act. nota periodistica, Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
             }   //******************** Termina la alta ***************/
         //}     // ******************* Termina el duplicado **********/
         return redirect()->route('verdpa',$request->folio);
@@ -1879,9 +1754,9 @@ class notaperiodisticaController extends Controller
                           //->where('PARTIDA',$id2)
                           ->first();
         if($regprogdanual->count() <= 0){
-            toastr()->error('No existen registros de acciones o metas del documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existen registros de acciones o metas del nota periodistica.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.recepcion_documentos.editardProganual',compact('nombre','usuario','regtipometa','regdepen','reganios','regperiodos','regmeses','regdias','regprogeanual','regprogdanual','regtema','regepproy','regpersonal'));
+        return view('sicinar.notas_periodisticas.editardProganual',compact('nombre','usuario','regtipometa','regdepen','reganios','regperiodos','regmeses','regdias','regprogeanual','regprogdanual','regtema','regepproy','regpersonal'));
     }
 
     public function actionActualizardNotaper(progdanualRequest $request, $id, $id2){
@@ -1899,7 +1774,7 @@ class notaperiodisticaController extends Controller
         // **************** actualizar ******************************
         $regprogdanual = regProgdAnualModel::where(['FOLIO' => $id, 'PARTIDA' => $id2]);
         if($regprogdanual->count() <= 0)
-            toastr()->error('No existe acción o meta del documento.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existe acción o meta del nota periodistica.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
             //********************** Actualizar ********************************/
             //$mes1 = regMesesModel::ObtMes($request->mes_id1);
@@ -2026,7 +1901,7 @@ class notaperiodisticaController extends Controller
                                        'FECHA_M2'        => date('Y/m/d'),    //date('d/m/Y')
                                        'FECHA_M'         => date('Y/m/d')    //date('d/m/Y')                                
                                        ]);
-            toastr()->success('Acción o meta del documento actualizada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+            toastr()->success('Acción o meta del nota periodistica actualizada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
 
             /************ Bitacora inicia *************************************/ 
             setlocale(LC_TIME, "spanish");        
@@ -2057,9 +1932,9 @@ class notaperiodisticaController extends Controller
                 $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
                 $nuevoregBitacora->save();
                 if($nuevoregBitacora->save() == true)
-                    toastr()->success('Trx de actualización de acción o meta del documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->success('Trx de actualización de acción o meta del nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 else
-                    toastr()->error('Error de actualización de acción o meta del documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->error('Error de actualización de acción o meta del nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
             }else{                   
                 //*********** Obtine el no. de veces *****************************
                 $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,  
@@ -2078,7 +1953,7 @@ class notaperiodisticaController extends Controller
                                          'LOGIN_M' => $regbitacora->LOGIN_M  = $nombre,
                                          'FECHA_M' => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                          ]);
-                toastr()->success('Trx de actualización de acción o meta del documento en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('Trx de actualización de acción o meta del nota periodistica en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             }   /************ Bitacora termina *************************************/                     
         }       /************ Actualizar *******************************************/
         return redirect()->route('verdpa',$id);
@@ -2151,9 +2026,9 @@ class notaperiodisticaController extends Controller
                           //->where('PARTIDA',$id2)
                           ->first();
         if($regprogdanual->count() <= 0){
-            toastr()->error('No existen registros de acciones o metas del documento.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existen registros de acciones o metas del nota periodistica.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.recepcion_documentos.editardProganual1',compact('nombre','usuario','regdepen','reganios','regperiodos','regmeses','regdias','regprogeanual','regprogdanual','regtema','regepproy','regpersonal'));
+        return view('sicinar.notas_periodisticas.editardProganual1',compact('nombre','usuario','regdepen','reganios','regperiodos','regmeses','regdias','regprogeanual','regprogdanual','regtema','regepproy','regpersonal'));
     }
 
     public function actionActualizardRecpcion1(notaper1Request $request, $id, $id2){
@@ -2263,10 +2138,10 @@ class notaperiodisticaController extends Controller
         $regprogdanual  = regProgdAnualModel::where(['FOLIO' => $id, 'PARTIDA' => $id2]);
         //              ->find('TEMA_ID',$id);
         if($regprogdanual->count() <= 0)
-            toastr()->error('No existe acción o meta del del documento.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
+            toastr()->error('No existe acción o meta del del nota periodistica.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
             $regprogdanual->delete();
-            toastr()->success('Acción o meta del documento eliminada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+            toastr()->success('Acción o meta del nota periodistica eliminada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
 
             //echo 'Ya entre a borrar registro..........';
             /************ Bitacora inicia *************************************/ 
@@ -2298,9 +2173,9 @@ class notaperiodisticaController extends Controller
 
                 $nuevoregBitacora->save();
                 if($nuevoregBitacora->save() == true)
-                    toastr()->success('Trx de eliminar acción o meta del documento registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->success('Trx de eliminar acción o meta del nota periodistica registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 else
-                    toastr()->error('Error de eliminar Trx de acción o meta del documento. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                    toastr()->error('Error de eliminar Trx de acción o meta del nota periodistica. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
             }else{                   
                 //*********** Obtine el no. de veces *****************************
                 $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,  
@@ -2318,7 +2193,7 @@ class notaperiodisticaController extends Controller
                                          'LOGIN_M'  => $regbitacora->LOGIN_M  = $nombre,
                                          'FECHA_M'  => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
                                         ]);
-                toastr()->success('Trx de eliminar acción o meta del documento actualizada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                toastr()->success('Trx de eliminar acción o meta del nota periodistica actualizada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
             }   /************ Bitacora termina *************************************/                 
         }       /************* Termina de eliminar *********************************/
         return redirect()->route('verdpa',$id);
