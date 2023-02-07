@@ -166,6 +166,10 @@ return [
         Yoeunes\Toastr\ToastrServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
     ],
 
@@ -200,6 +204,10 @@ return [
         'Form' => Collective\Html\FormFacade::class,        
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+<<<<<<< HEAD
+=======
+        'Http' => Illuminate\Support\Facades\Http::class,
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         'Html' => Collective\Html\HtmlFacade::class,  
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,              
         'Lang' => Illuminate\Support\Facades\Lang::class,

@@ -12,6 +12,7 @@ class regmediosModel extends Model
     public $incrementing = false;
     protected $fillable = [
         'MEDIO_ID',
+<<<<<<< HEAD
 		'MEDIO_DESC',
 		'MEDIO_LINK',
 		'MEDIO_FOTO1',
@@ -20,6 +21,16 @@ class regmediosModel extends Model
 		'MEDIO_OBS2',
 		'MEDIO_STATUS',
 		'FECREG'
+=======
+    'MEDIO_DESC',
+    'MEDIO_LINK',
+    'MEDIO_FOTO1',
+    'MEDIO_FOTO2',
+    'MEDIO_OBS1',
+    'MEDIO_OBS2',
+    'MEDIO_STATUS',
+    'FECREG'
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     ];
 
     public static function ObtMedio($id){

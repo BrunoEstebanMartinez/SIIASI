@@ -26,8 +26,12 @@ class regNotaredsocialModel extends Model
     'RS_REPOSTEOS',
     'RS_COMEN',
     'RS_ALCANCE',
+<<<<<<< HEAD
     'RS_CALIF',
     'RS_CALIF_IA',
+=======
+    'RS_CALIF',  
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     'RS_FEC_NOTA',
     'RS_FEC_NOTA2',
     'RS_FEC_NOTA3',

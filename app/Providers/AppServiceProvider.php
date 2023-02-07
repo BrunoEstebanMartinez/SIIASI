@@ -16,8 +16,15 @@ class AppServiceProvider extends ServiceProvider
     {
          View::share('ANIO');
          View::share('histPeriodos');
+<<<<<<< HEAD
          View::share('responseAI');
          View::share('link');
+=======
+         View::share('cartPart2');
+        View::share('catSEU');
+        View::share('regCatDestin');
+        View::share('regCatAsuntos');
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     /**

@@ -69,31 +69,54 @@ class notaredesController extends Controller
         if(session()->get('rango') !== '0'){    
             $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                             ->orderBy('PERIODO_ID','DESC')
                             ->orderBy('NM_FOLIO'  ,'DESC')
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+                            'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
+                            'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                            ->orderBy('PERIODO_ID','DESC')
+                            ->orderBy('RS_FOLIO'  ,'DESC')
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             ->iddSal($periodo)
                             ->idTodo($todo)  
                             ->paginate(40); 
         }else{
             $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M'))
                             //->where(  'UADMON_ID' ,$depen_id)
                             ->orderBy('PERIODO_ID','DESC')   
                             ->orderBy('NM_FOLIO'  ,'DESC')                          
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+                            'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
+                            'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                            //->where(  'UADMON_ID' ,$depen_id)
+                            ->orderBy('PERIODO_ID','DESC')   
+                            ->orderBy('RS_FOLIO'  ,'DESC')                          
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             ->iddSal($periodo)
                             ->idTodo($todo) 
                             ->paginate(40);   
         }                                                                          
         if($regnotaredes->count() <= 0){
+<<<<<<< HEAD
             toastr()->error('No existen nota de red socials.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }            
         return view('sicinar.notas_periodisticas.verNotasper', compact('nombre','usuario','regperiodos','regmeses','regdias','regnotaredes','regtiponota','regtemas','regredes'));
+=======
+            toastr()->error('No existen nota de red social.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        }            
+        return view('sicinar.notas_redes_sociales.verNotasred', compact('nombre','usuario','regperiodos','regmeses','regdias','regnotaredes','regtiponota','regtemas','regredes'));
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionVerNotasred(){
@@ -126,6 +149,7 @@ class notaredesController extends Controller
                         ->GET();                   
         //********* Validar rol de usuario **********************/
         if(session()->get('rango') !== '0'){  
+<<<<<<< HEAD
             $regnotaredes= regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
@@ -138,10 +162,25 @@ class notaredesController extends Controller
             $regnotaredes= regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+=======
+            $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
+                            'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+                            'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
+                            'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                           ->orderBy('PERIODO_ID','DESC')
+                           ->orderBy('RS_FOLIO'     ,'DESC')
+                           ->paginate(40);
+        }else{                  
+            $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
+                            'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                            //->where(  'UADMON_ID' ,$depen_id)            
                            ->orderBy('PERIODO_ID','DESC')
+<<<<<<< HEAD
                            ->orderBy('NM_FOLIO'  ,'DESC')  
                            ->paginate(40);          
         }                        
@@ -149,6 +188,15 @@ class notaredesController extends Controller
             toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
         return view('sicinar.notas_periodisticas.verNotasred',compact('nombre','usuario','regperiodos','regtiponota','regtemas','histPeriodos','regredes','regnotaredes')); 
+=======
+                           ->orderBy('RS_FOLIO'  ,'DESC')  
+                           ->paginate(40);          
+        }                        
+        if($regnotaredes ->count() <= 0){
+            toastr()->error('No existen notas de red social.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        }
+        return view('sicinar.notas_redes_sociales.verNotasred',compact('nombre','usuario','regperiodos','regtiponota','regtemas','histPeriodos','regredes','regnotaredes')); 
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function isWithYearAction($ANIO){
@@ -181,12 +229,20 @@ class notaredesController extends Controller
             //              ->get(); 
             $regnnotamedio= regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                            ->where(  'PERIODO_ID'  ,$ANIO) 
                            ->orderBy('PERIODO_ID','DESC')
+<<<<<<< HEAD
                            ->orderBy('NM_FOLIO'  ,'DESC')
+=======
+                           ->orderBy('RS_FOLIO'  ,'DESC')
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                            ->paginate(40);
            
         }else{                  
@@ -195,12 +251,17 @@ class notaredesController extends Controller
             //               ->get();  
             $regnnotamedio= regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                            ->where(  'PERIODO_ID'  ,$ANIO) 
                            //->where('UADMON_ID' ,$depen_id)            
                            ->orderBy('PERIODO_ID','DESC')
+<<<<<<< HEAD
                            ->orderBy('NM_FOLIO'  ,'DESC')  
                            ->paginate(40);          
         }                        
@@ -208,6 +269,15 @@ class notaredesController extends Controller
             toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
         return view('sicinar.notas_periodisticas.verNotasred',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema','histPeriodos','ANIO')); 
+=======
+                           ->orderBy('RS_FOLIO'  ,'DESC')  
+                           ->paginate(40);          
+        }                        
+        if($regnnotamedio->count() <= 0){
+            toastr()->error('No existen notas de red social.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        }
+        return view('sicinar.notas_redes_sociales.verNotasred',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema','histPeriodos','ANIO')); 
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionNuevaNotared(){
@@ -252,11 +322,19 @@ class notaredesController extends Controller
         //}     
         $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                          ->get();
         return view('sicinar.notas_periodisticas.nuevaNotared',compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regredes','histPeriodos','regnotaredes'));
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+                            'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
+                            'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                         ->get();
+        return view('sicinar.notas_redes_sociales.nuevaNotared',compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regredes','histPeriodos','regnotaredes'));
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionAltanuevaNotared(Request $request){
@@ -287,10 +365,17 @@ class notaredesController extends Controller
         }        
 
         // *************** Validar duplicidad ***********************************/
+<<<<<<< HEAD
         $duplicado = regNotaredsocialModel::where(['NM_TITULO' => TRIM($request->nm_titulo),'NM_NOTA' => TRIM($request->nm_nota)])
                      ->get();
         if($duplicado->count() >= 1)
             return back()->withInput()->withErrors(['NM_NOTA' => 'NOTA '.$request->NM_NOTA.' Ya existe la nota periodísticas. Por favor verificar.']);
+=======
+        $duplicado = regNotaredsocialModel::where(['RS_TITULO' => TRIM($request->rs_titulo),'RS_NOTA' => TRIM($request->rs_nota)])
+                     ->get();
+        if($duplicado->count() >= 1)
+            return back()->withInput()->withErrors(['RS_NOTA' => 'NOTA '.$request->rs_nota.' Ya existe la nota de red social. Por favor verificar.']);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         else{  
             /************ ALTA  *****************************/ 
             //if(!empty($request->mes_d1) and !empty($request->dia_d1) ){
@@ -301,10 +386,17 @@ class notaredesController extends Controller
 
             $mes1  = regMesesModel::ObtMes($request->mes_id1);
             $dia1  = regDiasModel::ObtDia($request->dia_id1);                
+<<<<<<< HEAD
             $medio = regRedSocialModel::ObtMedio($request->rs_id);             
             $tipon = regTiponotaModel::ObtTipon($request->tipon_id);             
 
             $folio = regNotaredsocialModel::max('NM_FOLIO');
+=======
+            $red   = regRedSocialModel::ObtRed($request->rs_id);             
+            $tipon = regTiponotaModel::ObtTipon($request->tipon_id);             
+
+            $folio = regNotaredsocialModel::max('RS_FOLIO');
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             $folio = $folio + 1;
  
             $file1 =null;
@@ -320,6 +412,7 @@ class notaredesController extends Controller
             //}     
             $nuevorecepcion = new regNotaredsocialModel();
             $nuevorecepcion->PERIODO_ID    = $request->periodo_id;             
+<<<<<<< HEAD
             $nuevorecepcion->NM_FOLIO      = $folio;
             $nuevorecepcion->NM_TITULO     = substr(trim($request->nm_titulo)  ,0,3499);
             $nuevorecepcion->NM_NOTA       = substr(trim($request->nm_nota)    ,0,3999);
@@ -335,11 +428,36 @@ class notaredesController extends Controller
             $nuevorecepcion->NM_FEC_NOTA   = date('Y/m/d', strtotime(trim($request->datepickerOf)));
             $nuevorecepcion->NM_FEC_NOTA2  = date('d/m/Y', strtotime(trim($request->datepickerOf)));
             $nuevorecepcion->NM_FEC_NOTA3  = date('Y/m/d H:i:s', strtotime(trim($request->datepickerOf) ));
+=======
+            $nuevorecepcion->RS_FOLIO      = $folio;
+            $nuevorecepcion->RS_TITULO     = substr(trim($request->rs_titulo)  ,0,3499);
+            $nuevorecepcion->RS_NOTA       = substr(trim($request->rs_nota)    ,0,3999);
+            $nuevorecepcion->RS_NOTA2      = substr(trim($request->rs_nota2)   ,0,3999);
+            $nuevorecepcion->RS_IA         = substr(trim($request->rs_ia)      ,0,3999);            
+            $nuevorecepcion->RS_LINK       = substr(trim($request->rs_link)    ,0,1999);
+            $nuevorecepcion->RS_AUTOR      = substr(trim($request->rs_autor)   ,0,  79);
+            $nuevorecepcion->RS_ID         = $request->rs_id;            
+            $nuevorecepcion->RS_DESC       = substr(trim($red[0]->rs_desc),0,  79); 
+            //$nuevorecepcion->TIPON_ID    = $request->tipon_id;            
+            //$nuevorecepcion->TIPON_DESC  = substr(trim($tipon[0]->tipon_desc),0,  79);             
+
+            $nuevorecepcion->RS_FEC_NOTA   = date('Y/m/d', strtotime(trim($request->datepickerOf)));
+            $nuevorecepcion->RS_FEC_NOTA2  = date('d/m/Y', strtotime(trim($request->datepickerOf)));
+            $nuevorecepcion->RS_FEC_NOTA3  = date('Y/m/d H:i:s', strtotime(trim($request->datepickerOf) ));
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
             $nuevorecepcion->PERIODO_ID1   = $request->periodo_id1;                
             $nuevorecepcion->MES_ID1       = $request->mes_id1;                
             $nuevorecepcion->DIA_ID1       = $request->dia_id1;      
+<<<<<<< HEAD
             $nuevorecepcion->NM_CALIF      = $request->nm_calif;                  
+=======
+            $nuevorecepcion->RS_LIKES      = $request->rs_likes;
+            $nuevorecepcion->RS_REPOSTEOS  = $request->rs_reposteos;
+            $nuevorecepcion->RS_COMEN      = $request->rs_comen;
+            $nuevorecepcion->RS_ALCANCE    = $request->rs_alcance;
+            $nuevorecepcion->RS_CALIF      = $request->rs_calif;                                                
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
             //$nuevorecepcion->ENT_ARC1    = $file1;
         
@@ -448,15 +566,26 @@ class notaredesController extends Controller
         //}     
         $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                         ->where('NM_FOLIO',$id)
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+                            'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
+                            'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                        ->where('RS_FOLIO',$id)
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                         ->first();
         if($regnotaredes->count() <= 0){
             toastr()->error('No existe nota de red social.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
+<<<<<<< HEAD
         return view('sicinar.notas_periodisticas.editarNotared',compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regredes','histPeriodos','regnotaredes'));
+=======
+        return view('sicinar.notas_redes_sociales.editarNotared',compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regredes','histPeriodos','regnotaredes'));
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionActualizarNotared(notaredRequest $request, $id){
@@ -472,13 +601,18 @@ class notaredesController extends Controller
         $depen_id     = session()->get('depen_id');     
 
         // **************** actualizar ******************************
+<<<<<<< HEAD
         $regnotaredes = regNotaredsocialModel::where('NM_FOLIO',$id);
+=======
+        $regnotaredes = regNotaredsocialModel::where('RS_FOLIO',$id);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         if($regnotaredes->count() <= 0)
             toastr()->error('No existe nota de red social.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
             //********************** Actualizar ********************************/
             $mes1  = regMesesModel::ObtMes($request->mes_id1);
             $dia1  = regDiasModel::ObtDia($request->dia_id1); 
+<<<<<<< HEAD
             $red = regRedSocialModel::ObtMedio($request->rs_id);             
             $tipon = regTiponotaModel::ObtTipon($request->tipon_id);             
 
@@ -498,18 +632,54 @@ class notaredesController extends Controller
                                       'NM_FEC_NOTA'  => date('Y/m/d', strtotime(trim($request->datepickerOf))),
                                       'NM_FEC_NOTA2' => trim($request->dia_id1.'/'.$request->mes_id1.'/'.$request->periodo_id1), 
                                       'NM_FEC_NOTA3' => date('Y/m/d', strtotime(trim($request->datepickerOf))),
+=======
+            $red   = regRedSocialModel::ObtRed($request->rs_id);             
+            $tipon = regTiponotaModel::ObtTipon($request->tipon_id);             
+
+            $regnotaredes = regNotaredsocialModel::where('RS_FOLIO',$id)        
+                            ->update([      
+                                      'RS_TITULO'    => substr(trim($request->rs_titulo)  ,0,3499),
+                                      'RS_NOTA'      => substr(trim($request->rs_nota)    ,0,3999),
+                                      'RS_NOTA2'     => substr(trim($request->rs_nota2)   ,0,3999),
+                                      'RS_IA'        => substr(trim($request->rs_ia)      ,0,3999),            
+                                      'RS_LINK'      => substr(trim($request->rs_link)    ,0,1999),
+                                      'RS_AUTOR'     => substr(trim($request->rs_autor)   ,0,  79),
+                                      'RS_ID'        => $request->rs_id,
+                                      'RS_DESC'      => substr(trim($red[0]->rs_desc),0,  79),
+                                      //'TIPON_ID'   => $request->tipon_id,
+                                      //'TIPON_DESC' => substr(trim($tipon[0]->tipon_desc),0,  79),
+
+                                      'RS_FEC_NOTA'  => date('Y/m/d', strtotime(trim($request->datepickerOf))),
+                                      'RS_FEC_NOTA2' => trim($request->dia_id1.'/'.$request->mes_id1.'/'.$request->periodo_id1), 
+                                      'RS_FEC_NOTA3' => date('Y/m/d', strtotime(trim($request->datepickerOf))),
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
                                       'PERIODO_ID1'  => $request->periodo_id1,
                                       'MES_ID1'      => $request->mes_id1,            
                                       'DIA_ID1'      => $request->dia_id1,      
+<<<<<<< HEAD
                                       'NM_CALIF'     => $request->nm_calif,                                  
+=======
+
+                                      'RS_LIKES'     => $request->rs_likes, 
+                                      'RS_REPOSTEOS' => $request->rs_reposteos, 
+                                      'RS_COMEN'     => $request->rs_comen, 
+                                      'RS_ALCANCE'   => $request->rs_alcance, 
+                                      'RS_CALIF'     => $request->rs_calif,                                  
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
                                       'IP_M'         => $ip,
                                       'LOGIN_M'      => $nombre,
                                       'FECHA_M2'     => date('Y/m/d'),    //date('d/m/Y')                                
+<<<<<<< HEAD
                                       'FECHA_M'      => date('Y/m/d')    //date('d/m/Y')                                
                                       ]);
             toastr()->success('nota periodística actualizada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+=======
+                                      'FECHA_M'      => date('Y/m/d')     //date('d/m/Y')                                
+                                      ]);
+            toastr()->success('nota de red social actualizada.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
             /************ Bitacora inicia *************************************/ 
             setlocale(LC_TIME, "spanish");        
@@ -580,6 +750,7 @@ class notaredesController extends Controller
                         ->get(); 
         $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
                         ->get();  
+<<<<<<< HEAD
         $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
                         ->get();      
         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
@@ -615,6 +786,23 @@ class notaredesController extends Controller
             toastr()->error('No existen registros de nota de red social.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
         return view('sicinar.notas_periodisticas.editarNotared1',compact('nombre','usuario','regperiodos','regmeses','regdias','regnotaredes','regpersonal','regtema','regrespuesta'));
+=======
+        //********* Validar rol de usuario **********************/
+        if(session()->get('rango') !== '0'){                          
+        }else{
+        }     
+        $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
+                            'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+                            'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
+                            'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
+                        ->where('RS_FOLIO',$id)
+                        ->first();
+        if($regnotaredes->count() <= 0){
+            toastr()->error('No existe nota de red social.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        }
+        return view('sicinar.notas_redes_sociales.editarNotared1',compact('nombre','usuario','regperiodos','regnotaredes','regpersonal','regtema'));
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionActualizarNotared1(notared1Request $request, $id){
@@ -630,13 +818,19 @@ class notaredesController extends Controller
         $depen_id     = session()->get('depen_id');     
 
         // **************** actualizar ******************************
+<<<<<<< HEAD
         $regnnotamedio = regNotaredsocialModel::where('FOLIO',$id);
         if($regnnotamedio->count() <= 0)
+=======
+        $regnotaredes = regNotaredsocialModell::where('RS_FOLIO',$id);
+        if($regnotaredes->count() <= 0)
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             toastr()->error('No existe nota de red social.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
 
             //********************** Actualizar nota de red social ***************************/
             $name01 =null;
+<<<<<<< HEAD
             if($request->hasFile('ent_arc1')){
                 $name01 = $request->periodo_id.'_'.$id.'_'.$request->file('ent_arc1')->getClientOriginalName(); 
                 $request->file('ent_arc1')->move(public_path().'/storage/', $name01);
@@ -644,6 +838,15 @@ class notaredesController extends Controller
                 $regnnotamedio = regNotaredsocialModel::where('FOLIO',$id)        
                                 ->update([                
                                           'ENT_ARC1' => $name01,
+=======
+            if($request->hasFile('rs_foto1')){
+                $name01 = $id.'_'.$request->file('rs_foto1')->getClientOriginalName(); 
+                $request->file('rs_foto1')->move(public_path().'/storage/', $name01);
+
+                $regnotaredes = regNotaredsocialModel::where('RS_FOLIO',$id)        
+                                ->update([                
+                                          'RS_FOTO1' => $name01,
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
                                           'IP_M'     => $ip,
                                           'LOGIN_M'  => $nombre,
@@ -652,6 +855,7 @@ class notaredesController extends Controller
                                           ]);
                 toastr()->success('Archivo digital actualizado.','¡Ok!',['positionClass' => 'toast-bottom-right']);
 
+<<<<<<< HEAD
                 //*********************** Respuestas ***************************************//
                 $regrespuesta=regAtenderrecepModel::where('FOLIO',$id)        
                               ->update([      
@@ -716,6 +920,61 @@ class notaredesController extends Controller
             }   /************ Bitacora termina *************************************/                     
         }       /************ Actualizar *******************************************/
         return redirect()->route('verrecepcion');
+=======
+
+                /************ Bitacora inicia *************************************/ 
+                setlocale(LC_TIME, "spanish");        
+                $xip          = session()->get('ip');
+                $xperiodo_id  = (int)date('Y');
+                $xprograma_id = 1;
+                $xmes_id      = (int)date('m');
+                $xproceso_id  =         3;
+                $xfuncion_id  =      3001;
+                $xtrx_id      =         2;    //Actualizar 
+                $regbitacora = regBitacoraModel::select('PERIODO_ID',  'MES_ID', 'PROCESO_ID', 'FUNCION_ID', 
+                               'TRX_ID', 'FOLIO', 'NO_VECES', 'FECHA_REG', 'IP', 'LOGIN', 'FECHA_M', 'IP_M', 'LOGIN_M')
+                               ->where(['PERIODO_ID' => $xperiodo_id,'MES_ID' => $xmes_id,'PROCESO_ID' => $xproceso_id, 
+                                        'FUNCION_ID' => $xfuncion_id,'TRX_ID' => $xtrx_id,'FOLIO'      => $id])
+                               ->get();
+                if($regbitacora->count() <= 0){              // Alta
+                    $nuevoregBitacora = new regBitacoraModel();              
+                    $nuevoregBitacora->PERIODO_ID = $xperiodo_id;    // Año de transaccion 
+                    $nuevoregBitacora->MES_ID     = $xmes_id;        // Mes de transaccion
+                    $nuevoregBitacora->PROCESO_ID = $xproceso_id;    // Proceso de apoyo
+                    $nuevoregBitacora->FUNCION_ID = $xfuncion_id;    // Funcion del modelado de procesos 
+                    $nuevoregBitacora->TRX_ID     = $xtrx_id;        // Actividad del modelado de procesos
+                    $nuevoregBitacora->FOLIO      = $id;             // Folio    
+                    $nuevoregBitacora->NO_VECES   = 1;               // Numero de veces            
+                    $nuevoregBitacora->IP         = $ip;             // IP
+                    $nuevoregBitacora->LOGIN      = $nombre;         // Usuario 
+                    $nuevoregBitacora->save();
+                    if($nuevoregBitacora->save() == true)
+                        toastr()->success('Trx actualización de nota de red social registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                    else
+                        toastr()->error('Error Trx de actualización de nota de red social. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+                }else{                   
+                    //*********** Obtine el no. de veces *****************************
+                    $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID'     => $xmes_id, 
+                                                          'PROCESO_ID' => $xproceso_id,'FUNCION_ID' => $xfuncion_id, 
+                                                          'TRX_ID'     => $xtrx_id,    'FOLIO'      => $id])
+                                 ->max('NO_VECES');
+                    $xno_veces = $xno_veces+1;                        
+                    //*********** Termina de obtener el no de veces *****************************         
+                    $regbitacora = regBitacoraModel::select('NO_VECES','IP_M','LOGIN_M','FECHA_M')
+                                   ->where(['PERIODO_ID' => $xperiodo_id,'MES_ID' => $xmes_id,'PROCESO_ID' => $xproceso_id, 
+                                            'FUNCION_ID' => $xfuncion_id,'TRX_ID' => $xtrx_id,'FOLIO'      => $id])
+                                   ->update([
+                                             'NO_VECES'=> $regbitacora->NO_VECES = $xno_veces,
+                                             'IP_M'    => $regbitacora->IP       = $ip,
+                                             'LOGIN_M' => $regbitacora->LOGIN_M  = $nombre,
+                                             'FECHA_M' => $regbitacora->FECHA_M  = date('Y/m/d')  //date('d/m/Y')
+                                             ]);
+                    toastr()->success('Trx de actualización de nota de red social registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                }   /************ Bitacora termina *************************************/                     
+            }   //*** Termina actualizar arc. digital ************************//                
+        }       /************ Actualizar *******************************************/
+        return redirect()->route('vernotasred');
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
 
@@ -733,7 +992,11 @@ class notaredesController extends Controller
         $depen_id     = session()->get('depen_id');              
 
         //************ Eliminar nota de red social ********************************//
+<<<<<<< HEAD
         $regnotaredes = regNotaredsocialModel::where('NM_FOLIO',$id);
+=======
+        $regnotaredes = regNotaredsocialModel::where('RS_FOLIO',$id);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         if($regnotaredes->count() <= 0)
             toastr()->error('No existe nota de red social.','¡Por favor volver a intentar!',['positionClass' => 'toast-bottom-right']);
         else{        
@@ -769,9 +1032,15 @@ class notaredesController extends Controller
 
                 $nuevoregBitacora->save();
                 if($nuevoregBitacora->save() == true)
+<<<<<<< HEAD
                     toastr()->success('Trx de elimiar de nota de red social registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
                 else
                     toastr()->error('Error de Trx de elimiar de nota de red social al dar de alta en bitacora. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+=======
+                    toastr()->success('Trx de elimiar nota de red social registrada en Bitacora.','¡Ok!',['positionClass' => 'toast-bottom-right']);
+                else
+                    toastr()->error('Error de Trx al eliminar nota de red social. Por favor volver a interlo.','Ups!',['positionClass' => 'toast-bottom-right']);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             }else{                   
                 //*********** Obtine el no. de veces *****************************
                 $xno_veces = regBitacoraModel::where(['PERIODO_ID' => $xperiodo_id,'MES_ID' => $xmes_id,'PROCESO_ID' => $xproceso_id, 
@@ -941,7 +1210,11 @@ class notaredesController extends Controller
                         ->get();                                     
         $regnotaredes = regNotaredsocialModel::select('PERIODO_ID','RS_FOLIO','RS_TITULO','RS_NOTA','RS_NOTA2','RS_IA','RS_IA2',
                             'RS_LINK','RS_ID','RS_DESC','RS_AUTOR','RS_LIKES','RS_REPOSTEOS','RS_COMEN','RS_ALCANCE','RS_CALIF',
+<<<<<<< HEAD
                             'RS_CALIF_IA','RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+=======
+                            'RS_FEC_NOTA','RS_FEC_NOTA2','RS_FEC_NOTA3','PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC',
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             'RS_FOTO1','RS_FOTO2','RS_FOTO3','RS_FOTO4','RS_OBS1','RS_OBS2','RS_STATUS1','RS_STATUS2',
                             'FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
                         ->get();                                                                          

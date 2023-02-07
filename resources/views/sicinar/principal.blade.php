@@ -32,11 +32,19 @@
       <!-- Google Font -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+<<<<<<< HEAD
       <link rel = "stylesheet" href = "{{  asset('css/inputModel.css') }}"></link> 
 
 
       <section>@yield('links')</section>
 
+=======
+       <link rel = "stylesheet" href = "{{  asset('css/inputModel.css') }}"></link> 
+
+
+      <section>@yield('links')</section>
+ 
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
       @toastr_css 
     </head>
     <body class="hold-transition skin-green sidebar-mini">
@@ -102,7 +110,11 @@
                           <small style="color:blue;">Tipo: <section style="color:white;">@yield('usuario')</section></small>
                       </p>
                     </li>
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                     <!-- Menu Footer-->
                     <li class="user-footer">  
                       <div class="pull-left">
@@ -138,25 +150,39 @@
                   </ul>
                   @endif
               </li> 
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
               <li  class="treeview">              
                   @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')
                   <a href="#"><i class="fa fa-book"></i> <span>Catálogos</span>
                       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                   </a>
                   <ul class="treeview-menu">
+<<<<<<< HEAD
                     <li><a href="{{route('vermedio')}}" ><i class="fa fa-camera"   ></i><span>Medios informativos </span></a></li>                    
                     <li><a href="{{route('verredes')}}" ><i class="fa fa-bomb"     ></i><span>Redes sociales      </span></a></li>  
+=======
+                    <li><a href="{{route('vermedio')}}" ><i class="fa fa-camera" ></i><span>Medios informativos </span></a></li>                    
+                    <li><a href="{{route('verredes')}}" ><i class="fa fa-bomb"   ></i><span>Redes sociales      </span></a></li>  
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                   </ul>
                   @endif
               </li>
 
               <li  class="treeview">
+<<<<<<< HEAD
                   <a href="#"><i class="fa fa-cubes"></i> <span>Gestión interna </span>
+=======
+                  <a href="#"><i class="fa fa-cubes"></i> <span>Notas informativas </span>
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                   </a>              
                   @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')              
                       <ul class="treeview-menu">              
+<<<<<<< HEAD
                           <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Notas periodísticas </a></li>                      
                           <li><a href="{{route('veratenrecep')}}"><i class="fa fa-file-o"></i>Redes sociales      </a></li>
                       </ul>
@@ -164,11 +190,23 @@
                       <ul class="treeview-menu">                                
                           <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Notas periodisticas </a></li>         
                           <li><a href="{{route('periodos')}}"    ><i class="fa fa-file-o"></i>Redes sociales      </a></li>                          
+=======
+                          <li><a href="{{route('vernotasper')}}"><i class="fa fa-file-o"></i>Periodísticas    </a></li>                      
+                          <li><a href="{{route('vernotasred')}}"><i class="fa fa-file-o"></i>Redes sociales</a></li>
+                      </ul>
+                  @else
+                      <ul class="treeview-menu">                                
+                          <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Periodisticas     </a></li>         
+                          <li><a href="{{route('vernotasred')}}" ><i class="fa fa-file-o"></i>Redes sociales </a></li>                          
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                       </ul>
                   @endif
               </li>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
               <li  class="treeview">
                 @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')
                 <a href="#"><i class="fa fa-flickr"></i> <span>BackOffice</span>

@@ -28,12 +28,18 @@ use App\Exports\ExportNotasperExcel;
 use Maatwebsite\Excel\Facades\Excel;
 // Exportar a pdf
 use PDF;
+<<<<<<< HEAD
 use GuzzleHttp\Client;
+=======
+//use GuzzleHttp\Client;
+use Http;
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 //use Options;
 
 class notaperiodisticaController extends Controller
 {
 
+<<<<<<< HEAD
                 private $models = [
                 
                     "babbage" => "text-babbage-001",
@@ -143,6 +149,75 @@ class notaperiodisticaController extends Controller
                         return view("sicinar.notas_periodisticas.nuevaNotaper", compact('nombre','usuario','regperiodos','regmeses','regdias','regtema','regtiponota','regmedios','histPeriodos','regnotamedio','responseAI', 'link'));
 
             }
+=======
+
+
+
+    private $models = [
+    
+            "babbage" => "text-babbage-001",
+            "curies"  => "text-curie-001",
+            "ada"     => "text-ada-001",
+            "davinci" =>  "text-davinci-003"       
+
+    ];
+
+   private $tokenApi =  "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";
+
+
+    public function openAIAPI(Request $request){
+        
+
+                $isNote = $request->nm_nota;
+
+                $maxTokens = 3625;
+
+                //$cliente = new Client();
+
+        //Metodo 1
+
+                /*
+                $open_ai_response = $cliente->post('https://api.openai.com/v1/completions', [
+
+                        'headers' => [
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer '.$this->$tokenApi,
+                        ],
+
+                        'json' => [
+                            'prompt' => "Resumen de la nota".$isNote." "."Tl;dr",
+                        'temperature' => 0.9,
+                        'max_tokens' => $maxTokens,
+                        'top_p'     => 1,
+                        'frequency_penalty' => 0,
+                        'presence_penalty'  => 0
+                        ],
+
+                    ]);
+
+                $responseAI = json_decode($open_ai_response->getBody(), true);
+
+             */
+       // Metodo 2
+                $open_ai_response = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'Authorization' => "Bearer ".$this->$tokenApi
+                    ])->post("https://api.openai.com/v1/engines/$this->models[davinci]/completions", [
+                        'prompt' => "Resumen de la nota".$isNote." "."Tl;dr",
+                        "temperature" => 0.9,
+                        "max_tokens" => $maxTokens,
+                        "top_p"     => 1,
+                        "frequency_penalty" => 0,
+                        "presence_penalty"  => 0
+                    ])->json();
+
+                        $open_ai_response['choices'][0]['text'];
+
+                 return view("sicinar.notas_periodisticas.nuevaNoteper", compact('open_ai_response'));
+
+    }
+
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 
     public function actionBuscarNotaper(Request $request)
     {
@@ -286,12 +361,26 @@ class notaperiodisticaController extends Controller
                         ->get();           
         $histPeriodos = regNotamediosModel::select('PERIODO_ID')
                         ->DISTINCT()
+<<<<<<< HEAD
                         ->GET();              
+=======
+                        ->GET(); 
+
+         $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                        ->get();  
+
+        $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                        ->get();                                           
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         //********* Validar rol de usuario **********************/
         if(session()->get('rango') !== '0'){  
             //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
             //              ->get(); 
+<<<<<<< HEAD
             $regnnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+=======
+            $regnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
                             'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
                             'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
@@ -304,7 +393,11 @@ class notaperiodisticaController extends Controller
             //$regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
             //               ->where('UADMON_ID',$depen_id)
             //               ->get();  
+<<<<<<< HEAD
             $regnnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+=======
+            $regnotamedio= regNotamediosModel::select('PERIODO_ID','NM_FOLIO','NM_TITULO','NM_NOTA','NM_NOTA2','NM_IA','NM_IA2','NM_LINK',
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
                             'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
                             'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
@@ -314,10 +407,17 @@ class notaperiodisticaController extends Controller
                            ->orderBy('NM_FOLIO'  ,'DESC')  
                            ->paginate(40);          
         }                        
+<<<<<<< HEAD
         if($regnnotamedio->count() <= 0){
             toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
         return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema','histPeriodos','ANIO')); 
+=======
+        if($regnotamedio->count() <= 0){
+            toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+        }
+        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','ANIO', 'regmedios', 'regtiponota')); 
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionNuevaNotaper(){

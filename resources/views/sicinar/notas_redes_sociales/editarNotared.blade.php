@@ -1,6 +1,6 @@
 @extends('sicinar.principal')
 
-@section('title','Editar nota periodistica')
+@section('title','Editar nota de red social')
 
 @section('links')
     <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
@@ -20,13 +20,8 @@
         <section class="content-header">
             <h1>
                 Menú
-<<<<<<< HEAD
-                <small> Gestión interna   </small>                
-                <small> Notas periodísticas - editar </small>           
-=======
-                <small> Notas informativas   </small>                
-                <small> Periodísticas - editar </small>           
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
+                <small> Notas informativas  </small>                
+                <small> Redes sociales - editar </small>           
             </h1>
         </section>
         <section class="content">
@@ -34,40 +29,40 @@
                 <div class="col-md-12">
                     <div class="box box-success">
 
-                        {!! Form::open(['route' => ['actualizarnotaper',$regnotamedio->nm_folio], 'method' => 'PUT', 'id' => 'actualizarnotaper', 'enctype' => 'multipart/form-data']) !!}
+                        {!! Form::open(['route' => ['actualizarnotared',$regnotaredes->rs_folio], 'method' => 'PUT', 'id' => 'actualizarnotared', 'enctype' => 'multipart/form-data']) !!}
                         <div class="box-body">
 
                             <div class = "row">
                                 <div class="col-xs-2 form-group">
-                                    <input type="hidden" name="periodo_id" id="periodo_id" value="{{$regnotamedio->periodo_id}}"> 
-                                    <input type="hidden" name="nm_folio"   id="nm_folio"   value="{{$regnotamedio->nm_folio}}">    
+                                    <input type="hidden" name="periodo_id" id="periodo_id" value="{{$regnotaredes->periodo_id}}"> 
+                                    <input type="hidden" name="rs_folio"   id="rs_folio"   value="{{$regnotaredes->rs_folio}}">    
 
                                     <label>Fecha</label>
-                                    <input class = "form-control" type="date" id="datepickerOf" name = "datepickerOf" value = "{{ date('Y-m-d', strtotime($regnotamedio->nm_fec_nota)) }}">
+                                    <input class = "form-control" type="date" id="datepickerOf" name = "datepickerOf" value = "{{ date('Y-m-d', strtotime($regnotaredes->rs_fec_nota)) }}">
                                 </div>
                                 
                                 <div class="col-xs-10 form-group align:rigth">
                                     <label style="color:green; text-align:rigth; vertical-align: middle;">Folio de sistema: </label>
-                                    &nbsp;&nbsp;{{$regnotamedio->nm_folio}}
+                                    &nbsp;&nbsp;{{$regnotaredes->rs_folio}}
                                 </div>                                
                             </div>
 
                             <div class="row" style = "display:none">
                                 <div class="col-xs-1">
-                                    <label>Fecha de la nota periodistíca:</label>
+                                    <label>Fecha de la nota:</label>
                                 </div>
 
                                 <div class="col-xs-1">
-                                    <input class = "form-control" type="text" name = "dia_id1" id = "dia_id1" Value="{{$regnotamedio->dia_id1}}" placeholder = "dd" >
+                                    <input class = "form-control" type="text" name = "dia_id1" id = "dia_id1" Value="{{$regnotaredes->dia_id1}}" placeholder = "dd" >
                                 </div>
 
                                 <div class="col-xs-1">
-                                    <input class = "form-control" type="text" name = "mes_id1" id = "mes_id1" Value="{{$regnotamedio->mes_id1}}" placeholder = "mm">
+                                    <input class = "form-control" type="text" name = "mes_id1" id = "mes_id1" Value="{{$regnotaredes->mes_id1}}" placeholder = "mm">
                                 </div> 
 
                                 <div class="col-xs-1">
-                                    <input class = "form-control" type="text" name = "periodo_id1" id = "periodo_id1" Value="{{$regnotamedio->periodo_id1}}" placeholder = "yyyy">
-                                    <input class = "form-control" type="text" name = "periodo_id" id = "periodo_id" Value="{{$regnotamedio->periodo_id}}" placeholder = "yyyy">
+                                    <input class = "form-control" type="text" name = "periodo_id1" id = "periodo_id1" Value="{{$regnotaredes->periodo_id1}}" placeholder = "yyyy">
+                                    <input class = "form-control" type="text" name = "periodo_id" id = "periodo_id" Value="{{$regnotaredes->periodo_id}}" placeholder = "yyyy">
                                 </div> 
                             </div>
 
@@ -75,28 +70,28 @@
                             <div class="row">
                                 <div class="col-xs-10 form-group">
                                     <label >Título </label>
-                                    <input type="text" class="form-control" name="nm_titulo" id="nm_titulo" placeholder="Titulo de la nota" Value="{{$regnotamedio->nm_titulo}}" required>
+                                    <input type="text" class="form-control" name="rs_titulo" id="rs_titulo" placeholder="Titulo de la nota" Value="{{$regnotaredes->rs_titulo}}" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-10 form-group">
                                     <label >Link </label>
-                                    <input type="text" class="form-control" name="nm_link" id="nm_link" placeholder="Link o url de la nota" Value="{{$regnotamedio->nm_link}}" required>
+                                    <input type="text" class="form-control" name="rs_link" id="rs_link" placeholder="Link o url de la nota" Value="{{$regnotaredes->rs_link}}" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-12 form-group">
                                     <label >Resumen de la Nota (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_nota" id="nm_nota" rows="4" cols="120" placeholder="Resumen de la Nota (4,000 caracteres)" required>{{Trim($regnotamedio->nm_nota)}}
+                                    <textarea class="form-control" name="rs_nota" id="rs_nota" rows="4" cols="120" placeholder="Resumen de la Nota (4,000 caracteres)" required>{{Trim($regnotaredes->rs_nota)}}
                                     </textarea>
                                 </div>                                
                             </div>         
                             <div class="row">
                                 <div class="col-xs-12 form-group">
                                     <label >Resumen de la Nota 2 (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_nota2" id="nm_nota2" rows="4" cols="120" placeholder="Resumen de la Nota 2 (4,000 caracteres)" required>{{Trim($regnotamedio->nm_nota2)}}
+                                    <textarea class="form-control" name="rs_nota2" id="rs_nota2" rows="4" cols="120" placeholder="Resumen de la Nota 2 (4,000 caracteres)" required>{{Trim($regnotaredes->rs_nota2)}}
                                     </textarea>
                                 </div>                                
                             </div>                                     
@@ -104,66 +99,80 @@
                             <div class="row">
                                 <div class="col-xs-12 form-group">
                                     <label >Resumen de la Nota IA (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_ia" id="nm_ia" rows="4" cols="120" placeholder="Resumen de la Nota IA (4,000 caracteres)" required>{{Trim($regnotamedio->nm_ia)}}
+                                    <textarea class="form-control" name="rs_ia" id="rs_ia" rows="4" cols="120" placeholder="Resumen de la Nota IA (4,000 caracteres)" required>{{Trim($regnotaredes->rs_ia)}}
                                     </textarea>
                                 </div>                                
                             </div>         
                             <div class="row">
                                 <div class="col-xs-6 form-group">
                                     <label >Autor </label>
-                                    <input type="text" class="form-control" name="nm_autor" id="nm_autor" placeholder="Autor" Value="{{$regnotamedio->nm_autor}}" required>
+                                    <input type="text" class="form-control" name="rs_autor" id="rs_autor" placeholder="Autor" Value="{{$regnotaredes->rs_autor}}" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-4 form-group">
-                                    <label >Medio informátivo  </label>
-                                    <select class="form-control m-bot15" name="medio_id" id="medios_id" required>
-                                        <option selected="true" disabled="disabled">Seleccionar medio informativo </option>
-                                        @foreach($regmedios as $medio)
-                                            @if($medio->medio_id == $regnotamedio->medio_id)
-                                                <option value="{{$medio->medio_id}}" selected>{{trim($medio->medio_desc)}}</option>
+                                    <label >Red social  </label>
+                                    <select class="form-control m-bot15" name="rs_id" id="rs_id" required>
+                                        <option selected="true" disabled="disabled">Seleccionar red social </option>
+                                        @foreach($regredes as $red)
+                                            @if($red->rs_id == $regnotaredes->rs_id)
+                                                <option value="{{$red->rs_id}}" selected>{{trim($red->rs_desc)}}</option>
                                             @else                                        
-                                                <option value="{{$medio->medio_id}}">{{trim($medio->medio_desc)}}</option>
-                                            @endif                                                                             
-                                        @endforeach
-                                    </select>                                    
-                                </div>                       
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-2 form-group">
-                                    <label >Tipo de nota  </label>
-                                    <select class="form-control m-bot15" name="tipon_id" id="tipon_id" required>
-                                        <option selected="true" disabled="disabled">Seleccionar tipo de nota </option>
-                                        @foreach($regtiponota as $tipo)
-                                            @if($tipo->tipon_id == $regnotamedio->tipon_id)
-                                                <option value="{{$tipo->tipon_id}}" selected>{{trim($tipo->tipon_desc)}}</option>
-                                            @else                                        
-                                                <option value="{{$tipo->tipon_id}}">{{trim($tipo->tipon_desc)}}</option>
+                                                <option value="{{$red->rs_id}}">{{trim($red->rs_desc)}}</option>
                                             @endif                                                                             
                                         @endforeach
                                     </select>                                    
                                 </div>                       
                             </div>
 
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Likes (Solo digitar número) </label>
+                                    <input required autocomplete="off" id="rs_likes" name="rs_likes" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="{{$regnotaredes->rs_likes}}">
+                                </div>
+                            </div>                            
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Reposteos (Solo digitar números) </label>
+                                    <input required autocomplete="off" id="rs_reposteos" name="rs_reposteos" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="{{$regnotaredes->rs_reposteos}}">
+                                </div>
+                            </div>                            
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Comentarios (Solo digitar números) </label>
+                                    <input required autocomplete="off" id="rs_comen" name="rs_comen" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="{{$regnotaredes->rs_comen}}">
+                                </div>
+                            </div>                            
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Alcance (Solo digitar números) </label>
+                                    <input required autocomplete="off" id="rs_alcance" name="rs_alcance" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="{{$regnotaredes->rs_alcance}}">
+                                </div>
+                            </div>                                                        
                             <div class="row">                            
                                 <div class="col-xs-4 form-group">                        
                                     <label>Calificación </label>
-                                    <select class="form-control m-bot15" name="nm_calif" id="nm_calif" required>
-                                    @if($regnotamedio->nm_calif == '3')
+                                    <select class="form-control m-bot15" name="rs_calif" id="rs_calif" required>
+                                    @if($regnotaredes->rs_calif == '3')
                                             <option value="1"         >Positiva </option>
                                             <option value="2"         >Neutra   </option>
                                             <option value="3" selected>Negativa </option>
                                     @else
-                                        @if($regnotamedio->nm_calif == '2')
+                                        @if($regnotaredes->rs_calif == '2')
                                                 <option value="1"         >Positiva  </option>
                                                 <option value="2" selected>Neutra    </option>
                                                 <option value="3"         >Negativa  </option>
                                        @else
-                                            @if($regnotamedio->nm_calif == '1')
+                                            @if($regnotaredes->rs_calif == '1')
                                                     <option value="1" selected>Positiva   </option>
                                                     <option value="2"         >Neutra     </option>
                                                     <option value="3"         >Negativa   </option>
+                                            @else
+                                                    <option value="1"         >Positiva   </option>
+                                                    <option value="2"         >Neutra     </option>
+                                                    <option value="3"         >Negativa   </option>  
+                                                    <option value="0" selected>Sin calificación </option>                                                    
                                             @endif
                                         @endif
                                     @endif
@@ -201,7 +210,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\notaperRequest','#actualizarnotaper') !!}
+    {!! JsValidator::formRequest('App\Http\Requests\notaredRequest','#actualizarnotared') !!}
 @endsection
 
 @section('javascrpt')

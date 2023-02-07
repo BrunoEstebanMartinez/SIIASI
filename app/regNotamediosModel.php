@@ -58,13 +58,18 @@ class regNotamediosModel extends Model
     //***************************************// 
     public function scopeIddSal($query, $periodo)
     {
+<<<<<<< HEAD
         $periodo = strtoupper(Trim($periodo));
+=======
+        $periodo = Trim($periodo);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
              
         if($periodo)
             return $query->where('PERIODO_ID', '=', "$periodo");             
     }     
 
     public function scopeIdTodo($query, $todo){
+<<<<<<< HEAD
         $todo = strtoupper(Trim($todo));          
         if($todo)
             return $query->where( 'NM_FOLIO' ,'='   ,"$todo")
@@ -107,4 +112,12 @@ class regNotamediosModel extends Model
             return $query->orwhere('ENT_ASUNTO', 'LIKE', "%$asun%");
     }     
     
+=======
+        $todo = Trim($todo);          
+        if($todo)
+            return $query->where('NM_TITULO','LIKE',"%$todo%");
+    }
+
+
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 }

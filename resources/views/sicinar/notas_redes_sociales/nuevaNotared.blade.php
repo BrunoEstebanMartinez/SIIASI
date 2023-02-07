@@ -1,6 +1,6 @@
 @extends('sicinar.principal')
 
-@section('title','Nueva nota periodistica')
+@section('title','Nueva nota de red social')
 
 @section('links')
     <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
@@ -19,13 +19,8 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>Menú
-<<<<<<< HEAD
-                <small> Gestión interna </small>                
-                <small> Notas periodísticas - Nueva</small>                
-=======
                 <small> Notas informativas </small>                
-                <small> Periodísticas - Nueva</small>                
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
+                <small> Redes sociales - Nueva</small>                
             </h1>
         </section>
 
@@ -34,7 +29,7 @@
                 <div class="col-md-12">
                     <div class="box box-success">
                         
-                        {!! Form::open(['route' => 'altanuevanotaper', 'method' => 'POST','id' => 'nuevanotaper', 'enctype' => 'multipart/form-data']) !!}
+                        {!! Form::open(['route' => 'altanuevanotared', 'method' => 'POST','id' => 'nuevanotared', 'enctype' => 'multipart/form-data']) !!}
                         <div class="box-body">
                             @php 
                                 $currentDate = date('Y-m-d');
@@ -52,7 +47,7 @@
 
                             <div class="row" style = "display:none">
                                 <div class="col-xs-1">
-                                    <label>Fecha de la nota periodistíca:</label>
+                                    <label>Fecha de la nota:</label>
                                 </div>
 
                                 <div class="col-xs-1">
@@ -72,106 +67,88 @@
                             <div class="row">
                                 <div class="col-xs-10 form-group">
                                     <label >Título </label>
-                                    <input type="text" class="form-control" name="nm_titulo" id="nm_titulo" placeholder="Titulo de la nota" required>
+                                    <input type="text" class="form-control" name="rs_titulo" id="rs_titulo" placeholder="Titulo de la nota" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-10 form-group">
                                     <label >Link </label>
-<<<<<<< HEAD
-                                    <input type="text" class="form-control" name="nm_link" id="nm_link" placeholder="Link o url de la nota">
-                                    <span id = "aux" name = ""></span>
+                                    <input type="text" class="form-control" name="rs_link" id="rs_link" placeholder="Link o url de la nota" required>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-xs-10 form-group">
-                                    <label >Link aux </label>
-                                    <input type="text" class="form-control" name="nm_link_aux" id="nm_link_aux" placeholder="Link o url de la nota">
-                                </div>
-                            </div>
-
-                          
-=======
-                                    <input type="text" class="form-control" name="nm_link" id="nm_link" placeholder="Link o url de la nota" required>
-                                </div>
-                            </div>
-
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
                                     <label >Resumen de la Nota (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_nota" id="nm_nota" rows="5" cols="120" placeholder="Resumen de la nota periodistíca (4,000 carácteres)" required>
+                                    <textarea class="form-control" name="rs_nota" id="rs_nota" rows="5" cols="120" placeholder="Resumen de la nota (4,000 carácteres)" required>
                                     </textarea>
                                 </div>                                
                             </div>
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
                                     <label >Resumen de la Nota 2 (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_nota2" id="nm_nota2" rows="5" cols="120" placeholder="Resumen de la nota periodistíca 2 (4,000 carácteres)" required>
+                                    <textarea class="form-control" name="rs_nota2" id="rs_nota2" rows="5" cols="120" placeholder="Resumen de la nota 2 (4,000 carácteres)" required>
                                     </textarea>
                                 </div>                                
                             </div>
 
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
-<<<<<<< HEAD
-                                <label >Resumen de la Nota IA (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_ia" id="nm_ia" rows="5" cols="120" placeholder="Resumen de la nota periodistíca IA (4,000 carácteres)" required></textarea> 
-                                    <p id = "onPaidLoad"></p>
-                                </div>                                
-                            </div>
-
-                            <div class = "row">
-                                    <div class="col-md-12">
-                                        <button class = "" id = "airesponse" name = "airesponse">Crear</button>
-                                    </div>
-                            </div>
-
-=======
                                     <label >Resumen de la Nota IA (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_ia" id="nm_ia" rows="5" cols="120" placeholder="Resumen de la nota periodistíca IA (4,000 carácteres)" required>
+                                    <textarea class="form-control" name="rs_ia" id="rs_ia" rows="5" cols="120" placeholder="Resumen de la nota de red social IA (4,000 carácteres)" required>
                                     </textarea>
                                 </div>                                
                             </div>
 
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             <div class="row">
                                 <div class="col-xs-6 form-group">
                                     <label >Autor </label>
-                                    <input type="text" class="form-control" name="nm_autor" id="nm_autor" placeholder="Autor" required>
+                                    <input type="text" class="form-control" name="rs_autor" id="rs_autor" placeholder="Autor" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-xs-4 form-group">
-                                    <label >Medio informátivo  </label>
-                                    <select class="form-control m-bot15" name="medio_id" id="medio_id" required>
-                                        <option selected="true" disabled="disabled">Seleccionar medio </option>
-                                        @foreach($regmedios as $medio)
-                                            <option value="{{$medio->medio_id}}">{{Trim($medio->medio_desc)}}</option>
+                                    <label >Red social  </label>
+                                    <select class="form-control m-bot15" name="rs_id" id="rs_id" required>
+                                        <option selected="true" disabled="disabled">Seleccionar red social </option>
+                                        @foreach($regredes as $red)
+                                            <option value="{{$red->rs_id}}">{{Trim($red->rs_desc)}}</option>
                                         @endforeach
                                     </select>                                    
                                 </div>                       
                             </div>
-
-                            <div class="row">
-                                <div class="col-xs-2 form-group">
-                                    <label >Tipo de nota  </label>
-                                    <select class="form-control m-bot15" name="tipon_id" id="tipon_id" required>
-                                        <option selected="true" disabled="disabled">Seleccionar tipo de nota </option>
-                                        @foreach($regtiponota as $tipo)
-                                            <option value="{{$tipo->tipon_id}}">{{Trim($tipo->tipon_desc)}}</option>
-                                        @endforeach
-                                    </select>                                    
-                                </div>                       
-                            </div>                            
  
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Likes (Solo digitar número) </label>
+                                    <input required autocomplete="off" id="rs_likes" name="rs_likes" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="0">
+                                </div>
+                            </div>                            
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Reposteos (Solo digitar números) </label>
+                                    <input required autocomplete="off" id="rs_reposteos" name="rs_reposteos" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="0">
+                                </div>
+                            </div>                            
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Comentarios (Solo digitar números) </label>
+                                    <input required autocomplete="off" id="rs_comen" name="rs_comen" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="0">
+                                </div>
+                            </div>                            
+                            <div class="row">                                                                
+                                <div class="col-xs-2 form-group">
+                                    <label>Alcance (Solo digitar números) </label>
+                                    <input required autocomplete="off" id="rs_alcance" name="rs_alcance" min="0" max="999999999" class="form-control" type="decimal(9,0)" placeholder="Solo digitar números" value="0">
+                                </div>
+                            </div>                                                        
+
                              <div class="row">
                                 <div class="col-xs-2 form-group">
                                     <label >Calificación   </label>
-                                    <select class="form-control m-bot15" name="nm_calif" id="nm_calif" required>
+                                    <select class="form-control m-bot15" name="rs_calif" id="rs_calif" required>
                                         <option selected="true" disabled="disabled">Selecciona calificación</option>
                                         <option value="1">Positiva  </option>
                                         <option value="2">Neutra    </option>
@@ -183,7 +160,7 @@
                             <div class="row">
                                 <div class="col-md-12 offset-md-5">
                                     {!! Form::submit('Registrar',['class' => 'btn btn-success btn-flat pull-right']) !!}
-                                    <a href="{{route('vernotasper')}}" role="button" id="cancelar" class="btn btn-danger">Cancelar</a>
+                                    <a href="{{route('vernotasred')}}" role="button" id="cancelar" class="btn btn-danger">Cancelar</a>
                                 </div>                                
                             </div>                            
 
@@ -192,27 +169,17 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         </section>
     </div>
 
     <script src = "{{ asset('js/datepicker.js') }}"></script>
-    <script src = "{{ asset('js/openIAViewController.js') }}"></script>
 @endsection
 
 @section('request')
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<<<<<<< HEAD
-  
-=======
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\notaperRequest','#nuevanotaper') !!}
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
+    {!! JsValidator::formRequest('App\Http\Requests\notaredRequest','#nuevanotared') !!}
 @endsection
 
 @section('javascrpt')

@@ -114,11 +114,19 @@ Route::get('/', function () {
     Route::get('uadmon/{id}/Borrar','catuadmonController@actionBorrarUAdmon')->name('borraruadmon');    
     Route::get('uadmon/excel'      ,'catuadmonController@actionExportUAdmonExcel')->name('exportuadmonexcel');
     Route::get('uadmon/pdf'        ,'catuadmonController@actionExportUAdmonPdf')->name('exportuadmonpdf');    
+<<<<<<< HEAD
       
     //Notas periodísticas
     //Filtro de periodos 
     Route::get('nota/ver/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
     Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarRecepcion')->name('buscarrecepcion'); 
+=======
+           
+    //Notas periodísticas
+    //Filtro de periodos 
+    Route::get('nota/ver/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
+    Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper'); 
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     //Route::get('recepcion/buscar'      ,'recepcionController@actionBuscarRecepcion')->name('buscarrecepcion');
     //
     Route::get('nota/buscar'        ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper');    
@@ -132,6 +140,7 @@ Route::get('/', function () {
     Route::get('nota/pdf/{id}/{id2}','notaperiodisticaController@actionExportNotaperPDF')->name('exportnotaperpdf');
 
     Route::get('nota/edita1/{id}'   ,'notaperiodisticaController@actionEditarNotaper1')->name('editarnotaper1');
+<<<<<<< HEAD
     Route::put('nota/update1/{id}'  ,'notaperiodisticaController@actionActualizarNotaper1')->name('actualizarnotaper1');     
     
     Route::post('nota/nuevo/openia', 'notaperiodisticaController@openAIAPI')->name('openia');
@@ -170,6 +179,30 @@ Route::get('/', function () {
          
     Route::get('salida/periodo/{id}/editar1','remisionController@actionEditarSalidaFormato')->name('editarsalidaformato');
     Route::put('salida/periodo/{id}/update1','remisionController@actionActualizarPDF')->name('actualizarsalidaformato');     
+=======
+    Route::put('nota/update1/{id}'  ,'notaperiodisticaController@actionActualizarNotaper1')->name('actualizarnotaper1');        
+
+    Route::post('nota/nuevo/openia', 'notaperiodisticaController@openAIAPI');
+
+    //Notas de redes scoiales
+    //Filtro de periodos 
+    Route::get('notaredes/ver/{ANIO}'         ,'notaredesController@isWithYearAction')->name('verpernotared');
+    Route::get('notaredes/ver/buscar/{ANIO}'  ,'notaredesController@actionBuscarNotaper')->name('buscarnotaredper'); 
+    //Route::get('recepcion/buscar'      ,'recepcionController@actionBuscarRecepcion')->name('buscarrecepcion');
+    //
+    Route::get('notaredes/buscar'        ,'notaredesController@actionBuscarNotared')->name('buscarnotared');    
+    Route::get('notaredes/nuevo'         ,'notaredesController@actionNuevaNotared')->name('nuevanotared');
+    Route::post('notaredes/alta'         ,'notaredesController@actionAltanuevaNotared')->name('altanuevanotared');
+    Route::get('notaredes/ver'           ,'notaredesController@actionVerNotasred')->name('vernotasred');    
+    Route::get('notaredes/{id}/editar'   ,'notaredesController@actionEditarNotared')->name('editarnotared');
+    Route::put('notaredes/{id}/update'   ,'notaredesController@actionActualizarNotared')->name('actualizarnotared');
+    Route::get('notaredes/{id}/Borrar'   ,'notaredesController@actionBorrarNotared')->name('borrarnotared');
+    Route::get('notaredes/excel/{id}'    ,'notaredesController@actionExportNotaredesExcel')->name('exportnotaredesexcel');
+    Route::get('notaredes/pdf/{id}/{id2}','notaredesController@actionExportNotaredesPDF')->name('exportnotaredespdf');
+
+    Route::get('notaredes/edita1/{id}'   ,'notaredesController@actionEditarNotared1')->name('editarnotared1');
+    Route::put('notaredes/update1/{id}'  ,'notaredesController@actionActualizarNotared1')->name('actualizarnotared1');        
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     
     //Indicadores
     Route::get('indicador/ver/todos'        ,'indicadoresController@actionVerCumplimiento')->name('vercumplimiento');

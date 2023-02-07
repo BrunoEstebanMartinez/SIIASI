@@ -567,7 +567,11 @@ class catmediosController extends Controller
             $xproceso_id  =         6;
             $xfuncion_id  =      6002;
             $xtrx_id      =        47;       //Exportar a formato PDF
+<<<<<<< HEAD
             $id           =         0;
+=======
+             $id           =         0;
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             $regbitacora = regBitacoraModel::select('PERIODO_ID', 'PROGRAMA_ID', 'MES_ID', 'PROCESO_ID', 
                            'FUNCION_ID', 'TRX_ID', 'FOLIO', 'NO_VECES', 'FECHA_REG', 'IP', 'LOGIN', 
                            'FECHA_M', 'IP_M', 'LOGIN_M')

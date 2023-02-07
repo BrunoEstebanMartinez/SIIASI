@@ -1,5 +1,9 @@
 $(document).ready(function(){
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     $('#periodo').change(function (){
         $('#periodo option:selected').each(function (){
             setOption = $(this).val();
@@ -12,7 +16,11 @@ $(document).ready(function(){
                 }
         })
     })
+<<<<<<< HEAD
                
+=======
+              
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
   function inLiveQuery(todo = '', periodo){
         $.ajax({
             url: 'buscar/' + periodo,
@@ -24,7 +32,11 @@ $(document).ready(function(){
                success:function(data){
                var isData = $(data).find('tbody').html();
                console.log(isData);
+<<<<<<< HEAD
                $('tbody').html(isData);     
+=======
+               $('tbody').html(isData);
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             }
         })
     }
@@ -39,7 +51,11 @@ $(document).ready(function(){
             }
         })
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     $(document).on('keyup', '#isSearch', function(){
         var search = $(this).val();
         var anio = $('#cr_periodo').val();
@@ -48,6 +64,12 @@ $(document).ready(function(){
             }else{
                 var search = $(this).val('');
                 allDataQuery();
+<<<<<<< HEAD
             }
         });
+=======
+            }      
+        });
+
+>>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 });
