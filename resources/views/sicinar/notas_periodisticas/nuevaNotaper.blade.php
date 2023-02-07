@@ -19,13 +19,8 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>Menú
-<<<<<<< HEAD
-                <small> Gestión interna </small>                
-                <small> Notas periodísticas - Nueva</small>                
-=======
                 <small> Notas informativas </small>                
                 <small> Periodísticas - Nueva</small>                
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             </h1>
         </section>
 
@@ -79,26 +74,10 @@
                             <div class="row">
                                 <div class="col-xs-10 form-group">
                                     <label >Link </label>
-<<<<<<< HEAD
-                                    <input type="text" class="form-control" name="nm_link" id="nm_link" placeholder="Link o url de la nota">
-                                    <span id = "aux" name = ""></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-10 form-group">
-                                    <label >Link aux </label>
-                                    <input type="text" class="form-control" name="nm_link_aux" id="nm_link_aux" placeholder="Link o url de la nota">
-                                </div>
-                            </div>
-
-                          
-=======
                                     <input type="text" class="form-control" name="nm_link" id="nm_link" placeholder="Link o url de la nota" required>
                                 </div>
                             </div>
 
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
                                     <label >Resumen de la Nota (4,000 caracteres)</label>
@@ -116,27 +95,12 @@
 
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
-<<<<<<< HEAD
-                                <label >Resumen de la Nota IA (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="nm_ia" id="nm_ia" rows="5" cols="120" placeholder="Resumen de la nota periodistíca IA (4,000 carácteres)" required></textarea> 
-                                    <p id = "onPaidLoad"></p>
-                                </div>                                
-                            </div>
-
-                            <div class = "row">
-                                    <div class="col-md-12">
-                                        <button class = "" id = "airesponse" name = "airesponse">Crear</button>
-                                    </div>
-                            </div>
-
-=======
                                     <label >Resumen de la Nota IA (4,000 caracteres)</label>
                                     <textarea class="form-control" name="nm_ia" id="nm_ia" rows="5" cols="120" placeholder="Resumen de la nota periodistíca IA (4,000 carácteres)" required>
                                     </textarea>
                                 </div>                                
                             </div>
 
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                             <div class="row">
                                 <div class="col-xs-6 form-group">
                                     <label >Autor </label>
@@ -192,11 +156,6 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
         </section>
     </div>
 
@@ -207,12 +166,8 @@
 @section('request')
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<<<<<<< HEAD
-  
-=======
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     {!! JsValidator::formRequest('App\Http\Requests\notaperRequest','#nuevanotaper') !!}
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 @endsection
 
 @section('javascrpt')

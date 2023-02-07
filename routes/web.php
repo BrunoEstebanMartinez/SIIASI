@@ -114,19 +114,11 @@ Route::get('/', function () {
     Route::get('uadmon/{id}/Borrar','catuadmonController@actionBorrarUAdmon')->name('borraruadmon');    
     Route::get('uadmon/excel'      ,'catuadmonController@actionExportUAdmonExcel')->name('exportuadmonexcel');
     Route::get('uadmon/pdf'        ,'catuadmonController@actionExportUAdmonPdf')->name('exportuadmonpdf');    
-<<<<<<< HEAD
-      
-    //Notas periodísticas
-    //Filtro de periodos 
-    Route::get('nota/ver/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
-    Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarRecepcion')->name('buscarrecepcion'); 
-=======
            
     //Notas periodísticas
     //Filtro de periodos 
     Route::get('nota/ver/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
     Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper'); 
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     //Route::get('recepcion/buscar'      ,'recepcionController@actionBuscarRecepcion')->name('buscarrecepcion');
     //
     Route::get('nota/buscar'        ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper');    
@@ -140,46 +132,6 @@ Route::get('/', function () {
     Route::get('nota/pdf/{id}/{id2}','notaperiodisticaController@actionExportNotaperPDF')->name('exportnotaperpdf');
 
     Route::get('nota/edita1/{id}'   ,'notaperiodisticaController@actionEditarNotaper1')->name('editarnotaper1');
-<<<<<<< HEAD
-    Route::put('nota/update1/{id}'  ,'notaperiodisticaController@actionActualizarNotaper1')->name('actualizarnotaper1');     
-    
-    Route::post('nota/nuevo/openia', 'notaperiodisticaController@openAIAPI')->name('openia');
-    Route::post('nota/nuevo/openia/testing', 'notaperiodisticaController@openAIAPI')->name('testing');
-    //Turnar documentos a
-    Route::get('turnar/ver'           ,'turnarController@actionVerTurnar')->name('verturnar');
-    Route::get('turnar/buscar'        ,'turnarController@actionBuscarTurnar')->name('buscarturnar');    
-    Route::get('turnar/{id}/editar'   ,'turnarController@actionEditarTurnar')->name('editarturnar');
-    Route::put('turnar/{id}/update'   ,'turnarController@actionActualizarTurnar')->name('actualizarturnar');
-
-    //Atender o dar seguimiento a documentos de entrada
-    //Route::get('atender/nuevo'         ,'atenderrecepController@actionNuevaAtenrecep')->name('nuevaatenrecep');
-    //Route::post('atender/alta'         ,'atenderrecepController@actionAltaNuevaAtenrecep')->name('altanuevaatenrecep');
-    Route::get('atender/ver'           ,'atenderrecepController@actionVerAtenrecep')->name('veratenrecep');
-    Route::get('atender/buscar'        ,'atenderrecepController@actionBuscarAtenrecep')->name('buscaratenrecep');    
-    Route::get('atender/{id}/editar'   ,'atenderrecepController@actionEditarAtenrecep')->name('editaratenrecep');
-    Route::put('atender/{id}/update'   ,'atenderrecepController@actionActualizarAtenrecep')->name('actualizaratenrecep');
-    //Route::get('atender/{id}/Borrar'   ,'atenderrecepController@actionBorrarAtenrecep')->name('borraratenrecep');
-    //Route::get('atender/excel/{id}'    ,'atenderrecepController@actionExportAtenrecepExcel')->name('exportatenrecepexcel');
-    //Route::get('atender/pdf/{id}/{id2}','atenderrecepController@actionExportAtenrecepPDF')->name('exportatenreceppdf');
-
-    Route::get('atender/{id}/editar2'  ,'atenderrecepController@actionEditarAtenrecep2')->name('editaratenrecep2');
-    Route::put('atender/{id}/update2'  ,'atenderrecepController@actionActualizarAtenrecep2')->name('actualizaratenrecep2');    
-
-    //Documentos de salida
-    //Filtro de periodos 
-    Route::get('periodo/ver'                ,'periodosController@showModelFilter')->name('periodos');    
-
-    Route::get('salida/{ANIO}'              ,'remisionController@actionVerRemision')->name('versalida');
-    Route::get('salida/periodo/nuevo'       ,'remisionController@actionNuevaRemision')->name('nuevasalida');
-    Route::post('salida/periodo/alta'       ,'remisionController@actionAltaNuevaSalida')->name('altadesalida');
-    Route::get('salida/periodo/buscar'      ,'remisionController@actionBuscarSalida')->name('buscarsalida'); 
-    Route::get('salida/periodo/{id}/editar' ,'remisionController@actionEditarSalida')->name('editarsalida');
-    Route::put('salida/periodo/{id}/update' ,'remisionController@actionActualizarSalida')->name('actualizarsalida');
-    Route::get('salida/periodo/{id}/borrar' ,'remisionController@actionBorrarSalida')->name('borrarsalida');
-         
-    Route::get('salida/periodo/{id}/editar1','remisionController@actionEditarSalidaFormato')->name('editarsalidaformato');
-    Route::put('salida/periodo/{id}/update1','remisionController@actionActualizarPDF')->name('actualizarsalidaformato');     
-=======
     Route::put('nota/update1/{id}'  ,'notaperiodisticaController@actionActualizarNotaper1')->name('actualizarnotaper1');        
 
     Route::post('nota/nuevo/openia', 'notaperiodisticaController@openAIAPI');
@@ -202,7 +154,6 @@ Route::get('/', function () {
 
     Route::get('notaredes/edita1/{id}'   ,'notaredesController@actionEditarNotared1')->name('editarnotared1');
     Route::put('notaredes/update1/{id}'  ,'notaredesController@actionActualizarNotared1')->name('actualizarnotared1');        
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     
     //Indicadores
     Route::get('indicador/ver/todos'        ,'indicadoresController@actionVerCumplimiento')->name('vercumplimiento');

@@ -320,17 +320,10 @@ class notaperiodisticaController extends Controller
                            ->orderBy('NM_FOLIO'  ,'DESC')  
                            ->paginate(40);          
         }                        
-<<<<<<< HEAD
-        if($regnnotamedio->count() <= 0){
-            toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
-        }
-        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnnotamedio','regpersonal','regtema','histPeriodos','ANIO')); 
-=======
         if($regnotamedio->count() <= 0){
             toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
         return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','ANIO', 'regmedios', 'regtiponota')); 
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     }
 
     public function actionNuevaNotaper(){
