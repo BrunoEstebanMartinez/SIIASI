@@ -69,15 +69,31 @@ Route::get('/', function () {
     Route::get('actividad/excel'      ,'cattrxController@exportCatTrxExcel')->name('downloadtrx');
     Route::get('actividad/pdf'        ,'cattrxController@exportCatTrxPdf')->name('cattrxPDF');
 
-    //Secciones
-    Route::get('seccion/nueva'      ,'catseccionesController@actionNuevaSeccion')->name('nuevaseccion');
-    Route::post('seccion/alta'      ,'catseccionesController@actionAltaNuevaSeccion')->name('altanuevaseccion');
-    Route::get('seccion/ver/todos'  ,'catseccionesController@actionVerSeccion')->name('verseccion');
-    Route::get('seccion/{id}/editar','catseccionesController@actionEditarSeccion')->name('editarseccion');
-    Route::put('seccion/{id}/update','catseccionesController@actionActualizarSeccion')->name('actualizarseccion');
-    Route::get('seccion/{id}/Borrar','catseccionesController@actionBorrarSeccion')->name('borrarseccion');    
-    Route::get('seccion/excel'      ,'catseccionesController@actionExportSeccionExcel')->name('exportseccionexcel');
-    Route::get('seccion/pdf'        ,'catseccionesController@actionExportSeccionPdf')->name('exportseccionpdf');  
+    //Medios informativos
+    Route::get('mediosinf/nueva'       ,'catmediosController@actionNuevoMedio')->name('nuevomedio');
+    Route::post('mediosinf/alta'       ,'catmediosController@actionAltaNuevoMedio')->name('altanuevomedio');
+    Route::get('mediosinf/ver'         ,'catmediosController@actionVerMedio')->name('vermedio');
+    Route::get('mediosinf/{id}/editar' ,'catmediosController@actionEditarMedio')->name('editarmedio');
+    Route::put('mediosinf/{id}/update' ,'catmediosController@actionActualizarMedio')->name('actualizarmedio');
+    Route::get('mediosinf/{id}/Borrar' ,'catmediosController@actionBorrarMedio')->name('borrarmedio');    
+    Route::get('mediosinf/excel'       ,'catmediosController@actionExportMediosExcel')->name('exportmediosexcel');
+    Route::get('mediosinf/pdf'         ,'catmediosController@actionExportMediosPdf')->name('exportmediospdf');  
+
+    Route::get('mediosinf/edita1/{id}' ,'catmediosController@actionEditarMedio1')->name('editarmedio1');
+    Route::put('mediosinf/update1/{id}','catmediosController@actionActualizarMedio1')->name('actualizarmedio1');        
+
+    //Redes sociales
+    Route::get('redessoc/nueva'       ,'catredessocialesController@actionNuevaRed')->name('nuevared');
+    Route::post('redessoc/alta'       ,'catredessocialesController@actionAltaNuevaRed')->name('altanuevared');
+    Route::get('redessoc/ver'         ,'catredessocialesController@actionVerRedes')->name('verredes');
+    Route::get('redessoc/{id}/editar' ,'catredessocialesController@actionEditarRed')->name('editarred');
+    Route::put('redessoc/{id}/update' ,'catredessocialesController@actionActualizarRed')->name('actualizarred');
+    Route::get('redessoc/{id}/Borrar' ,'catredessocialesController@actionBorrarRed')->name('borrarred');    
+    Route::get('redessoc/excel'       ,'catredessocialesController@actionExportRedesExcel')->name('exportredesexcel');
+    Route::get('redessoc/pdf'         ,'catredessocialesController@actionExportRedesPdf')->name('exportredespdf');  
+
+    Route::get('redessoc/edita1/{id}' ,'catredessocialesController@actionEditarRed1')->name('editarred1');
+    Route::put('redessoc/update1/{id}','catredessocialesController@actionActualizarRed1')->name('actualizarred1'); 
 
     //Tematicas
     Route::get('tema/nueva'      ,'cattemasController@actionNuevoTema')->name('nuevotema');
@@ -98,33 +114,17 @@ Route::get('/', function () {
     Route::get('uadmon/{id}/Borrar','catuadmonController@actionBorrarUAdmon')->name('borraruadmon');    
     Route::get('uadmon/excel'      ,'catuadmonController@actionExportUAdmonExcel')->name('exportuadmonexcel');
     Route::get('uadmon/pdf'        ,'catuadmonController@actionExportUAdmonPdf')->name('exportuadmonpdf');    
-
-    //Padron de servidores públicos
-    Route::get('personal/nueva'       ,'personalController@actionNuevoPersonal')->name('nuevopersonal');
-    Route::post('personal/alta'       ,'personalController@actionAltaNuevoPersonal')->name('altanuevopersonal');
-    Route::get('personal/ver'         ,'personalController@actionVerPersonal')->name('verpersonal');
-    Route::get('personal/buscar/todas','personalController@actionBuscarPersonal')->name('buscarpersonal');    
-    Route::get('personal/{id}/editar' ,'personalController@actionEditarPersonal')->name('editarpersonal');
-    Route::put('personal/{id}/update' ,'personalController@actionActualizarPersonal')->name('actualizarpersonal');
-    Route::get('personal/{id}/Borrar' ,'personalController@actionBorrarPersonal')->name('borrarpersonal');
-    Route::get('personal/excel'       ,'personalController@actionExportPersonalExcel')->name('exportpersonalexcel');
-    Route::get('personal/pdf'         ,'personalController@actionExportPersonalPdf')->name('exportpersonalpdf');
-
-    //Municipios sedesem
-    Route::get('municipio/ver/todos','catalogosmunicipiosController@actionVermunicipios')->name('verMunicipios');
-    Route::get('municipio/excel'    ,'catalogosmunicipiosController@exportCatmunicipiosExcel')->name('downloadmunicipios');
-    Route::get('municipio/pdf'      ,'catalogosmunicipiosController@exportCatmunicipiosPdf')->name('catmunicipiosPDF');
-          
-    //Notas periodisticas
+           
+    //Notas periodísticas
     //Filtro de periodos 
     Route::get('nota/ver/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
-    Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarRecepcion')->name('buscarrecepcion'); 
+    Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper'); 
     //Route::get('recepcion/buscar'      ,'recepcionController@actionBuscarRecepcion')->name('buscarrecepcion');
     //
     Route::get('nota/buscar'        ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper');    
     Route::get('nota/nuevo'         ,'notaperiodisticaController@actionNuevaNotaper')->name('nuevanotaper');
-    Route::post('nota/alta'         ,'notaperiodisticaController@actionAltaNotaper')->name('altanuevanotaper');
-    Route::get('nota/ver'           ,'notaperiodisticaController@actionVerNotaper')->name('vernotaper');    
+    Route::post('nota/alta'         ,'notaperiodisticaController@actionAltanuevaNotaper')->name('altanuevanotaper');
+    Route::get('nota/ver'           ,'notaperiodisticaController@actionVerNotasper')->name('vernotasper');    
     Route::get('nota/{id}/editar'   ,'notaperiodisticaController@actionEditarNotaper')->name('editarnotaper');
     Route::put('nota/{id}/update'   ,'notaperiodisticaController@actionActualizarNotaper')->name('actualizarnotaper');
     Route::get('nota/{id}/Borrar'   ,'notaperiodisticaController@actionBorrarNotaper')->name('borrarnotaper');
@@ -134,40 +134,26 @@ Route::get('/', function () {
     Route::get('nota/edita1/{id}'   ,'notaperiodisticaController@actionEditarNotaper1')->name('editarnotaper1');
     Route::put('nota/update1/{id}'  ,'notaperiodisticaController@actionActualizarNotaper1')->name('actualizarnotaper1');        
 
-    //Turnar documentos a
-    Route::get('turnar/ver'           ,'turnarController@actionVerTurnar')->name('verturnar');
-    Route::get('turnar/buscar'        ,'turnarController@actionBuscarTurnar')->name('buscarturnar');    
-    Route::get('turnar/{id}/editar'   ,'turnarController@actionEditarTurnar')->name('editarturnar');
-    Route::put('turnar/{id}/update'   ,'turnarController@actionActualizarTurnar')->name('actualizarturnar');
+    Route::post('nota/nuevo/openia', 'notaperiodisticaController@openAIAPI');
 
-    //Atender o dar seguimiento a documentos de entrada
-    //Route::get('atender/nuevo'         ,'atenderrecepController@actionNuevaAtenrecep')->name('nuevaatenrecep');
-    //Route::post('atender/alta'         ,'atenderrecepController@actionAltaNuevaAtenrecep')->name('altanuevaatenrecep');
-    Route::get('atender/ver'           ,'atenderrecepController@actionVerAtenrecep')->name('veratenrecep');
-    Route::get('atender/buscar'        ,'atenderrecepController@actionBuscarAtenrecep')->name('buscaratenrecep');    
-    Route::get('atender/{id}/editar'   ,'atenderrecepController@actionEditarAtenrecep')->name('editaratenrecep');
-    Route::put('atender/{id}/update'   ,'atenderrecepController@actionActualizarAtenrecep')->name('actualizaratenrecep');
-    //Route::get('atender/{id}/Borrar'   ,'atenderrecepController@actionBorrarAtenrecep')->name('borraratenrecep');
-    //Route::get('atender/excel/{id}'    ,'atenderrecepController@actionExportAtenrecepExcel')->name('exportatenrecepexcel');
-    //Route::get('atender/pdf/{id}/{id2}','atenderrecepController@actionExportAtenrecepPDF')->name('exportatenreceppdf');
-
-    Route::get('atender/{id}/editar2'  ,'atenderrecepController@actionEditarAtenrecep2')->name('editaratenrecep2');
-    Route::put('atender/{id}/update2'  ,'atenderrecepController@actionActualizarAtenrecep2')->name('actualizaratenrecep2');    
-
-    //Documentos de salida
+    //Notas de redes scoiales
     //Filtro de periodos 
-    Route::get('periodo/ver'                ,'periodosController@showModelFilter')->name('periodos');    
+    Route::get('notaredes/ver/{ANIO}'         ,'notaredesController@isWithYearAction')->name('verpernotared');
+    Route::get('notaredes/ver/buscar/{ANIO}'  ,'notaredesController@actionBuscarNotaper')->name('buscarnotaredper'); 
+    //Route::get('recepcion/buscar'      ,'recepcionController@actionBuscarRecepcion')->name('buscarrecepcion');
+    //
+    Route::get('notaredes/buscar'        ,'notaredesController@actionBuscarNotared')->name('buscarnotared');    
+    Route::get('notaredes/nuevo'         ,'notaredesController@actionNuevaNotared')->name('nuevanotared');
+    Route::post('notaredes/alta'         ,'notaredesController@actionAltanuevaNotared')->name('altanuevanotared');
+    Route::get('notaredes/ver'           ,'notaredesController@actionVerNotasred')->name('vernotasred');    
+    Route::get('notaredes/{id}/editar'   ,'notaredesController@actionEditarNotared')->name('editarnotared');
+    Route::put('notaredes/{id}/update'   ,'notaredesController@actionActualizarNotared')->name('actualizarnotared');
+    Route::get('notaredes/{id}/Borrar'   ,'notaredesController@actionBorrarNotared')->name('borrarnotared');
+    Route::get('notaredes/excel/{id}'    ,'notaredesController@actionExportNotaredesExcel')->name('exportnotaredesexcel');
+    Route::get('notaredes/pdf/{id}/{id2}','notaredesController@actionExportNotaredesPDF')->name('exportnotaredespdf');
 
-    Route::get('salida/{ANIO}'              ,'remisionController@actionVerRemision')->name('versalida');
-    Route::get('salida/periodo/nuevo'       ,'remisionController@actionNuevaRemision')->name('nuevasalida');
-    Route::post('salida/periodo/alta'       ,'remisionController@actionAltaNuevaSalida')->name('altadesalida');
-    Route::get('salida/periodo/buscar'      ,'remisionController@actionBuscarSalida')->name('buscarsalida'); 
-    Route::get('salida/periodo/{id}/editar' ,'remisionController@actionEditarSalida')->name('editarsalida');
-    Route::put('salida/periodo/{id}/update' ,'remisionController@actionActualizarSalida')->name('actualizarsalida');
-    Route::get('salida/periodo/{id}/borrar' ,'remisionController@actionBorrarSalida')->name('borrarsalida');
-         
-    Route::get('salida/periodo/{id}/editar1','remisionController@actionEditarSalidaFormato')->name('editarsalidaformato');
-    Route::put('salida/periodo/{id}/update1','remisionController@actionActualizarPDF')->name('actualizarsalidaformato');     
+    Route::get('notaredes/edita1/{id}'   ,'notaredesController@actionEditarNotared1')->name('editarnotared1');
+    Route::put('notaredes/update1/{id}'  ,'notaredesController@actionActualizarNotared1')->name('actualizarnotared1');        
     
     //Indicadores
     Route::get('indicador/ver/todos'        ,'indicadoresController@actionVerCumplimiento')->name('vercumplimiento');

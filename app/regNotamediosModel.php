@@ -25,6 +25,7 @@ class regNotamediosModel extends Model
     'TIPON_DESC',
     'NM_AUTOR',
     'NM_CALIF',
+    'NM_CALIF_IA',
     'NM_FEC_NOTA',
     'NM_FEC_NOTA2',
     'NM_FEC_NOTA3',
@@ -57,53 +58,17 @@ class regNotamediosModel extends Model
     //***************************************// 
     public function scopeIddSal($query, $periodo)
     {
-        $periodo = strtoupper(Trim($periodo));
+        $periodo = Trim($periodo);
              
         if($periodo)
             return $query->where('PERIODO_ID', '=', "$periodo");             
     }     
 
     public function scopeIdTodo($query, $todo){
-        $todo = strtoupper(Trim($todo));          
+        $todo = Trim($todo);          
         if($todo)
-            return $query->where('ENT_NOFICIO', '=', "$todo")
-                        ->orwhere('ENT_DESTIN', 'LIKE', "%$todo%")
-                        ->orwhere('ENT_REMITEN','LIKE', "%$todo%")
-                        ->orwhere('ENT_ASUNTO', 'LIKE', "%$todo%");   
+            return $query->where('NM_TITULO','LIKE',"%$todo%");
     }
 
-    public function scopefPer($query, $fper)
-    {
-        if($fper)
-            return $query->orwhere('PERIODO_ID', '=', "$fper");
-    }
-    // Busca por numero de oficio
-    public function scopeIdd($query, $idd)
-    {
-        $idd = strtoupper(Trim($idd));          
-        if($idd)
-            return $query->orwhere('ENT_NOFICIO', 'LIKE', "%$idd%");
-    }    
-    // Busca por destinatario
-    public function scopeDesti($query, $desti)
-    {
-        $desti = strtoupper(Trim($desti));          
-        if($desti) 
-            return $query->orwhere('ENT_DESTIN', 'LIKE', "%$desti%");
-    } 
-    // Busca por remitente
-    public function scopeRemi($query, $remi)
-    {
-        $remi = strtoupper(Trim($remi));          
-        if($remi) 
-            return $query->orwhere('ENT_REMITEN', 'LIKE', "%$remi%");
-    }     
-    // Busca por asunto
-    public function scopeAsun($query, $asun)
-    {
-        $asun = strtoupper(Trim($asun));          
-        if($asun) 
-            return $query->orwhere('ENT_ASUNTO', 'LIKE', "%$asun%");
-    }     
-    
+
 }

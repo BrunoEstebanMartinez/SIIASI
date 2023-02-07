@@ -12,21 +12,21 @@ class regmediosModel extends Model
     public $incrementing = false;
     protected $fillable = [
         'MEDIO_ID',
-		'MEDIO_DESC,'
-		'MEDIO_LINK,'
-		'MEDIO_FOTO1,'
-		'MEDIO_FOTO2,'
-		'MEDIO_OBS1,'
-		'MEDIO_OBS2,'
-		'MEDIO_STATUS',
-		'FECREG'
+    'MEDIO_DESC',
+    'MEDIO_LINK',
+    'MEDIO_FOTO1',
+    'MEDIO_FOTO2',
+    'MEDIO_OBS1',
+    'MEDIO_OBS2',
+    'MEDIO_STATUS',
+    'FECREG'
     ];
 
-    public static function Unidades($id){
-        return dependenciasModel::select('DEPEN_ID','DEPEN_DESC')
-                                  ->where('DEPEN_ID','like','%211C04%')
-        						  ->where('ESTRUCGOB_ID','like','%'.$id.'%')
-                                  ->orderBy('DEPEN_ID','asc')
-                                  ->get();
+    public static function ObtMedio($id){
+        return (regmediosModel::select('MEDIO_DESC')
+                                  ->where('MEDIO_ID','=',$id)
+                                  ->get());
     }
+
+
 }

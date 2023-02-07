@@ -166,6 +166,7 @@ return [
         Yoeunes\Toastr\ToastrServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        
 
     ],
 
@@ -200,6 +201,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,        
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Http' => Illuminate\Support\Facades\Http::class,
         'Html' => Collective\Html\HtmlFacade::class,  
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,              
         'Lang' => Illuminate\Support\Facades\Lang::class,

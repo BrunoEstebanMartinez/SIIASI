@@ -1,0 +1,10 @@
+.input-icon-wrap {
+    display: flex;
+    flex-direction: row;
+  }
+
+  
+  .input-icon, .input-with-icon {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
