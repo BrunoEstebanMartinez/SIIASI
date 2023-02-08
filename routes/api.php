@@ -13,10 +13,4 @@ use Illuminate\Http\Request;
 |
 */
 
-<<<<<<< HEAD
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-=======
 Route::post('nota/nuevo/openia/{RESPONSE}', 'notaperiodisticaController@openAIAPI');
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b

@@ -58,66 +58,17 @@ class regNotamediosModel extends Model
     //***************************************// 
     public function scopeIddSal($query, $periodo)
     {
-<<<<<<< HEAD
-        $periodo = strtoupper(Trim($periodo));
-=======
         $periodo = Trim($periodo);
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
              
         if($periodo)
             return $query->where('PERIODO_ID', '=', "$periodo");             
     }     
 
     public function scopeIdTodo($query, $todo){
-<<<<<<< HEAD
-        $todo = strtoupper(Trim($todo));          
-        if($todo)
-            return $query->where( 'NM_FOLIO' ,'='   ,"$todo")
-                        ->orwhere('NM_TITULO','LIKE',"%$todo%")
-                        ->orwhere('NM_NOTA'  ,'LIKE',"%$todo%")
-                        ->orwhere('NM_AUTOR' ,'LIKE',"%$todo%");   
-    }
-
-    public function scopefPer($query, $fper)
-    {
-        if($fper)
-            return $query->orwhere('PERIODO_ID', '=', "$fper");
-    }
-    // Busca por numero de oficio
-    public function scopeIdd($query, $idd)
-    {
-        $idd = strtoupper(Trim($idd));          
-        if($idd)
-            return $query->orwhere('ENT_NOFICIO', 'LIKE', "%$idd%");
-    }    
-    // Busca por destinatario
-    public function scopeDesti($query, $desti)
-    {
-        $desti = strtoupper(Trim($desti));          
-        if($desti) 
-            return $query->orwhere('ENT_DESTIN', 'LIKE', "%$desti%");
-    } 
-    // Busca por remitente
-    public function scopeRemi($query, $remi)
-    {
-        $remi = strtoupper(Trim($remi));          
-        if($remi) 
-            return $query->orwhere('ENT_REMITEN', 'LIKE', "%$remi%");
-    }     
-    // Busca por asunto
-    public function scopeAsun($query, $asun)
-    {
-        $asun = strtoupper(Trim($asun));          
-        if($asun) 
-            return $query->orwhere('ENT_ASUNTO', 'LIKE', "%$asun%");
-    }     
-    
-=======
         $todo = Trim($todo);          
         if($todo)
             return $query->where('NM_TITULO','LIKE',"%$todo%");
     }
 
 
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 }

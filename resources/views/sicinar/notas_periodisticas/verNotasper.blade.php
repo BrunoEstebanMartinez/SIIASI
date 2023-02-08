@@ -20,22 +20,13 @@
 
     <div class="content-wrapper">
         <section class="content-header">
-<<<<<<< HEAD
-            <h1>Gestión Interna - Notas periodísticas -  
-=======
             <h1>Notas informativas - Periodísticas -  
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                 <small> Seleccionar para editar </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Menú</a></li>
-<<<<<<< HEAD
-                <li><a href="#">Gestión Interna     </a></li>   
-                <li><a href="#">Notas periodísticas </a></li>               
-=======
                 <li><a href="#">Notas informativas    </a></li>   
                 <li><a href="#">Periodísticas </a></li>               
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             </ol>
         </section>
         <section class="content">
@@ -60,17 +51,6 @@
                                             <input type="text" class = "form-control" name = "cr_periodo" id="cr_periodo" value = "{{ $ANIO }}" disabled>
                                         </div>  
 
-<<<<<<< HEAD
-                                        <div class="col-sm-1">
-                                                 {{ Form::text('todo', null, ['class' => 'form-control', 'id' => 'isSearch', 'placeholder' => 'asunto']) }}
-                                                 <span class="input-icon"><li class="fa fa-search"></li></span>
-                                            
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            <a href="{{route('nuevanotaper')}}" class="btn btn-primary btn_xs" title="Nueva nota periodística"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nueva nota</small>
-                                            </a>
-=======
                                         <div class="col-sm-5 ">
                                             <div class="input-icon-wrap">
                                             {{ Form::text('todo', null, ['class' => 'form-control', 'id' => 'isSearch', 'placeholder' => 'Por título, resumen, medio informativo y calificación']) }}
@@ -80,7 +60,6 @@
 
                                         <div class="col-sm-1">
                                             <a href="{{route('nuevanotaper')}}" class="btn btn-primary btn_xs" title="Nueva nota periodística"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nueva nota periodística</small></a>
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                                         </div>
                                 </div>  
                         </div>
@@ -133,11 +112,7 @@
                                                     @break 
                                                 @endif
                                             @endforeach
-<<<<<<< HEAD
-                                        </td>                                                            
-=======
                                         </td>                                                             
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                                         <td style="text-align:center;">  
                                             @switch($recep->nm_calif)
                                                 @case('1')
