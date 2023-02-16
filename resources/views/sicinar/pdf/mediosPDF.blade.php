@@ -37,10 +37,7 @@
                     @else
                         <th>-</th>  
                     @endif
-<<<<<<< HEAD
-=======
                     
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
                 </tr>
             @endforeach
         </tbody>

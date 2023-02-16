@@ -117,8 +117,24 @@ Route::get('/', function () {
            
     //Notas periodísticas
     //Filtro de periodos 
-    Route::get('nota/ver/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
-    Route::get('nota/ver/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper'); 
+    Route::get('nota/ver/fterAn/{ANIO}'         ,'notaperiodisticaController@isWithYearAction')->name('verper');
+    Route::get('nota/ver/fterTip/{TIPO}'         ,'notaperiodisticaController@isWithTipoNota')->name('verpertipo');
+    Route::get('nota/ver/fterMed/{MEDIO}'         ,'notaperiodisticaController@isWithMedioInfo')->name('verpermedio');
+
+    Route::get('nota/ver/fterAn/buscar/{ANIO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper'); 
+    Route::get('nota/ver/fterTip/buscar/{TIPO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotatipo');
+    Route::get('nota/ver/fterMed/buscar/{MEDIO}'  ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotamedio');
+
+    //Reportes: Menu de criterios
+
+    Route::get('nota/reporte/criterio', 'notaperiodisticaController@viewMenuCriterio')->name('menuRepNP');
+
+
+    //Reporte: Positivos, negativos y neutros
+
+    Route::get('nota/ver/filterPointer/PDF', 'notaperiodisticaController@loadADownPDF')->name('pointPDFCalif');
+
+    
     //Route::get('recepcion/buscar'      ,'recepcionController@actionBuscarRecepcion')->name('buscarrecepcion');
     //
     Route::get('nota/buscar'        ,'notaperiodisticaController@actionBuscarNotaper')->name('buscarnotaper');    

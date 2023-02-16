@@ -78,6 +78,13 @@
                                 </div>
                             </div>
 
+                            <div class="row" style = "display: none;">
+                                <div class="col-xs-10 form-group">
+                                    <label >aux </label>
+                                    <p name="aux" id="aux" required></p>
+                                </div>
+                            </div>
+
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
                                     <label >Resumen de la Nota (4,000 caracteres)</label>
@@ -100,6 +107,20 @@
                                     </textarea>
                                 </div>                                
                             </div>
+
+                            <div class = "row">
+                                    <div class="col-md-12">
+                                        <span class="badge badge-primary" id = "onPaidLoad"></span>
+                                    </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-info pull-right" id = "airesponse" >Generar</button>
+                                </div>
+                            </div>
+
+                        
 
                             <div class="row">
                                 <div class="col-xs-6 form-group">

@@ -39,7 +39,7 @@
                                                 <option selected = "true" value="0" disabled>Periodo</option>
                                                 @if(is_array($histPeriodos) || is_object($histPeriodos))
                                                     @foreach($histPeriodos as $periodos)
-                                                        <option value="{{ route('vernotasred',  $periodos -> periodo_id)}}">{{ $periodos -> periodo_id }}</option>
+                                                        <option value="{{ route('verpernotared',  $periodos -> periodo_id)}}">{{ $periodos -> periodo_id }}</option>
                                                     @endforeach
                                                 @endif
                                             </select> 
@@ -49,11 +49,12 @@
                                             <input type="text" class = "form-control" name = "cr_periodo" id="cr_periodo" value = "{{ $ANIO }}" disabled>
                                         </div>  
 
-                                        <div class="col-sm-1">
-                                                 {{ Form::text('todo', null, ['class' => 'form-control', 'id' => 'isSearch', 'placeholder' => 'asunto']) }}
-                                                 <span class="input-icon"><li class="fa fa-search"></li></span>
-                                            
-                                        </div>
+                                        <div class="col-sm-5 ">
+                                            <div class="input-icon-wrap">
+                                            {{ Form::text('todo', null, ['class' => 'form-control', 'id' => 'isSearch', 'placeholder' => 'Por título']) }}
+                                                    <span class="input-icon"><li class="fa fa-search"></li></span>
+                                            </div>              
+                                        </div> 
 
                                         <div class="col-sm-2">
                                             <a href="{{route('nuevanotared')}}" class="btn btn-primary btn_xs" title="Nueva nota de red social"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nueva nota</small>

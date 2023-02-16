@@ -74,7 +74,14 @@
                             <div class="row">
                                 <div class="col-xs-10 form-group">
                                     <label >Link </label>
-                                    <input type="text" class="form-control" name="rs_link" id="rs_link" placeholder="Link o url de la nota" required>
+                                    <input type="text" class="form-control" name="nm_link" id="nm_link" placeholder="Link o url de la nota" required>
+                                </div>
+                            </div>
+
+                            <div class="row" style = "display: none;">
+                                <div class="col-xs-10 form-group">
+                                    <label >aux </label>
+                                    <p name="aux" id="aux" required></p>
                                 </div>
                             </div>
 
@@ -96,9 +103,21 @@
                             <div class="row">                               
                                 <div class="col-md-12 offset-md-5">
                                     <label >Resumen de la Nota IA (4,000 caracteres)</label>
-                                    <textarea class="form-control" name="rs_ia" id="rs_ia" rows="5" cols="120" placeholder="Resumen de la nota de red social IA (4,000 carácteres)" required>
+                                    <textarea class="form-control" name="nm_ia" id="nm_ia" rows="5" cols="120" placeholder="Resumen de la nota de red social IA (4,000 carácteres)" required>
                                     </textarea>
                                 </div>                                
+                            </div>
+
+                            <div class = "row">
+                                    <div class="col-md-12">
+                                        <span class="badge badge-primary" id = "onPaidLoad"></span>
+                                    </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-info pull-right" id = "airesponse" >Generar</button>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -173,6 +192,7 @@
     </div>
 
     <script src = "{{ asset('js/datepicker.js') }}"></script>
+    <script src = "{{ asset('js/openIAViewController.js') }}"></script>
 @endsection
 
 @section('request')

@@ -26,12 +26,7 @@ class regNotaredsocialModel extends Model
     'RS_REPOSTEOS',
     'RS_COMEN',
     'RS_ALCANCE',
-<<<<<<< HEAD
-    'RS_CALIF',
-    'RS_CALIF_IA',
-=======
     'RS_CALIF',  
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
     'RS_FEC_NOTA',
     'RS_FEC_NOTA2',
     'RS_FEC_NOTA3',
@@ -58,66 +53,21 @@ class regNotaredsocialModel extends Model
     'LOGIN_M'
     ];
 
-    public function scopefPerSal($query, $fpersal)
-    {
-        if($fpersal)
-            return $query->orwhere('PERIODO_ID', 'LIKE', "%$fpersal%");
-    }
-    // Busca por numero de oficio
-    public function scopeIddSal($query, $periodo, $arbol)
-    {
-        $periodo = strtoupper(Trim($periodo));
-        $arbol = strtoupper(Trim($arbol));          
-        if($periodo and $arbol)
-            return $query->where('PERIODO_ID', '=', "$periodo",'AND','CVE_SP', '=', "$arbol");             
-    }     
  
+
+    public function scopeIddSal($query, $periodo)
+    {
+        $periodo = Trim($periodo);
+             
+        if($periodo)
+            return $query->where('PERIODO_ID', '=', "$periodo");             
+    }     
+
     public function scopeIdTodo($query, $todo){
-        $todo = strtoupper(Trim($todo));          
+        $todo = Trim($todo);          
         if($todo)
-            return $query->where('SAL_NOFICIO', '=', "$todo");   
+            return $query->where('RS_TITULO','LIKE',"%$todo%");
     }
 
-    // Busca por destinatario
-    public function scopeDestiSal($query, $destisal)
-    {
-        $destisal = strtoupper(Trim($destisal));          
-        if($destisal) 
-            return $query->orwhere('SAL_DESTIN', 'LIKE', "%$destisal%");
-    } 
-    // Busca por remitente
-    public function scopeRemiSal($query, $remisal)
-    {
-        $remisal = strtoupper(Trim($remisal));          
-        if($remisal) 
-            return $query->orwhere('SAL_REMITEN', 'LIKE', "%$remisal%");
-    }     
-    // Busca por asunto
-    public function scopeAsunSal($query, $asunsal)
-    {
-        $asunsal = strtoupper(Trim($asunsal));          
-        if($asunsal) 
-            return $query->orwhere('SAL_ASUNTO', 'LIKE', "%$asunsal%");
-    }     
 
-    public function scopeEscanSal($query, $escansal){
-        $escansal = strtoupper(trim($escansal));
-        if($escansal){
-            return $query->orwhere('SAL_DOCHIS', 'LIKE', "%$escansal");
-        }
-    }
-
-    public function scopeExpArchSal($query, $exparchsal){
-        $exparchsal = strtoupper(trim($exparchsal));
-        if($exparchsal){
-            return $query->orwhere('SAL_OBS1', 'LIKE', "%$exparchsal");
-        }
-    }
-
-    public function scopeRespNoSal($query, $respnosal){
-        $respnosal = strtoupper(trim($respnosal));
-        if($respnosal){
-            return $query->orwhere('SAL_OBS2', 'LIKE', "%$respnosal");
-        }
-    }
 }

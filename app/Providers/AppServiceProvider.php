@@ -15,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
          View::share('ANIO');
+         View::share('MEDIO');
+         View::share('TIPO');
          View::share('histPeriodos');
          View::share('responseAI');
          View::share('link');

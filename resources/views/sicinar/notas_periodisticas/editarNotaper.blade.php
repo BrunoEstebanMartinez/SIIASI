@@ -20,13 +20,8 @@
         <section class="content-header">
             <h1>
                 Menú
-<<<<<<< HEAD
-                <small> Gestión interna   </small>                
-                <small> Notas periodísticas - editar </small>           
-=======
                 <small> Notas informativas   </small>                
                 <small> Periodísticas - editar </small>           
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
             </h1>
         </section>
         <section class="content">
@@ -86,6 +81,14 @@
                                 </div>
                             </div>
 
+                            <div class="row" style = "display: none;">
+                                <div class="col-xs-10 form-group">
+                                    <label >aux </label>
+                                    <p name="aux" id="aux" required></p>
+                                </div>
+                            </div>
+
+
                             <div class="row">
                                 <div class="col-xs-12 form-group">
                                     <label >Resumen de la Nota (4,000 caracteres)</label>
@@ -107,7 +110,23 @@
                                     <textarea class="form-control" name="nm_ia" id="nm_ia" rows="4" cols="120" placeholder="Resumen de la Nota IA (4,000 caracteres)" required>{{Trim($regnotamedio->nm_ia)}}
                                     </textarea>
                                 </div>                                
-                            </div>         
+                            </div>    
+                            
+                            
+                            <div class = "row">
+                                    <div class="col-md-12">
+                                        <span class="badge badge-primary" id = "onPaidLoad"></span>
+                                    </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-info pull-right" id = "airesponse" >Generar</button>
+                                </div>
+                            </div>
+
+
+
                             <div class="row">
                                 <div class="col-xs-6 form-group">
                                     <label >Autor </label>
@@ -195,6 +214,7 @@
         </section>
     </div>
     <script src = "{{ asset('js/datepicker.js') }}"></script>
+    <script src = "{{ asset('js/openIAViewController.js') }}"></script>
 @endsection
 
 @section('request')

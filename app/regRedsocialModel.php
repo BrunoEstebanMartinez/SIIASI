@@ -21,8 +21,6 @@ class regRedsocialModel extends Model
         'RS_STATUS',
         'FECREG'
     ];
-<<<<<<< HEAD
-=======
 
     public static function ObtRed($id){
         return (regRedsocialModel::select('RS_DESC')
@@ -30,5 +28,4 @@ class regRedsocialModel extends Model
                                   ->get());
     }
     
->>>>>>> 16305e8a577e18fdc3bf29ddadcab125d75cea1b
 }

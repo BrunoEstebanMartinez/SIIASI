@@ -30,6 +30,38 @@
             </ol>
         </section>
         <section class="content">
+
+
+                        <div class="row">
+                            <div class = "col-md-12">
+                                <div class="box">
+                                    <div class="page-header" style="text-align:right;">
+                                        <div class="form-group row columns-list " style = "padding: 20px 10px 5px 20px;">
+                                    
+                                        
+                                <div class = "col-sm-2 ">
+                                           
+                                           <input class = "form-control" type="date" id="datepickerInit" name = "datepickerInit">
+                                        </div>
+
+                                   <div class = "col-sm-2 ">
+                                        <input class = "form-control" type="date" id="datepickerFin" name = "datepickerFin">
+                                   </div>
+
+
+                                       
+
+                                       <div class = "col-sm-1">
+                                               <a href = "{{ route('pointPDFCalif', ['download' => 'pdf']) }}" role = "button" class="btn btn-danger btn-sm">PDF</a>
+                                       </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="box">
@@ -46,23 +78,65 @@
                                                 @endif
                                             </select> 
                                         </div>
-                                   
+
                                         <div class="col-sm-1">
-                                            <input type="text" class = "form-control" name = "cr_periodo" id="cr_periodo" value = "{{ $ANIO }}" disabled>
+                                            <select name="medio" id="medio" class="form-control">
+                                                <option selected = "true" value="0" disabled>Medio</option>
+                                                @if(is_array($regmedioFilter) || is_object($regmedioFilter))
+                                                    @foreach($regmedioFilter as $medios)
+                                                        <option value="{{ route('verpermedio',  $medios -> medio_desc)}}">{{ $medios -> medio_desc }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select> 
+                                        </div>
+                                        
+                                        
+                                        <div class="col-sm-1">
+                                            <select name="tipo" id="tipo" class="form-control">
+                                                <option selected = "true" value="0" disabled>Tipo</option>
+                                                @if(is_array($regtiponota) || is_object($regtiponota))
+                                                    @foreach($regtiponota as $tipos)
+                                                        <option value="{{ route('verpertipo',  $tipos -> tipon_desc)}}">{{ $tipos -> tipon_desc }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select> 
+                                        </div>
+
+
+                                   
+                                   
+                                        <div class="col-sm-1" style = "display: none;">
+                                            <input type="text" class = "form-control"  name = "cr_periodo" id="cr_periodo" value = "{{ $ANIO }}" disabled>
                                         </div>  
 
-                                        <div class="col-sm-5 ">
+                                        <div class="col-sm-1" style = "display: none;">
+                                            <input type="text" class = "form-control"  name = "cr_medio" id="cr_medio" value = "{{ $MEDIO }}" disabled>
+                                        </div>
+
+                                        <div class="col-sm-1" style = "display: none;">
+                                            <input type="text" class = "form-control"  name = "cr_tipo" id="cr_tipo" value = "{{ $TIPO }}" disabled>
+                                        </div>
+
+                                        <div class = "col-sm-1"> 
+                                            <button class = "btn btn-primary btn-sm" id = "filter">Aplicar</button>
+                                        </div>
+
+                                        
+                                        <div class="col-sm-3 ">
                                             <div class="input-icon-wrap">
-                                            {{ Form::text('todo', null, ['class' => 'form-control', 'id' => 'isSearch', 'placeholder' => 'Por título, resumen, medio informativo y calificación']) }}
+                                            {{ Form::text('todo', null, ['class' => 'form-control', 'id' => 'isSearch', 'placeholder' => 'Por título']) }}
                                                     <span class="input-icon"><li class="fa fa-search"></li></span>
                                             </div>              
                                         </div> 
 
+
                                         <div class="col-sm-1">
-                                            <a href="{{route('nuevanotaper')}}" class="btn btn-primary btn_xs" title="Nueva nota periodística"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nueva nota periodística</small></a>
+                                            <a href="{{route('nuevanotaper')}}" class="btn btn-primary btn_xs pull-right" title="Nuevo"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nuevo</small></a>
                                         </div>
                                 </div>  
                         </div>
+
+                        
                                
                         <div class="box-body">
                             <table id="tabla1" class="table table-hover table-striped">
@@ -143,7 +217,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {!! $regnotamedio->appends(request()->input())->links() !!}
+                            <div id = "appends">
+                            {!! $regnotamedio->appends(request()->input())->links() !!}     
+                            </div>
+                           
                         </div>
                     </div>
                 </div>

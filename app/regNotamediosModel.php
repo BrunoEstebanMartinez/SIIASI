@@ -62,12 +62,32 @@ class regNotamediosModel extends Model
              
         if($periodo)
             return $query->where('PERIODO_ID', '=', "$periodo");             
-    }     
+    } 
+
+    public function scopeIdMedio($query, $medio){
+
+        $medio = Trim($medio);
+
+        if($medio)
+            return $query->where('MEDIO_DESC', $medio);
+    }
+
+
+    public function scopeIdTipo($query, $tipo){
+
+        $tipo = Trim($tipo);
+
+        if($tipo)
+            return $query->where('TIPON_DESC', $tipo);
+        
+
+    }
 
     public function scopeIdTodo($query, $todo){
         $todo = Trim($todo);          
         if($todo)
-            return $query->where('NM_TITULO','LIKE',"%$todo%");
+            return $query->where('NM_TITULO','LIKE',"%$todo%")
+                            ->orwhere('MEDIO_DESC', 'LIKE', "%$todo%");
     }
 
 

@@ -16,8 +16,9 @@ $(document).ready(function(){
 
   function responseOpenO(VALUE){
 
-	const tokenApi = "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";
-	const max_tokens = 3625;
+	tokenApi = "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";
+	max_tokens = 3625;
+
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43,7 +44,7 @@ $(document).ready(function(){
 
 
 		beforeSend: function(){
-				$('#onPaidLoad').html("...");
+				$('#onPaidLoad').html("Cargando...");
 				console.log('Is Working');
 		},
 
@@ -53,9 +54,7 @@ $(document).ready(function(){
 
 				responseAI = data["choices"][0]["text"];
 				$("#nm_ia").val(responseAI);
-				console.log(TEST + " " + responseAI);
-				
-			
+				console.log(TEST + " " + responseAI);	
 		},
 
 		complete: function(){
@@ -66,6 +65,7 @@ $(document).ready(function(){
 	});
 
   }
+
      
 
 

@@ -28,11 +28,181 @@ use App\Exports\ExportNotasperExcel;
 use Maatwebsite\Excel\Facades\Excel;
 // Exportar a pdf
 use PDF;
+use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 //use Options;
 
 class notaperiodisticaController extends Controller
 {
+
+
+    private $filterFlag = [
+        "perPeriodo" => 1,
+        "perTipo"   => 3,
+        "perMedio"  => 2
+    ];
+
+
+    public function filterInputs(Request $select){
+
+            $flag;
+
+            switch($select){
+
+                case isset($select->periodo):
+                    $flag = $this -> filterFlag["perPeriodo"];
+                        return $this -> filterStatement($flag);
+
+                break;
+
+                case isset($select->medio):
+
+                    $flag = $this -> filterFlag["perMedio"];
+                        return $this -> filterStatement($flag);
+                            break;
+
+                case isset($select->tipo):
+
+                        $flag = $this -> filterFlag["perTipo"];
+                            return $this -> filterStatement($flag);
+                                break;
+            }
+    }
+
+    public function filterStatement($flag){
+
+
+         $nombre       = session()->get('userlog');
+         $pass         = session()->get('passlog');
+         if($nombre == NULL AND $pass == NULL){
+             return view('sicinar.login.expirada');
+         }
+         $usuario      = session()->get('usuario');
+         $rango        = session()->get('rango');
+         $ip           = session()->get('ip');
+         $arbol_id     = session()->get('arbol_id');   
+         $depen_id     = session()->get('depen_id');     
+ 
+         $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
+                         ->orderBy('TEMA_ID','asc')
+                         ->get(); 
+         $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
+                         ->get();  
+         $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
+                         ->get();      
+         $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
+                         ->get();           
+         $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+                         ->DISTINCT()
+                         ->GET(); 
+ 
+          $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                         ->get();  
+ 
+                         $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                         ->DISTINCT()
+                         ->GET();                 
+ 
+         $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                         ->get();
+                         
+        
+
+
+            switch($flag){
+
+                case 1:
+
+                    if(session()->get('rango') !== '0'){  
+                        //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+                        //              ->get(); 
+                        $regnotamedio= regNotamediosModel::select('*')
+                                       ->where(  'PERIODO_ID',$state) 
+                                       ->orderBy('PERIODO_ID','DESC')
+                                       ->orderBy('NM_FOLIO'  ,'DESC')
+                                       ->paginate(40);
+                       
+                    }else{                  
+                        //$regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+                        //               ->where('UADMON_ID',$depen_id)
+                        //               ->get();  
+                        $regnotamedio= regNotamediosModel::select('*')
+                                       ->where(  'PERIODO_ID'  ,$state) 
+                                       //->where('UADMON_ID' ,$depen_id)            
+                                       ->orderBy('PERIODO_ID','DESC')
+                                       ->orderBy('NM_FOLIO'  ,'DESC')  
+                                       ->paginate(40);          
+                    }                        
+                    if($regnotamedio->count() <= 0){
+                        toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                    }
+                    return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','ANIO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
+
+                    break;
+                    
+                case 2: 
+
+                    if(session()->get('rango') !== '0'){  
+                            
+                        $regnotamedio= regNotamediosModel::select('*')
+                                    ->where('MEDIO_DESC', 'LIKE',"%$MEDIO%") 
+                                    ->orderBy('PERIODO_ID','DESC')
+                                    ->orderBy('NM_FOLIO'  ,'DESC')
+                                    ->paginate(40);
+                    
+                    }else{                  
+                    
+                        $regnotamedio= regNotamediosModel::select('*')
+                                    ->where('MEDIO_DESC', 'LIKE', "%$MEDIO%") 
+                                    //->where('UADMON_ID' ,$depen_id)            
+                                    ->orderBy('PERIODO_ID','DESC')
+                                    ->orderBy('NM_FOLIO'  ,'DESC')  
+                                    ->paginate(40);          
+                    }                        
+                    if($regnotamedio->count() <= 0){
+
+                        toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                    
+                    }
+
+                    return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','MEDIO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
+                
+
+                    break;
+                
+                case 3: 
+                    
+                    
+                    if(session()->get('rango') !== '0'){  
+                            
+                        $regnotamedio= regNotamediosModel::select('*')
+                                    ->where('TIPON_DESC', 'LIKE',"%$TIPO%") 
+                                    ->orderBy('PERIODO_ID','DESC')
+                                    ->orderBy('NM_FOLIO'  ,'DESC')
+                                    ->paginate(40);
+                    
+                    }else{                  
+                    
+                        $regnotamedio= regNotamediosModel::select('*')
+                                    ->where('TIPON_DESC', 'LIKE', "%$TIPO%") 
+                                    //->where('UADMON_ID' ,$depen_id)            
+                                    ->orderBy('PERIODO_ID','DESC')
+                                    ->orderBy('NM_FOLIO'  ,'DESC')  
+                                    ->paginate(40);          
+                    }                        
+                    if($regnotamedio->count() <= 0){
+
+                        toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                    
+                    }
+
+                    return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','MEDIO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
+                
+               
+
+                    break;
+            }
+    }
 
                 private $models = [
                 
@@ -144,6 +314,11 @@ class notaperiodisticaController extends Controller
 
             }
 
+
+    public function actionCreateAPdf(Request $request){
+        
+    }
+
     public function actionBuscarNotaper(Request $request)
     {
         $nombre       = session()->get('userlog');
@@ -168,13 +343,14 @@ class notaperiodisticaController extends Controller
         $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
                         ->get();    
         $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
-                        ->get();  
-        //**************************************************************//
-        // ***** busqueda https://github.com/rimorsoft/Search-simple ***//
-        // ***** video https://www.youtube.com/watch?v=bmtD9GUaszw   ***//                            
-        //**************************************************************//       
+                        ->get();     
+        $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                        ->DISTINCT()
+                        ->GET();  
         $todo      = $request->get('todo');  
         $periodo   = $request->get('periodo');
+        $medio     = $request->get('medio');
+        $tipo      = $request->get('tipo');
         $arbol      =$request->get('arbol'); 
 
         if(session()->get('rango') !== '0'){    
@@ -185,6 +361,8 @@ class notaperiodisticaController extends Controller
                             ->orderBy('PERIODO_ID','DESC')
                             ->orderBy('NM_FOLIO'  ,'DESC')
                             ->iddSal($periodo)
+                            ->idMedio($medio)
+                            ->idTipo($tipo)
                             ->idTodo($todo)  
                             ->paginate(40); 
         }else{
@@ -196,13 +374,15 @@ class notaperiodisticaController extends Controller
                             ->orderBy('PERIODO_ID','DESC')   
                             ->orderBy('NM_FOLIO'  ,'DESC')                          
                             ->iddSal($periodo)
+                            ->idMedio($medio)
+                            ->idTipo($tipo)
                             ->idTodo($todo) 
                             ->paginate(40);   
         }                                                                          
         if($regnotamedio->count() <= 0){
             toastr()->error('No existen nota periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }            
-        return view('sicinar.notas_periodisticas.verNotasper', compact('nombre','usuario','regperiodos','regmeses','regdias','regnotamedio','regtiponota','regtemas','regmedios'));
+        return view('sicinar.notas_periodisticas.verNotasper', compact('nombre','usuario','regperiodos','regmeses','regdias','regnotamedio','regtiponota','regtemas','regmedios', 'regmedioFilter'));
     }
 
     public function actionVerNotasper(){
@@ -232,7 +412,11 @@ class notaperiodisticaController extends Controller
                         ->get();                          
         $histPeriodos = regNotamediosModel::select('PERIODO_ID')
                         ->DISTINCT()
-                        ->GET();                   
+                        ->GET();
+                        
+        $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                        ->DISTINCT()
+                        ->GET();  
         //********* Validar rol de usuario **********************/
         if(session()->get('rango') !== '0'){  
             //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
@@ -260,7 +444,7 @@ class notaperiodisticaController extends Controller
         if($regnotamedio->count() <= 0){
             toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regtiponota','regtemas','histPeriodos','regmedios','regnotamedio')); 
+        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regtiponota','regtemas','histPeriodos','regmedios','regnotamedio', 'regmedioFilter')); 
     }
 
     public function isWithYearAction($ANIO){
@@ -291,9 +475,13 @@ class notaperiodisticaController extends Controller
          $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
                         ->get();  
 
+                        $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                        ->DISTINCT()
+                        ->GET();                 
+
         $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
                         ->get();                                           
-        //********* Validar rol de usuario **********************/
+ 
         if(session()->get('rango') !== '0'){  
             //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
             //              ->get(); 
@@ -301,7 +489,7 @@ class notaperiodisticaController extends Controller
                             'MEDIO_ID','MEDIO_DESC','TIPON_ID','TIPON_DESC','NM_AUTOR','NM_CALIF','NM_CALIF_IA','NM_FEC_NOTA','NM_FEC_NOTA2','NM_FEC_NOTA3',
                             'PERIODO_ID1','MES_ID1','DIA_ID1','TEMA_ID','TEMA_DESC','NM_FOTO1','NM_FOTO2','NM_FOTO3','NM_FOTO4','NM_OBS1','NM_OBS2',
                             'NM_STATUS1','NM_STATUS2','FECHA_REG','FECHA_REG2','IP','LOGIN','FECHA_M','FECHA_M2','IP_M','LOGIN_M')
-                           ->where(  'PERIODO_ID'  ,$ANIO) 
+                           ->where(  'PERIODO_ID',$ANIO) 
                            ->orderBy('PERIODO_ID','DESC')
                            ->orderBy('NM_FOLIO'  ,'DESC')
                            ->paginate(40);
@@ -323,8 +511,310 @@ class notaperiodisticaController extends Controller
         if($regnotamedio->count() <= 0){
             toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
         }
-        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','ANIO', 'regmedios', 'regtiponota')); 
+        return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','ANIO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
     }
+
+                        public function isWithMedioInfo($MEDIO){
+                            $nombre       = session()->get('userlog');
+                            $pass         = session()->get('passlog');
+                            if($nombre == NULL AND $pass == NULL){
+                                return view('sicinar.login.expirada');
+                            }
+                            $usuario      = session()->get('usuario');
+                            $rango        = session()->get('rango');
+                            $ip           = session()->get('ip');
+                            $arbol_id     = session()->get('arbol_id');   
+                            $depen_id     = session()->get('depen_id');     
+
+                            $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
+                                            ->orderBy('TEMA_ID','asc')
+                                            ->get(); 
+                            $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
+                                            ->get();  
+                            $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
+                                            ->get();      
+                            $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
+                                            ->get();           
+                            $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+                                            ->DISTINCT()
+                                            ->GET(); 
+
+                            $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                                            ->get(); 
+                                            
+                            $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                                            ->DISTINCT()
+                                            ->GET();               
+
+                            $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                                            ->get();                                           
+                    
+                            if(session()->get('rango') !== '0'){  
+                            
+                                $regnotamedio= regNotamediosModel::select('*')
+                                            ->where('MEDIO_DESC', 'LIKE',"%$MEDIO%") 
+                                            ->orderBy('PERIODO_ID','DESC')
+                                            ->orderBy('NM_FOLIO'  ,'DESC')
+                                            ->paginate(40);
+                            
+                            }else{                  
+                            
+                                $regnotamedio= regNotamediosModel::select('*')
+                                            ->where('MEDIO_DESC', 'LIKE', "%$MEDIO%") 
+                                            //->where('UADMON_ID' ,$depen_id)            
+                                            ->orderBy('PERIODO_ID','DESC')
+                                            ->orderBy('NM_FOLIO'  ,'DESC')  
+                                            ->paginate(40);          
+                            }                        
+                            if($regnotamedio->count() <= 0){
+
+                                toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                            
+                            }
+
+                            return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','MEDIO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
+                        
+                        }
+
+                        public function isWithTipoNota($TIPO){
+                            $nombre       = session()->get('userlog');
+                            $pass         = session()->get('passlog');
+                            if($nombre == NULL AND $pass == NULL){
+                                return view('sicinar.login.expirada');
+                            }
+                            $usuario      = session()->get('usuario');
+                            $rango        = session()->get('rango');
+                            $ip           = session()->get('ip');
+                            $arbol_id     = session()->get('arbol_id');   
+                            $depen_id     = session()->get('depen_id');     
+
+                            $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
+                                            ->orderBy('TEMA_ID','asc')
+                                            ->get(); 
+                            $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
+                                            ->get();  
+                            $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
+                                            ->get();      
+                            $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
+                                            ->get();           
+                            $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+                                            ->DISTINCT()
+                                            ->GET(); 
+
+                            $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                                            ->get(); 
+                                            
+                            $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                                            ->DISTINCT()
+                                            ->GET();               
+
+                            $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                                            ->get();                                           
+                    
+                            if(session()->get('rango') !== '0'){  
+                            
+                                $regnotamedio= regNotamediosModel::select('*')
+                                            ->where('TIPON_DESC', 'LIKE',"%$TIPO%") 
+                                            ->orderBy('PERIODO_ID','DESC')
+                                            ->orderBy('NM_FOLIO'  ,'DESC')
+                                            ->paginate(40);
+                            
+                            }else{                  
+                            
+                                $regnotamedio= regNotamediosModel::select('*')
+                                            ->where('TIPON_DESC', 'LIKE', "%$TIPO%") 
+                                            //->where('UADMON_ID' ,$depen_id)            
+                                            ->orderBy('PERIODO_ID','DESC')
+                                            ->orderBy('NM_FOLIO'  ,'DESC')  
+                                            ->paginate(40);          
+                            }                        
+                            if($regnotamedio->count() <= 0){
+
+                                toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                            
+                            }
+
+                            return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','TIPO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
+                        
+                        }   
+                        
+                        
+                        public function isWithFilterCrit($ANIO, $MEDIO, $TIPO){
+                            $nombre       = session()->get('userlog');
+                            $pass         = session()->get('passlog');
+                            if($nombre == NULL AND $pass == NULL){
+                                return view('sicinar.login.expirada');
+                            }
+                            $usuario      = session()->get('usuario');
+                            $rango        = session()->get('rango');
+                            $ip           = session()->get('ip');
+                            $arbol_id     = session()->get('arbol_id');   
+                            $depen_id     = session()->get('depen_id');     
+
+                            $regtema      = regTemaModel::select('TEMA_ID','TEMA_DESC')
+                                            ->orderBy('TEMA_ID','asc')
+                                            ->get(); 
+                            $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
+                                            ->get();  
+                            $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
+                                            ->get();      
+                            $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
+                                            ->get();           
+                            $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+                                            ->DISTINCT()
+                                            ->GET(); 
+
+                            $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                                            ->get(); 
+                                            
+                            $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                                            ->DISTINCT()
+                                            ->GET();               
+
+                            $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                                            ->get();                                           
+                    
+                            if(session()->get('rango') !== '0'){  
+                            
+                                $regnotamedio= regNotamediosModel::select('*')
+                                            ->where('PERIODO_ID', '=', $ANIO, 'AND', 'MEDIO_DESC', '=', $MEDIO, 'AND', 'TIPON_DESC', '=', $TIPO) 
+                                            ->orderBy('PERIODO_ID','DESC')
+                                            ->orderBy('NM_FOLIO'  ,'DESC')
+                                            ->paginate(40);
+                            
+                            }else{                  
+                            
+                                $regnotamedio= regNotamediosModel::select('*')
+                                            ->where('PERIODO_ID', '=', $ANIO, 'AND', 'MEDIO_DESC', '=', $MEDIO, 'AND', 'TIPON_DESC', '=', $TIPO) 
+                                            //->where('UADMON_ID' ,$depen_id)            
+                                            ->orderBy('PERIODO_ID','DESC')
+                                            ->orderBy('NM_FOLIO'  ,'DESC')  
+                                            ->paginate(40);          
+                            }                        
+                            if($regnotamedio->count() <= 0){
+
+                                toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                            
+                            }
+
+                            return view('sicinar.notas_periodisticas.verNotasper',compact('nombre','usuario','regperiodos','regnotamedio','regpersonal','regtema', 'histPeriodos','TIPO', 'regmedios', 'regtiponota', 'regmedioFilter')); 
+                        
+                        }
+                        
+                        public function viewMenuCriterio(){
+
+                                $nombre       = session()->get('userlog');
+                                $pass         = session()->get('passlog');
+                                if($nombre == NULL AND $pass == NULL){
+                                    return view('sicinar.login.expirada');
+                                }
+                                $usuario      = session()->get('usuario');
+                                $rango        = session()->get('rango');
+                                $ip           = session()->get('ip');
+                                $arbol_id     = session()->get('arbol_id');   
+                                $depen_id     = session()->get('depen_id');     
+
+                                $regtemas     = regTemaModel::select('TEMA_ID','TEMA_DESC')
+                                                ->orderBy('TEMA_ID','asc')
+                                                ->get(); 
+                                $regperiodos  = regPeriodosModel::select('PERIODO_ID', 'PERIODO_DESC')
+                                                ->get();  
+                                $regmeses     = regMesesModel::select('MES_ID','MES_DESC')
+                                                ->get();      
+                                $regdias      = regDiasModel::select('DIA_ID','DIA_DESC')
+                                                ->get();  
+                                $regtiponota  = regTiponotaModel::select('TIPON_ID','TIPON_DESC')
+                                                ->get();    
+                                $regmedios    = regmediosModel::select('MEDIO_ID','MEDIO_DESC')
+                                                ->get();                          
+                                $histPeriodos = regNotamediosModel::select('PERIODO_ID')
+                                                ->DISTINCT()
+                                                ->GET();
+                                                
+                                $regmedioFilter = regNotamediosModel::select('MEDIO_DESC') 
+                                                ->DISTINCT()
+                                                ->GET();  
+                                //********* Validar rol de usuario **********************/
+                                if(session()->get('rango') !== '0'){  
+                                    //$regpersonal =regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+                                    //              ->get(); 
+                                    $regnotamedio= regNotamediosModel::select('*')
+                                                ->orderBy('PERIODO_ID','DESC')
+                                                ->orderBy('NM_FOLIO'     ,'DESC')
+                                                ->paginate(40);
+                                }else{                  
+                                    //$regpersonal = regPersonalModel::select('FOLIO','NOMBRE_COMPLETO')
+                                    //               ->where('UADMON_ID',$depen_id)
+                                    //               ->get();                            
+                                    $regnotamedio= regNotamediosModel::select('*')
+                                                //->where(  'UADMON_ID' ,$depen_id)            
+                                                ->orderBy('PERIODO_ID','DESC')
+                                                ->orderBy('NM_FOLIO'  ,'DESC')  
+                                                ->paginate(40);          
+                                }                        
+                                if($regnotamedio->count() <= 0){
+                                    toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                                }
+                                return view('sicinar.notas_periodisticas.menuReportes', compact('nombre','usuario','regperiodos','regtiponota','regtemas','histPeriodos','regmedios','regnotamedio', 'regmedioFilter'));
+
+                        }
+
+                            public function loadADownPDF(Request $request){
+
+                                $nombre       = session()->get('userlog');
+                                $pass         = session()->get('passlog');
+                                if($nombre == NULL AND $pass == NULL){
+                                    return view('sicinar.login.expirada');
+                                }
+                                $usuario      = session()->get('usuario');
+                                $rango        = session()->get('rango');
+                                $ip           = session()->get('ip');
+                                $arbol_id     = session()->get('arbol_id');   
+                                $depen_id     = session()->get('depen_id');    
+                                
+                                $isConvFInit = date('d/m/Y', strtotime(trim($request->datepickerInit)));
+                                $isConvFFinal = date('d/m/Y', strtotime(trim($request->datepickerFin)));
+                             
+                               
+                                if(session()->get('rango') !== '0'){  
+
+                                    /*
+                                    
+                                    $filterR = DB::TABLE(DB::raw('NM_FEC_NOTA, MEDIO_DESC, TIPON_DESC, NM_TITULO, NM_NOTA, NM_LINK, SUM(Pos) POSITIVO, SUM(Neu) NEUTRO, SUM(Neg) NEGATIVO'))
+                                                ->selectRaw('IA_NOTAS_MEDIOS')
+                                                ->selectRaw(
+                                                DB::raw('DECODE(NM_CALIF, 1, 1, 0) Pos,')
+                                                DB::raw('DECODE(NM_CALIF, 2, 1, 0) Neu,')
+                                                DB::raw('DECODE(NM_CALIF, 3, 1, 0) Neg,'))
+                                                ->WHERE(DB::raw("NM_FEC_NOTA BETWEEN "."'$isConvFInit'"." AND "."'$isConvFFinal'"));
+
+                                }else{                  
+                                                           
+                                    $filterR = DB::TABLE(DB::raw('NM_FEC_NOTA, MEDIO_DESC, TIPON_DESC, NM_TITULO, NM_NOTA, NM_LINK, SUM(Pos) POSITIVO, SUM(Neu) NEUTRO, SUM(Neg) NEGATIVO'))
+                                    ->selectRaw('IA_NOTAS_MEDIOS')
+                                    ->selectRaw(DB::raw('
+                                    DECODE(NM_CALIF, 1, 1, 0) Pos,
+                                    DECODE(NM_CALIF, 2, 1, 0) Neu,
+                                    DECODE(NM_CALIF, 3, 1, 0) Neg'))
+                                    ->WHERE(DB::raw("NM_FEC_NOTA BETWEEN "."'$isConvFInit'"." AND "."'$isConvFFinal'"));
+
+                                    */
+                                    
+                                }                        
+                                if($filterR->count() <= 0){
+                                    toastr()->error('No existen notas periodisticas.','Lo siento!',['positionClass' => 'toast-bottom-right']);
+                                }
+
+
+                               
+                                    $pdfTesting = PDF::loadView('sicinar.pdf.perFilter', compact('nombre', 'usuario', 'filterR'));
+                                    
+                                    $pdfTesting->setPaper('letter', 'portrait');
+
+                                    return $pdfTesting->download('testing.pdf');
+
+
+                            }
 
     public function actionNuevaNotaper(){
         $nombre       = session()->get('userlog');
@@ -439,7 +929,7 @@ class notaperiodisticaController extends Controller
             $nuevorecepcion->NM_TITULO     = substr(trim($request->nm_titulo)  ,0,3499);
             $nuevorecepcion->NM_NOTA       = substr(trim($request->nm_nota)    ,0,3999);
             $nuevorecepcion->NM_NOTA2      = substr(trim($request->nm_nota2)   ,0,3999);
-            $nuevorecepcion->NM_IA         = substr(trim($request->nm_nota_ia) ,0,3999);            
+            $nuevorecepcion->NM_IA         = substr(trim($request->nm_ia) ,0,3999);            
             $nuevorecepcion->NM_LINK       = substr(trim($request->nm_link)    ,0,1999);
             $nuevorecepcion->NM_AUTOR      = substr(trim($request->nm_autor)   ,0,  79);
             $nuevorecepcion->MEDIO_ID      = $request->medio_id;            
@@ -601,7 +1091,7 @@ class notaperiodisticaController extends Controller
                                       'NM_TITULO'    => substr(trim($request->nm_titulo)  ,0,3499),
                                       'NM_NOTA'      => substr(trim($request->nm_nota)    ,0,3999),
                                       'NM_NOTA2'     => substr(trim($request->nm_nota2)   ,0,3999),
-                                      'NM_IA'        => substr(trim($request->nm_nota_ia) ,0,3999),            
+                                      'NM_IA'        => substr(trim($request->nm_ia) ,0,3999),            
                                       'NM_LINK'      => substr(trim($request->nm_link)    ,0,1999),
                                       'NM_AUTOR'     => substr(trim($request->nm_autor)   ,0,  79),
                                       'MEDIO_ID'     => $request->medio_id,
