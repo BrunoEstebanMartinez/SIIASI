@@ -198,6 +198,14 @@ Route::get('/', function () {
     Route::get('numeralia/nota/filtro'      ,'estadisticanotainfController@actionNotafiltro1')->name('notafiltro1');        
     Route::post('numeralia/nota/estadistica','estadisticanotainfController@actionEstadisticanota')->name('estadisticanota'); 
 
+    //Reportes: Menu de criterios
+    Route::get('reporte/nota/menu', 'reporteNotaController@viewMenuCriterio')->name('menuRepNP');
+    Route::get('reporte/red/menu', 'reporteRedController@viewMenuCriterioRedes')->name('menuRepRP');
+
+        //Reporte: rutas por opcion
+    Route::post('reporte/nota/criterio', 'reporteNotaController@loadADownPDF')->name('criterio');
+    Route::post('reporte/red/criterio', 'reporteRedController@loadADownPDFRedes')->name('criterioRed');
+
     //Redes sociales
     Route::get('numeralia/redes/filtro'      ,'estadisticaredessocController@actionRedesfiltro1')->name('redesfiltro1');        
     Route::post('numeralia/redes/estadistica','estadisticaredessocController@actionEstadisticaredes')->name('estadisticaredes'); 
