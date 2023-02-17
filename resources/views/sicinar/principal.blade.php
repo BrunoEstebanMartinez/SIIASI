@@ -3,6 +3,7 @@
 <head>  
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
       <title>@yield('title','Inicio') | SIIASI </title>
       <link rel="shortcut icon" type="image/png" href="{{ asset('images/Edomex.png') }}"/>
       <!-- Tell the browser to be responsive to screen width -->
@@ -31,8 +32,11 @@
       <!-- Google Font -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-      <section>@yield('links')</section>
+       <link rel = "stylesheet" href = "{{  asset('css/inputModel.css') }}"></link> 
 
+
+      <section>@yield('links')</section>
+ 
       @toastr_css 
     </head>
     <body class="hold-transition skin-green sidebar-mini">
@@ -98,7 +102,7 @@
                           <small style="color:blue;">Tipo: <section style="color:white;">@yield('usuario')</section></small>
                       </p>
                     </li>
-
+ 
                     <!-- Menu Footer-->
                     <li class="user-footer">  
                       <div class="pull-left">
@@ -134,36 +138,47 @@
                   </ul>
                   @endif
               </li> 
- 
+
               <li  class="treeview">              
                   @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')
                   <a href="#"><i class="fa fa-book"></i> <span>Catálogos</span>
                       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                   </a>
                   <ul class="treeview-menu">
-                    <li><a href="{{route('vermedio')}}" ><i class="fa fa-camera"   ></i><span>Medios informativos </span></a></li>                    
-                    <li><a href="{{route('verredes')}}" ><i class="fa fa-bomb"     ></i><span>Redes sociales      </span></a></li>  
+                    <li><a href="{{route('vermedio')}}" ><i class="fa fa-camera" ></i><span>Medios informativos </span></a></li>                    
+                    <li><a href="{{route('verredes')}}" ><i class="fa fa-bomb"   ></i><span>Redes sociales      </span></a></li>  
                   </ul>
                   @endif
               </li>
 
               <li  class="treeview">
-                  <a href="#"><i class="fa fa-cubes"></i> <span>Gestión interna </span>
+                  <a href="#"><i class="fa fa-cubes"></i> <span>Notas informativas </span>
                       <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                   </a>              
                   @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')              
                       <ul class="treeview-menu">              
-                          <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Notas periodísticas </a></li>                      
-                          <li><a href="{{route('veratenrecep')}}"><i class="fa fa-file-o"></i>Redes sociales      </a></li>
+                          <li><a href="{{route('vernotasper')}}"><i class="fa fa-file-o"></i>Periodísticas    </a></li>                      
+                          <li><a href="{{route('vernotasred')}}"><i class="fa fa-file-o"></i>Redes sociales</a></li>
                       </ul>
                   @else
                       <ul class="treeview-menu">                                
-                          <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Notas periodisticas </a></li>         
-                          <li><a href="{{route('periodos')}}"    ><i class="fa fa-file-o"></i>Redes sociales      </a></li>                          
+                          <li><a href="{{route('vernotasper')}}" ><i class="fa fa-file-o"></i>Periodisticas     </a></li>         
+                          <li><a href="{{route('vernotasred')}}" ><i class="fa fa-file-o"></i>Redes sociales </a></li>                          
                       </ul>
                   @endif
               </li>
-
+ 
+              <li  class="treeview">
+                  @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')              
+                <a href="#"><i class="fa fa-pie-chart"></i> <span>Estadísticas</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('notafiltro1')}}" ><i class="fa fa-circle-o"></i>Notas informativas </a></li>  
+                    <li><a href="{{route('redesfiltro1')}}"><i class="fa fa-circle-o"></i>Redes sociales     </a></li>  
+                </ul>
+                @endif
+              </li>
 
               <li  class="treeview">
                 @if(session()->get('rango') !== '0'  && session()->get('rango') !== '1')

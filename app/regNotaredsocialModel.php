@@ -27,7 +27,6 @@ class regNotaredsocialModel extends Model
     'RS_COMEN',
     'RS_ALCANCE',
     'RS_CALIF',
-    'RS_CALIF_IA',
     'RS_FEC_NOTA',
     'RS_FEC_NOTA2',
     'RS_FEC_NOTA3',

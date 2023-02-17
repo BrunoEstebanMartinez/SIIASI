@@ -21,4 +21,11 @@ class regRedsocialModel extends Model
         'RS_STATUS',
         'FECREG'
     ];
+
+    public static function ObtRed($id){
+        return (regRedsocialModel::select('RS_DESC')
+                                  ->where('RS_ID','=',$id)
+                                  ->get());
+    }
+
 }

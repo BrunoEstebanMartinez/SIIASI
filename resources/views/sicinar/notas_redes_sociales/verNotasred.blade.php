@@ -1,6 +1,6 @@
 @extends('sicinar.principal')
 
-@section('title','Ver oficios de entrada')
+@section('title','Ver Notas de redes sociales')
 
 @section('links')
     <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
@@ -16,17 +16,15 @@
 
 @section('content')
 
-
-
     <div class="content-wrapper">
         <section class="content-header">
-            <h1> Notas informativas - Periodísticas -  
+            <h1> Notas informativas - Redes sociales -  
                 <small> Seleccionar para editar </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Menú</a></li>
-                <li><a href="#">Notas informativas  </a></li>   
-                <li><a href="#">Periodísticas       </a></li>               
+                <li><a href="#">Notas informativas        </a></li>   
+                <li><a href="#">Redes sociales </a></li>               
             </ol>
         </section>
         <section class="content">
@@ -41,7 +39,7 @@
                                                 <option selected = "true" value="0" disabled>Periodo</option>
                                                 @if(is_array($histPeriodos) || is_object($histPeriodos))
                                                     @foreach($histPeriodos as $periodos)
-                                                        <option value="{{ route('verper',  $periodos -> periodo_id)}}">{{ $periodos -> periodo_id }}</option>
+                                                        <option value="{{ route('vernotasred',  $periodos -> periodo_id)}}">{{ $periodos -> periodo_id }}</option>
                                                     @endforeach
                                                 @endif
                                             </select> 
@@ -58,7 +56,7 @@
                                         </div>
 
                                         <div class="col-sm-2">
-                                            <a href="{{route('nuevanotaper')}}" class="btn btn-primary btn_xs" title="Nueva nota periodística"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nueva nota</small>
+                                            <a href="{{route('nuevanotared')}}" class="btn btn-primary btn_xs" title="Nueva nota de red social"><i class="fa fa-file-new-o"></i><span class="glyphicon glyphicon-plus"></span><small>Nueva nota</small>
                                             </a>
                                         </div>
                                 </div>  
@@ -71,50 +69,48 @@
                                         <th style="text-align:left;  vertical-align: middle;font-size:11px;">Periodo           </th>
                                         <th style="text-align:left;  vertical-align: middle;font-size:11px;">Folio<br>Sistema  </th>
                                         <th style="text-align:left;  vertical-align: middle;font-size:11px;">Título            </th>
-                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Resumen nota periodística </th>
-                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Resumen IA     </th>
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Resumen de la nota</th>
                                         <th style="text-align:left;  vertical-align: middle;font-size:11px;">Autor          </th>
-                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Link           </th>
-                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Medio<br>Informativo</th>
-                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Tipo<br>Nota   </th>
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Link ó URL     </th>
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Red<br>Social  </th>
+
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Likes          </th>
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Reposteos      </th>
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Comentarios    </th>
+                                        <th style="text-align:left;  vertical-align: middle;font-size:11px;">Alcance        </th>
                                         <th style="text-align:left;  vertical-align: middle;font-size:11px;">Calif.         </th>
+
                                         <th style="text-align:left;  vertical-align: middle;font-size:11px;">Fecha<br>Nota  </th>
                                         
                                         <th style="text-align:center;vertical-align: middle;font-size:11px;">Acciones       </th>
                                     </tr>
                                 </thead> 
                                 <tbody>
-                                    @foreach($regnotamedio as $recep)
+                                    @foreach($regnotaredes as $redes)
                                     <tr>
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{$recep->periodo_id}}     </td>
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{$recep->nm_folio}}       </td>
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($recep->nm_titulo)}}</td>  
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($recep->nm_nota)}}  </td>  
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($recep->nm_ia)}}    </td>
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($recep->nm_autor)}} </td>
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($recep->nm_link)}}  </td>  
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{$redes->periodo_id}}     </td>
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{$redes->rs_folio}}       </td>
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($redes->rs_titulo)}}</td>  
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($redes->rs_nota)}}  </td>  
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($redes->rs_autor)}} </td>
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{Trim($redes->rs_link)}}  </td>  
                                          
                                         <td style="text-align:left; vertical-align: middle;font-size:10px;"> 
-                                            
-                                            @foreach($regmedios as $medio)
-                                                @if($medio->medio_id == $recep->medio_id)
-                                                    {{Trim($medio->medio_desc)}}
+                                            @foreach($regredes as $red)
+                                                @if($red->rs_id == $redes->rs_id)
+                                                    {{Trim($red->rs_desc)}}
                                                     @break 
                                                 @endif
                                             @endforeach
                                         </td>                                                            
                                         
-                                        <td style="text-align:left; vertical-align: middle;font-size:10px;"> 
-                                            
-                                            @foreach($regtiponota as $tipon)
-                                                @if($tipon->tipon_id == $recep->tipon_id)
-                                                    {{Trim($tipon->tipon_desc)}}
-                                                    @break 
-                                                @endif
-                                            @endforeach
-                                        </td>                                                            
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{number_format($redes->rs_likes    ,0)}}</td>
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{number_format($redes->rs_reposteos,0)}}</td>
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{number_format($redes->rs_comen    ,0)}}</td>  
+                                        <td style="text-align:left; vertical-align: middle;font-size:10px;">{{number_format($redes->rs_alcance  ,0)}}</td>  
+
                                         <td style="text-align:center;">  
-                                            @switch($recep->nm_calif)
+                                            @switch($redes->rs_calif)
                                                 @case('1')
                                                     <img src="{{ asset('images/semaforo_verde.jpg') }}"   width="15px" height="15px" style="text-align:center;margin-right: 15px;vertical-align: middle;" title="Positivo"/> 
                                                     @break                                                                
@@ -131,19 +127,19 @@
                                             @endswitch          
                                         </td> 
                               
-                                        <td style="text-align:center; vertical-align: middle;font-size:09px;">{{date("d/m/Y",strtotime($recep->nm_fec_nota))}}</td>
+                                        <td style="text-align:center; vertical-align: middle;font-size:09px;">{{date("d/m/Y",strtotime($redes->rs_fec_nota))}}</td>
 
                                         <td style="text-align:center;">
-                                            <a href="{{route('editarnotaper',$recep->nm_folio)}}" class="btn badge-warning" title="Editar nota peridística"><i class="fa fa-edit"></i>
+                                            <a href="{{route('editarnotared',$redes->rs_folio)}}" class="btn badge-warning" title="Editar nota de red social"><i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="{{route('borrarnotaper',$recep->nm_folio)}}" class="btn badge-danger" title="Borrar nota periodística" onclick="return confirm('¿Seguro que desea borrar la nota periodística?')"><i class="fa fa-times"></i>
+                                            <a href="{{route('borrarnotared',$redes->rs_folio)}}" class="btn badge-danger" title="Borrar nota de red social" onclick="return confirm('¿Seguro que desea borrar la nota de red social?')"><i class="fa fa-times"></i>
                                             </a>
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            {!! $regnotamedio->appends(request()->input())->links() !!}
+                            {!! $regnotaredes->appends(request()->input())->links() !!}
                         </div>
                     </div>
                 </div>
